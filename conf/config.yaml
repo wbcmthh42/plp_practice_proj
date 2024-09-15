@@ -1,0 +1,27 @@
+# base_model_name: facebook/bart-large
+# save_model_name: 'tech-keywords-extractor_finetuned_bart'
+base_model_name: google/flan-t5-large
+save_model_name: 'tech-keywords-extractor_finetuned_t5'
+dataset_name: ilsilfverskiold/tech-keywords-topics-summary
+
+output_dir: './bart_tech_keywords_model'
+
+#Training
+training:
+  num_train_epochs: 3
+  warmup_steps: 500
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 4
+  weight_decay: 0.01
+  logging_steps: 10
+  evaluation_strategy: 'steps'
+  eval_steps: 50
+  save_steps: 1e6
+  gradient_accumulation_steps: 16
+
+#Evaluation
+eval:
+  # evaluation_model_name: '/Users/tayjohnny/Documents/My_MTECH/PLP/tech-keywords-extractor_plp2'
+  # evaluation_model_name: 'google-bert/bert-base-uncased'
+  evaluation_model_name: 'facebook/bart-large'
+  results_file: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/evaluation_results/bart_base_model_results.csv
