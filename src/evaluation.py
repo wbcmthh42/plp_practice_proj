@@ -6,6 +6,7 @@ import logging
 import csv
 import hydra
 from omegaconf import OmegaConf
+import os
 
 def evaluate(model_name, dataset, results_file):
     pipe = pipeline('summarization', model=model_name, max_length=512, truncation=True)
@@ -44,6 +45,7 @@ def main(cfg):
     model_name = cfg.eval.evaluation_model_name
     dataset = load_dataset(cfg.dataset_name)
     results_file = cfg.eval.results_file
+    os.makedirs(os.path.dirname(results_file), exist_ok=True)
     evaluate(model_name, dataset, results_file)
     get_dataset_average_score(results_file)
 

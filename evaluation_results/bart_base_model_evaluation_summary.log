@@ -1,0 +1,4 @@
+[2024-09-16 23:03:43,891][root][INFO] - dataset_average_score_results from None/evaluation_results/bart_base_model_results.csv:
+[2024-09-16 23:03:43,891][root][INFO] - System level average P score: 0.841
+[2024-09-16 23:03:43,891][root][INFO] - System level average R score: 0.885
+[2024-09-16 23:03:43,891][root][INFO] - System level average F1 score: 0.862

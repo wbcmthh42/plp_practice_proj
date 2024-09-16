@@ -1,0 +1,4 @@
+[2024-09-16 22:17:10,492][root][INFO] - dataset_average_score_results from None/evaluation_results/T5_base_model_results.csv:
+[2024-09-16 22:17:10,492][root][INFO] - System level average P score: 0.843
+[2024-09-16 22:17:10,492][root][INFO] - System level average R score: 0.865
+[2024-09-16 22:17:10,492][root][INFO] - System level average F1 score: 0.853
