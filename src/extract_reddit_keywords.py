@@ -19,7 +19,7 @@ def get_keywords(model_name, dataset):
     updated_data = []
 
     # Use tqdm to create a progress bar
-    for i in tqdm(range(min(1000, len(dataset))), desc="Extracting keywords"):
+    for i in tqdm(range(len(dataset)), desc="Extracting keywords"):
         entry = dataset[i]
         text = entry['sentence']
         keywords = pipe(text)[0]['summary_text']

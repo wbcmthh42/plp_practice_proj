@@ -8,6 +8,7 @@ import hydra
 from omegaconf import OmegaConf
 import os
 
+
 def evaluate(model_name, dataset, results_file):
     pipe = pipeline('summarization', model=model_name, max_length=512, truncation=True)
 
@@ -31,6 +32,34 @@ def evaluate(model_name, dataset, results_file):
                 'F1': F1.item()
             })
 
+def evaluate_bert(model_name, dataset, results_file):
+    pipe = pipeline('token-classification', model=model_name)
+
+    with open(results_file, 'w', newline='') as csvfile:
+        fieldnames = ['text', 'keywords', 'ground_truth', 'P', 'R', 'F1']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for i in range(len(dataset['test'])):
+            text = dataset['test'][i]['text']
+            results = pipe(text)
+            
+            # Extract keywords from the token classification results
+            keywords = ' '.join(set([item['word'] for item in results if item['score'] > 0.5]))  # Adjust threshold as needed
+
+            ground_truth = dataset['test'][i]['keywords']
+
+            P, R, F1 = score([keywords], [ground_truth], lang="en", verbose=True)
+
+            writer.writerow({
+                'text': text,
+                'keywords': keywords,
+                'ground_truth': ground_truth,
+                'P': P.item(),
+                'R': R.item(),
+                'F1': F1.item()
+            })
+
 def get_dataset_average_score(csv_data):
     results = pd.read_csv(csv_data, header=0)
     average_P, average_R, average_F1 = results[['P', 'R', 'F1']].mean()
@@ -46,7 +75,15 @@ def main(cfg):
     dataset = load_dataset(cfg.dataset_name)
     results_file = cfg.eval.results_file
     os.makedirs(os.path.dirname(results_file), exist_ok=True)
-    evaluate(model_name, dataset, results_file)
+    
+    # Determine which evaluation function to use based on the model name
+    if 'bert' in model_name.lower():
+        evaluate_bert(model_name, dataset, results_file)
+    elif 't5' in model_name.lower() or 'bart' in model_name.lower():
+        evaluate(model_name, dataset, results_file)
+    else:
+        raise ValueError(f"Unsupported model type: {model_name}. Please use a BERT, T5, or BART model.")
+    
     get_dataset_average_score(results_file)
 
 if __name__ == '__main__':

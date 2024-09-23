@@ -23,8 +23,10 @@ training:
 eval:
   # evaluation_model_name: 'google/flan-t5-large'
   # evaluation_model_name: 'facebook/bart-large'
-  # evaluation_model_name: '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/08-48-55/tech-keywords-extractor_finetuned_t5'
-  evaluation_model_name: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/12-47-35/tech-keywords-extractor_finetuned_bart
+  evaluation_model_name: '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/08-48-55/tech-keywords-extractor_finetuned_t5'
+  # evaluation_model_name: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/12-47-35/tech-keywords-extractor_finetuned_bart
+  # evaluation_model_name: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/finetune_llm/model_checkpoint_bert
+
   # results_file: ${hydra:output}/evaluation_results/T5_base_model_results.csv
   results_file: ${hydra:output}/evaluation_results/bart_base_model_results.csv
   # results_file: ${hydra:output}/evaluation_results/t5_finetuned_model_results.csv
