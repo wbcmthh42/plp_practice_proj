@@ -82,8 +82,7 @@ def get_trending_keywords(df, output_dir, top_n=20):
 
 @hydra.main(config_path="../conf", config_name="config")
 def main(cfg):
-    # df = load_data(cfg.reddit_results_file)
-    df = pd.read_csv("/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-20/23-10-06/None/reddit_keywords_results/reddit_keywords.csv")
+    df = load_data(cfg.reddit_results_file)
     get_trending_keywords(df, cfg.get_trending_keywords.output_dir, top_n=cfg.get_trending_keywords.top_n)
 
 if __name__ == "__main__":
