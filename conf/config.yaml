@@ -34,3 +34,7 @@ eval:
 
 reddit_dataset: "/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/data/sentiment_analysis_results_distillbert.csv"
 reddit_results_file: ${hydra:output}/reddit_keywords_results/reddit_keywords.csv
+
+get_trending_keywords:
+  top_n: 20
+  output_dir: ${hydra:output}/reddit_keywords_results
