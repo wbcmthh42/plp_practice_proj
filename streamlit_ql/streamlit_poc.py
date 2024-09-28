@@ -24,12 +24,18 @@ filtered_df = df[(df['created_utc'] >= pd.to_datetime(start_date)) & (df['create
 filtered_df['keywords'] = filtered_df['keywords'].str.split(',')
 exploded_df = filtered_df.explode('keywords')
 
+# simple data pre-processing
+exploded_df = exploded_df[~exploded_df['keywords'].isin(['', '[deleted]'])]
+
+
 # Count the frequency of each keyword under each subreddit
 df1 = exploded_df.groupby(['subreddit', 'keywords']).size().reset_index(name='frequency')
 
 # top frequency keywords regardless of subreddit
 keyword_counts = exploded_df.groupby('keywords').size().reset_index(name='frequency')
 top_20_keywords = keyword_counts.sort_values(by='frequency', ascending=False).head(30)
+
+st.text("")
 
 # Display the top 20 keywords chart using Altair
 
@@ -57,5 +63,6 @@ if selected_subreddit:
     top_keywords = filtered_df1.head(5)
     
     # Display the results
+    st.text("")
     st.write(f"Top 5 keywords for subreddit: **{selected_subreddit}** from {start_date} to {end_date}")
     st.dataframe(top_keywords)
