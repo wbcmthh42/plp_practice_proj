@@ -2,6 +2,15 @@ import subprocess
 import logging
 
 def run_pipeline():
+    
+    # Run PRAW retrieval
+    logging.info("Running scrape_reddit.py")
+    subprocess.run(["python", "-m", "src.scrape_reddit"], check=True)
+    
+    # Run PRAW retrieval
+    logging.info("Running sentiment_analysis.py")
+    subprocess.run(["python", "-m", "src.sentiment_analysis"], check=True)
+        
     # Run model_training.py
     logging.info("Running model_training.py")
     subprocess.run(["python", "-m", "src.model_training"], check=True)
