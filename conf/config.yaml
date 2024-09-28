@@ -1,3 +1,22 @@
+hydra:
+  run:
+    dir: ./pipeline_outputs
+    
+praw:
+  praw_output: praw_output.csv
+  subreddits:
+    - datascience
+    - MachineLearning
+    - ChatGPT
+    - CharacterAI
+    - cybersecurity
+
+sentiment:
+  input_file: praw_output.csv
+  output_file: sentiment_analysis_output.csv
+  model_name: roberta-large-mnli
+  output_dir: wordcloud_images
+
 base_model_name: facebook/bart-large
 save_model_name: 'tech-keywords-extractor_finetuned_bart'
 # base_model_name: google/flan-t5-large
