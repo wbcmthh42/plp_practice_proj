@@ -25,7 +25,7 @@ filtered_df['keywords'] = filtered_df['keywords'].str.split(',')
 exploded_df = filtered_df.explode('keywords')
 
 # simple data pre-processing
-exploded_df = exploded_df[~exploded_df['keywords'].isin(['', '[deleted]'])]
+exploded_df = exploded_df[~exploded_df['keywords'].isin(['', '[deleted]', '[removed]'])]
 
 
 # Count the frequency of each keyword under each subreddit
