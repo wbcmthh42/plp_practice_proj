@@ -1,6 +1,6 @@
 # %%
-!pip install chromadb
-!pip install sentence-transformers
+# !pip install chromadb
+# !pip install sentence-transformers
 
 # %%
 import pandas as pd
@@ -11,7 +11,7 @@ from chromadb.utils import embedding_functions
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Step 1: Load the CSV file
-csv_path = '/Users/bryansoh/Documents/NUS/PLP/Group Project/plp_practice_proj-1/arxiv/arxiv_cs_papers_2022_2024_clean.csv'
+csv_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/arxiv/arxiv_cs_papers_2022_2024_clean.csv'
 df = pd.read_csv(csv_path)
 
 # Step 2: Load a pre-trained LLM model for embeddings
