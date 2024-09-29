@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import re
-
-# Set page config to wide mode
-st.set_page_config(layout="wide")
+from typing import List, Tuple
 
 # Define a list of common stop words
 stop_words = set([
@@ -32,112 +30,94 @@ stop_words = set([
     'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"
 ])
 
-# Sample DataFrame
-file_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_full_distilbert.csv'
-df = pd.read_csv(file_path)
+def load_and_preprocess_data(file_path: str) -> pd.DataFrame:
+    df = pd.read_csv(file_path)
+    df['created_utc'] = pd.to_datetime(df['created_utc'])
+    return df[~df['sentiment'].isin(['POSITIVE', 'NEUTRAL'])]
 
-st.title('Reddit Keyword Frequency Analysis')
-
-# Filter out rows with sentiment 'POSITIVE' or 'NEUTRAL'
-filtered_df = df[~df['sentiment'].isin(['POSITIVE', 'NEUTRAL'])]
-
-# Convert 'created_utc' to datetime format
-df['created_utc'] = pd.to_datetime(df['created_utc'])
-min_date = df['created_utc'].min().date()
-max_date = df['created_utc'].max().date()
-
-# Count the frequency of each keyword
-filtered_df['keywords'] = filtered_df['keywords'].str.split(',')
-exploded_df = filtered_df.explode('keywords')
-
-# simple data pre-processing
-exploded_df = exploded_df[~exploded_df['keywords'].isin(['', '[deleted]', '[removed]'])]
-
-def preprocess_keywords(keyword):
-    # Convert to lowercase and remove all non-alphabetic characters
+def preprocess_keywords(keyword: str) -> str:
     keyword = re.sub(r'[^a-z\s]', '', keyword.lower())
-    # Split into words
     words = keyword.split()
-    # Remove stopwords and get unique words
     return ' '.join(set(word for word in words if word not in stop_words and len(word) > 1)).upper()
 
-exploded_df['keywords'] = exploded_df['keywords'].apply(preprocess_keywords)
-exploded_df = exploded_df[exploded_df['keywords'] != '']  # Remove empty strings after preprocessing
+def process_keywords(df: pd.DataFrame) -> pd.DataFrame:
+    df['keywords'] = df['keywords'].str.split(',')
+    exploded_df = df.explode('keywords')
+    exploded_df = exploded_df[~exploded_df['keywords'].isin(['', '[deleted]', '[removed]'])]
+    exploded_df['keywords'] = exploded_df['keywords'].apply(preprocess_keywords)
+    return exploded_df[exploded_df['keywords'] != '']
 
-# Count the frequency of each keyword under each subreddit
-df1 = exploded_df.groupby(['subreddit', 'keywords']).size().reset_index(name='frequency')
+def get_top_keywords(df: pd.DataFrame, n: int) -> pd.DataFrame:
+    keyword_counts = df.groupby('keywords').size().reset_index(name='frequency')
+    return keyword_counts.sort_values(by='frequency', ascending=False).head(n)
 
-# top frequency keywords regardless of subreddit
-keyword_counts = exploded_df.groupby('keywords').size().reset_index(name='frequency')
-top_20_keywords = keyword_counts.sort_values(by='frequency', ascending=False).head(30)
-
-# Create two columns with adjusted ratio
-col1, col2 = st.columns([2, 1])  # Adjust the ratio as needed
-
-with col1:
-    # Allow user to choose the number of top keywords
-    n_keywords = st.slider("Select number of top keywords to display", min_value=5, max_value=50, value=20, step=5)
-
-    # Update top keywords based on user selection
-    top_n_keywords = keyword_counts.sort_values(by='frequency', ascending=False).head(n_keywords)
-
-    # Create the bar chart using Plotly
-    fig = px.bar(top_n_keywords, 
+def create_keyword_chart(top_keywords: pd.DataFrame, n: int) -> px.bar:
+    fig = px.bar(top_keywords, 
                  x='frequency', 
                  y='keywords', 
                  orientation='h',
-                 title=f'Top {n_keywords} Keywords by Frequency',
+                 title=f'Top {n} Keywords by Frequency',
                  labels={'frequency': 'Frequency', 'keywords': 'Keywords'},
                  color='frequency',
                  color_continuous_scale='Blues')
-
-    # Customize the layout
     fig.update_layout(height=1000, 
-                      width=800,  # You may need to adjust this
+                      width=800,
                       yaxis={'categoryorder':'total ascending'},
                       clickmode='event+select')
+    return fig
 
-    # Display the chart
-    selected_points = st.plotly_chart(fig, use_container_width=True, key="keyword_chart")
-
-with col2:
-    # Date range selector
-    start_date, end_date = st.date_input('Select a date range from reddit:', [min_date, max_date], min_value=min_date, max_value=max_date)
-
-    st.text("")
-
-    # Create a container for the selected keywords
-    selected_keywords = st.multiselect("Selected Keywords", options=top_n_keywords['keywords'].tolist())
-
-    if selected_keywords:
-        for keyword in selected_keywords:
-            # Filter data for the selected keyword
-            keyword_data = exploded_df[exploded_df['keywords'] == keyword]
-            
-            # Display keyword statistics
-            st.write(f"Statistics for keyword: **{keyword}**")
-            st.write(f"Total occurrences: {len(keyword_data)}")
-            
-            # Top subreddits for the keyword
-            top_subreddits = keyword_data['subreddit'].value_counts().head(5)
-            st.write("Top 5 subreddits for this keyword:")
-            st.dataframe(top_subreddits)
-            
-            # Sample comments containing the keyword (if 'body' column exists)
-            if 'body' in keyword_data.columns:
-                st.write("Sample comments containing this keyword:")
-                sample_comments = keyword_data['body'].sample(min(3, len(keyword_data))).tolist()
-                for comment in sample_comments:
-                    st.text(comment[:200] + "..." if len(comment) > 200 else comment)
-            else:
-                st.write("Comment body not available in the dataset.")
-            
-            # Display other available information
-            st.write("Other available information:")
-            for column in keyword_data.columns:
-                if column not in ['keywords', 'subreddit', 'body']:
-                    st.write(f"{column}: {keyword_data[column].iloc[0]}")
-            
-            st.markdown("---")  # Add a separator between keywords
+def display_keyword_details(df: pd.DataFrame, keyword: str):
+    keyword_data = df[df['keywords'] == keyword]
+    st.write(f"Statistics for keyword: **{keyword}**")
+    st.write(f"Total occurrences: {len(keyword_data)}")
+    
+    top_subreddits = keyword_data['subreddit'].value_counts().head(5)
+    st.write("Top 5 subreddits for this keyword:")
+    st.dataframe(top_subreddits)
+    
+    if 'body' in keyword_data.columns:
+        st.write("Sample comments containing this keyword:")
+        sample_comments = keyword_data['body'].sample(min(3, len(keyword_data))).tolist()
+        for comment in sample_comments:
+            st.text(comment[:200] + "..." if len(comment) > 200 else comment)
     else:
-        st.write("Select keywords from the multiselect box above to see details.")
+        st.write("Comment body not available in the dataset.")
+    
+    st.write("Other available information:")
+    for column in keyword_data.columns:
+        if column not in ['keywords', 'subreddit', 'body']:
+            st.write(f"{column}: {keyword_data[column].iloc[0]}")
+    
+    st.markdown("---")
+
+def main():
+    st.set_page_config(layout="wide")
+    st.title('Reddit Keyword Frequency Analysis')
+
+    file_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_full_distilbert.csv'
+    df = load_and_preprocess_data(file_path)
+    processed_df = process_keywords(df)
+
+    min_date, max_date = df['created_utc'].min().date(), df['created_utc'].max().date()
+
+    col1, col2 = st.columns([2, 1])
+
+    with col1:
+        n_keywords = st.slider("Select number of top keywords to display", min_value=5, max_value=50, value=20, step=5)
+        top_n_keywords = get_top_keywords(processed_df, n_keywords)
+        fig = create_keyword_chart(top_n_keywords, n_keywords)
+        st.plotly_chart(fig, use_container_width=True, key="keyword_chart")
+
+    with col2:
+        start_date, end_date = st.date_input('Select a date range from reddit:', [min_date, max_date], min_value=min_date, max_value=max_date)
+        st.text("")
+        selected_keywords = st.multiselect("Selected Keywords", options=top_n_keywords['keywords'].tolist())
+
+        if selected_keywords:
+            for keyword in selected_keywords:
+                display_keyword_details(processed_df, keyword)
+        else:
+            st.write("Select keywords from the multiselect box above to see details.")
+
+if __name__ == "__main__":
+    main()
