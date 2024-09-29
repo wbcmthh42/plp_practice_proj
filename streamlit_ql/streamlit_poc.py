@@ -3,6 +3,15 @@ import pandas as pd
 import plotly.express as px
 import re
 from typing import List, Tuple
+import sys
+import os
+
+# Add the directory containing RAG_V3.py to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'arxiv')))
+
+# Import necessary functions from RAG_V3
+from RAG_V3 import load_vector_store, hybrid_search, truncate_summary
+
 
 # Define a list of common stop words
 stop_words = set([
@@ -67,32 +76,45 @@ def create_keyword_chart(top_keywords: pd.DataFrame, n: int) -> px.bar:
     return fig
 
 def display_keyword_details(df: pd.DataFrame, keyword: str):
-    keyword_data = df[df['keywords'] == keyword]
-    st.write(f"Statistics for keyword: **{keyword}**")
-    st.write(f"Total occurrences: {len(keyword_data)}")
+    # keyword_data = df[df['keywords'] == keyword]
+    # st.write(f"Statistics for keyword: **{keyword}**")
+    # st.write(f"Total occurrences: {len(keyword_data)}")
     
-    top_subreddits = keyword_data['subreddit'].value_counts().head(5)
-    st.write("Top 5 subreddits for this keyword:")
-    st.dataframe(top_subreddits)
+    # top_subreddits = keyword_data['subreddit'].value_counts().head(5)
+    # st.write("Top 5 subreddits for this keyword:")
+    # st.dataframe(top_subreddits)
     
-    if 'body' in keyword_data.columns:
-        st.write("Sample comments containing this keyword:")
-        sample_comments = keyword_data['body'].sample(min(3, len(keyword_data))).tolist()
-        for comment in sample_comments:
-            st.text(comment[:200] + "..." if len(comment) > 200 else comment)
-    else:
-        st.write("Comment body not available in the dataset.")
+    # if 'body' in keyword_data.columns:
+    #     st.write("Sample comments containing this keyword:")
+    #     sample_comments = keyword_data['body'].sample(min(3, len(keyword_data))).tolist()
+    #     for comment in sample_comments:
+    #         st.text(comment[:200] + "..." if len(comment) > 200 else comment)
+    # else:
+    #     st.write("Comment body not available in the dataset.")
     
-    st.write("Other available information:")
-    for column in keyword_data.columns:
-        if column not in ['keywords', 'subreddit', 'body']:
-            st.write(f"{column}: {keyword_data[column].iloc[0]}")
+    # st.write("Other available information:")
+    # for column in keyword_data.columns:
+    #     if column not in ['keywords', 'subreddit', 'body']:
+    #         st.write(f"{column}: {keyword_data[column].iloc[0]}")
     
-    st.markdown("---")
+    # st.markdown("---")
+    
+    # Add this section to display related research papers
+    st.write("Related Research Papers:")
+    results = hybrid_search(keyword, top_n=5)
+    for result in results:
+        st.write(f"**Title:** {result['Title']}")
+        st.write(f"**Category:** {result['Category']}")
+        st.write(f"**Updated:** {result['Updated']}")
+        st.write(f"**Summary:** {truncate_summary(result['Summary'])}")
+        st.markdown("---")
 
 def main():
     st.set_page_config(layout="wide")
     st.title('Reddit Keyword Frequency Analysis')
+
+    # Load the vector store
+    load_vector_store()
 
     file_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_full_distilbert.csv'
     df = load_and_preprocess_data(file_path)
@@ -100,7 +122,7 @@ def main():
 
     min_date, max_date = df['created_utc'].min().date(), df['created_utc'].max().date()
 
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([1, 1])
 
     with col1:
         n_keywords = st.slider("Select number of top keywords to display", min_value=5, max_value=50, value=20, step=5)
