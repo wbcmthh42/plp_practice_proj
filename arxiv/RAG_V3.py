@@ -9,7 +9,7 @@ from chromadb.errors import InvalidCollectionException
 # Step 1: Load the CSV file
 csv_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/arxiv/arxiv_cs_papers_2022_2024_clean.csv'
 df = pd.read_csv(csv_path)
-df = df[:1000]
+df = df[:10000]
 
 # Create the 'combined' column
 df['combined'] = df['Title'] + ' ' + df['Summary']
@@ -38,7 +38,7 @@ def embed_and_store_documents():
 
     combined_texts = df['combined'].tolist()
 
-    batch_size = 10
+    batch_size = 8
     with tqdm(total=len(combined_texts), desc="Processing batches", unit="doc") as pbar:
         for i in range(0, len(combined_texts), batch_size):
             batch_texts = combined_texts[i:i + batch_size]
@@ -68,7 +68,12 @@ def load_vector_store():
     client = chromadb.PersistentClient(path=persist_directory)
     try:
         collection = client.get_collection("research_papers")
-        print("Loaded vector store from disk")
+        if collection.count() == 0:
+            print("Vector store is empty. Re-creating and populating...")
+            client.delete_collection("research_papers")
+            embed_and_store_documents()
+        else:
+            print(f"Loaded vector store from disk with {collection.count()} items")
     except InvalidCollectionException:
         print("No existing collection found. Creating a new one and embedding documents...")
         embed_and_store_documents()
@@ -135,13 +140,35 @@ def truncate_summary(summary, word_limit=30):
         return ' '.join(words[:word_limit]) + '...'
     return summary
 
+# Add this new function
+def check_vector_store_size():
+    if collection is not None:
+        collection_size = collection.count()
+        df_size = len(df)
+        print(f"Number of items in vector store: {collection_size}")
+        print(f"Number of items in DataFrame: {df_size}")
+        if collection_size == df_size:
+            print("All items from the DataFrame are stored in the vector store.")
+        elif collection_size < df_size:
+            print(f"Warning: Only {collection_size} out of {df_size} items are stored in the vector store.")
+            print("Re-creating and populating the vector store...")
+            client.delete_collection("research_papers")
+            embed_and_store_documents()
+        else:
+            print("Warning: The vector store contains more items than the DataFrame.")
+    else:
+        print("Vector store is not loaded or created.")
+
 # Main execution
 if __name__ == "__main__":
     # Load the vector store (this will create it if it doesn't exist)
     load_vector_store()
 
+    # Check the size of the vector store
+    check_vector_store_size()
+
     # Example usage
-    if collection is not None:
+    if collection is not None and collection.count() > 0:
         query = input("Enter a keyword to search: ")
         results = hybrid_search(query, top_n=5)
 
