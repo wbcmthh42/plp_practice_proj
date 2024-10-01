@@ -112,14 +112,6 @@ def main():
         'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"
     ])
     
-    # Allow users to add custom stop words
-    custom_stop_words = st.text_input("Add custom words to be filtered out (Note: comma separate each word):")
-    if custom_stop_words:
-        custom_stop_words = set(word.strip().lower() for word in custom_stop_words.split(','))
-        stop_words = default_stop_words.union(custom_stop_words)
-    else:
-        stop_words = default_stop_words
-
     st.title('Reddit Keyword Frequency Analysis')
 
     # Load the vector store
@@ -127,7 +119,6 @@ def main():
 
     file_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_91%_vader.csv'
     df = load_and_preprocess_data(file_path)
-    processed_df = process_keywords(df, stop_words)
 
     min_date, max_date = df['created_utc'].min().date(), df['created_utc'].max().date()
 
@@ -146,6 +137,17 @@ def main():
         
         st.text(f"Selected date range: {start_date} to {end_date}")
         st.text("")
+
+        # Move custom_stop_words input here
+        custom_stop_words = st.text_input("Add custom words to be filtered out (Note: comma separate each word):")
+        if custom_stop_words:
+            custom_stop_words = set(word.strip().lower() for word in custom_stop_words.split(','))
+            stop_words = default_stop_words.union(custom_stop_words)
+        else:
+            stop_words = default_stop_words
+
+    # Process keywords after stop_words are defined
+    processed_df = process_keywords(df, stop_words)
 
     # Filter the DataFrame based on the selected date range
     filtered_df = processed_df[
