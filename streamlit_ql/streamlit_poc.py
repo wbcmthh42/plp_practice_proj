@@ -124,20 +124,38 @@ def main():
 
     col1, col2 = st.columns([1, 1])
 
+    with col2:
+        date_range = st.date_input('Select a date range from reddit:', 
+                                   [min_date, max_date], 
+                                   min_value=min_date, 
+                                   max_value=max_date)
+        
+        if len(date_range) == 2:
+            start_date, end_date = date_range
+        else:
+            start_date = end_date = date_range[0]
+        
+        st.text(f"Selected date range: {start_date} to {end_date}")
+        st.text("")
+
+    # Filter the DataFrame based on the selected date range
+    filtered_df = processed_df[
+        (processed_df['created_utc'].dt.date >= start_date) & 
+        (processed_df['created_utc'].dt.date <= end_date)
+    ]
+
     with col1:
         n_keywords = st.slider("Select number of top keywords to display", min_value=5, max_value=50, value=20, step=5)
-        top_n_keywords = get_top_keywords(processed_df, n_keywords)
+        top_n_keywords = get_top_keywords(filtered_df, n_keywords)  # Use filtered_df here
         fig = create_keyword_chart(top_n_keywords, n_keywords)
         st.plotly_chart(fig, use_container_width=True, key="keyword_chart")
 
     with col2:
-        start_date, end_date = st.date_input('Select a date range from reddit:', [min_date, max_date], min_value=min_date, max_value=max_date)
-        st.text("")
         selected_keywords = st.multiselect("Selected Keywords", options=top_n_keywords['keywords'].tolist())
 
         if selected_keywords:
             for keyword in selected_keywords:
-                display_keyword_details(processed_df, keyword)
+                display_keyword_details(filtered_df, keyword)  # Use filtered_df here
         else:
             st.write("Select keywords from the multiselect box above to see details.")
 

@@ -9,7 +9,7 @@ from chromadb.errors import InvalidCollectionException
 # Step 1: Load the CSV file
 csv_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/arxiv/arxiv_cs_papers_2022_2024_clean.csv'
 df = pd.read_csv(csv_path)
-df = df[:10000]
+# df = df[:10000]
 
 # Create the 'combined' column
 df['combined'] = df['Title'] + ' ' + df['Summary']
