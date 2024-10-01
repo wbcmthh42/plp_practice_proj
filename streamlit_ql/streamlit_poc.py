@@ -12,48 +12,23 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'a
 # Import necessary functions from RAG_V3
 from RAG_V3 import load_vector_store, hybrid_search, truncate_summary
 
-
-# Define a list of common stop words
-stop_words = set([
-    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 'he',
-    'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 'to', 'was', 'were',
-    'will', 'with', 'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',
-    'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself',
-    'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers',
-    'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs',
-    'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll",
-    'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
-    'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an',
-    'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of',
-    'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through',
-    'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down',
-    'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then',
-    'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any',
-    'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor',
-    'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can',
-    'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll',
-    'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't",
-    'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't",
-    'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn',
-    "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't",
-    'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"
-])
+st.set_page_config(layout="wide")
 
 def load_and_preprocess_data(file_path: str) -> pd.DataFrame:
     df = pd.read_csv(file_path)
     df['created_utc'] = pd.to_datetime(df['created_utc'])
-    return df[~df['sentiment'].isin(['POSITIVE', 'NEUTRAL'])]
+    return df[~df['polarity'].isin(['POSITIVE', 'NEUTRAL'])]
 
-def preprocess_keywords(keyword: str) -> str:
+def preprocess_keywords(keyword: str, stop_words: set) -> str:
     keyword = re.sub(r'[^a-z\s]', '', keyword.lower())
     words = keyword.split()
     return ' '.join(set(word for word in words if word not in stop_words and len(word) > 1)).upper()
 
-def process_keywords(df: pd.DataFrame) -> pd.DataFrame:
+def process_keywords(df: pd.DataFrame, stop_words: set) -> pd.DataFrame:
     df['keywords'] = df['keywords'].str.split(',')
     exploded_df = df.explode('keywords')
     exploded_df = exploded_df[~exploded_df['keywords'].isin(['', '[deleted]', '[removed]'])]
-    exploded_df['keywords'] = exploded_df['keywords'].apply(preprocess_keywords)
+    exploded_df['keywords'] = exploded_df['keywords'].apply(lambda x: preprocess_keywords(x, stop_words))
     return exploded_df[exploded_df['keywords'] != '']
 
 def get_top_keywords(df: pd.DataFrame, n: int) -> pd.DataFrame:
@@ -110,15 +85,49 @@ def display_keyword_details(df: pd.DataFrame, keyword: str):
         st.markdown("---")
 
 def main():
-    st.set_page_config(layout="wide")
+    
+    # Define a list of common stop words
+    default_stop_words = set([
+        'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 'he',
+        'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 'to', 'was', 'were',
+        'will', 'with', 'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves',
+        'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself',
+        'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers',
+        'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs',
+        'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll",
+        'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+        'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an',
+        'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of',
+        'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through',
+        'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down',
+        'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then',
+        'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any',
+        'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor',
+        'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can',
+        'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll',
+        'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't",
+        'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't",
+        'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn',
+        "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't",
+        'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"
+    ])
+    
+    # Allow users to add custom stop words
+    custom_stop_words = st.text_input("Add custom words to be filtered out (Note: comma separate each word):")
+    if custom_stop_words:
+        custom_stop_words = set(word.strip().lower() for word in custom_stop_words.split(','))
+        stop_words = default_stop_words.union(custom_stop_words)
+    else:
+        stop_words = default_stop_words
+
     st.title('Reddit Keyword Frequency Analysis')
 
     # Load the vector store
     load_vector_store()
 
-    file_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_full_distilbert.csv'
+    file_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_91%_vader.csv'
     df = load_and_preprocess_data(file_path)
-    processed_df = process_keywords(df)
+    processed_df = process_keywords(df, stop_words)
 
     min_date, max_date = df['created_utc'].min().date(), df['created_utc'].max().date()
 
