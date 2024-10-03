@@ -15,6 +15,7 @@ nltk.download('stopwords')
 import os
 import hydra
 import time
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -32,67 +33,71 @@ def truncate_to_max_length(text, tokenizer, max_length):
     encoded_input = tokenizer(text, truncation=True, max_length=max_length, return_tensors='pt')
     return tokenizer.decode(encoded_input['input_ids'][0], skip_special_tokens=True)
 
+def get_sentiment(text):
+    vader_obj = SentimentIntensityAnalyzer()
+    if isinstance(text, str):
+        return vader_obj.polarity_scores(text)
+    else:
+        return {'neg': 0, 'neu': 0, 'pos': 0, 'compound': 0}  # Return neutral for non-strings
+def get_sentiment_label(compound_score):
+    """Assign sentiment label based on VADER sentiment scores."""
+    if compound_score > 0.05:
+        return 'POSITIVE'
+    elif compound_score < -0.05:
+        return 'NEGATIVE'
+    else:
+        return 'NEUTRAL'
 
-def process_sentiment_analysis(df, sentiment_analyzer, tokenizer, candidate_labels, output_file, batch_size=16, max_length=512):
+def hybrid_sentiment(row):
+    if row['d_prediction'] == row['v_prediction']:
+        return row['d_prediction']  # If both are the same, return the common sentiment
+    else:
+        return 'NEUTRAL'  # If they are different, return 'NEUTRAL'
+
+def process_sentiment_analysis(df, sentiment_analyzer,tokenizer, output_file):
     start_time = time.time()
-    logging.info(f"Sentiment analysis started at {start_time}")
+    logging.info(f"Sentiment analysis started.")
     
     results = []  # Initialize list to store results
-    sentences_batch = []  # List to collect sentences in batches
-
+ 
     # Process each row in the DataFrame
     for index, row in tqdm(df.iterrows(), total=len(df), ncols=100):
         review = row['body']
         subreddit = row['subreddit']
         created_utc = row['created_utc']
+        for sentence in sent_tokenize(review):
+            truncated_sentence = truncate_to_max_length(sentence, tokenizer, max_length=512)
+            # Get sentiment for the sentence
+            sentiment_result = sentiment_analyzer(truncated_sentence)[0]
 
-        # Sentence tokenization
-        sentences = sent_tokenize(review)
+            # Extract sentiment label and score
+            sentiment_label = sentiment_result['label']
+            sentiment_score = sentiment_result['score']
 
-        # Truncate sentences and collect them in a batch
-        for sentence in sentences:
-            truncated_sentence = truncate_to_max_length(sentence, tokenizer, max_length=max_length)
-            sentences_batch.append(truncated_sentence)
-
-        # Process in batches
-        if len(sentences_batch) >= batch_size:
-            sentiment_results = sentiment_analyzer(sentences_batch, candidate_labels)
-
-            # Append results for the current batch
-            for sentiment_result in sentiment_results:
-                results.append({
-                    "subreddit": subreddit,
-                    "created_utc": created_utc,
-                    "sentence": sentiment_result['sequence'],
-                    "sentiment": sentiment_result['labels'],
-                    "sentiment_score": sentiment_result['scores'],
-                })
-
-            sentences_batch = []  # Clear the batch after processing
-
-    # Process any remaining sentences in the last batch
-    if sentences_batch:
-        sentiment_results = sentiment_analyzer(sentences_batch, candidate_labels)
-        for sentiment_result in sentiment_results:
+            # Append results
             results.append({
                 "subreddit": subreddit,
                 "created_utc": created_utc,
-                "sentence": sentiment_result['sequence'],
-                "sentiment": sentiment_result['labels'],
-                "sentiment_score": sentiment_result['scores'],
+                "sentence": sentence,
+                "d_prediction": sentiment_label,
+                "sentiment_score": sentiment_score
             })
 
     # Convert results to DataFrame and post-process
     sentiment_df = pd.DataFrame(results)
-    sentiment_df['sentiment'] = sentiment_df['sentiment'].apply(lambda x: x[0])  # Extract the top sentiment
-    sentiment_df['sentiment_score'] = sentiment_df['sentiment_score'].apply(lambda x: x[0])  # Extract the top score
+    
+    ### run Vader
+    sentiment_df[['neg', 'neu', 'pos', 'compound']] = sentiment_df['sentence'].apply(get_sentiment).apply(pd.Series)
+    sentiment_df['v_prediction'] = sentiment_df['compound'].apply(get_sentiment_label).apply(pd.Series)
+    sentiment_df['sentiment'] = sentiment_df.apply(hybrid_sentiment, axis=1)
     
     end_time = time.time()
-    logging.info(f"Sentiment analysis ended at {end_time}")
+    logging.info(f"Sentiment analysis ended.")
     duration = end_time - start_time
     logging.info(f"Total sentiment analysis duration: {duration}")
     
     # Save the results to a CSV file
+    sentiment_df = sentiment_df[['subreddit', 'created_utc', 'sentence', 'd_prediction', 'v_prediction', 'sentiment','sentiment_score']]
     sentiment_df.to_csv(output_file, index=False)
     logging.info(f"Sentiment analysis results saved to {output_file}")
 
@@ -141,7 +146,7 @@ def generate_wordcloud(df, sentiment, output_dir):
     # Log the saved location
     logging.info(f"Word cloud saved to {output_path}")
 
-@hydra.main(config_path="../conf", config_name="config")
+@hydra.main(config_path="../conf", config_name="config", version_base="1.1")
 def main(cfg):
     # Define variables for input/output files and model
     input_file = cfg.sentiment.input_file  # Input dataset file
@@ -154,18 +159,17 @@ def main(cfg):
     # Set up sentiment analyzer using zero-shot classification
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
-    sentiment_analyzer = pipeline("zero-shot-classification", model=model, tokenizer=tokenizer, device=device)
-    candidate_labels = ["POSITIVE", "NEUTRAL", "NEGATIVE"]
+    sentiment_analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer, device = -1)
 
     # Run sentiment analysis
-    process_sentiment_analysis(df, sentiment_analyzer, tokenizer, candidate_labels, output_file=output_file, batch_size=16)
+    process_sentiment_analysis(df, sentiment_analyzer, tokenizer, output_file=output_file)
 
     # Load the sentiment analysis results
     sentiment_df = pd.read_csv(output_file)
     sentiment_df['sentence'] = sentiment_df['sentence'].astype(str).apply(lambda x: preprocess_text(x))
 
     # Generate word clouds for each sentiment
-    for sentiment in candidate_labels:
+    for sentiment in sentiment_df['sentiment'].unique():
         generate_wordcloud(sentiment_df, sentiment,output_dir)
 
 
