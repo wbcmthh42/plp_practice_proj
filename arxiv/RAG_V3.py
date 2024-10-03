@@ -7,7 +7,7 @@ from tqdm import tqdm
 from chromadb.errors import InvalidCollectionException
 
 # Step 1: Load the CSV file
-csv_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/arxiv/arxiv_cs_papers_2022_2024_clean.csv'
+csv_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/arxiv/100_arxiv_cs_papers_2023_2023.csv'
 df = pd.read_csv(csv_path)
 # df = df[:10000]
 
@@ -55,7 +55,8 @@ def embed_and_store_documents():
                             "Title": df['Title'][global_idx],
                             "Summary": df['Summary'][global_idx],
                             "Updated": str(df['Updated'][global_idx]),
-                            "Category": df['Category'][global_idx]
+                            "Category": df['Category'][global_idx],
+                            "Link": df['Link'][global_idx]
                         }
                     )
             pbar.update(len(batch_texts))
@@ -106,7 +107,8 @@ def keyword_search(query, top_n=5):
                 "Title": row['Title'],
                 "Updated": str(row['Updated']),
                 "Category": row['Category'],
-                "Summary": row['Summary']
+                "Summary": row['Summary'],
+                "Link": row['Link']
             })
         if len(keyword_results) >= top_n:
             break
@@ -177,10 +179,12 @@ if __name__ == "__main__":
             category = result.get('Category', 'No Category')
             updated = result.get('Updated', 'No Date')
             summary = truncate_summary(result.get('Summary', 'No Summary'))
-            
+            link = result.get('Link', 'No Link')
+
             print(f"\nTitle: {title}")
             print(f"Category: {category}")
             print(f"Updated: {updated}")
             print(f"Summary: {summary}\n")
+            print(f"Link: {link}\n")
     else:
         print("Failed to create or load the vector store. Please check the error messages above.")

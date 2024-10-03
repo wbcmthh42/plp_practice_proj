@@ -82,6 +82,7 @@ def display_keyword_details(df: pd.DataFrame, keyword: str):
         st.write(f"**Category:** {result['Category']}")
         st.write(f"**Updated:** {result['Updated']}")
         st.write(f"**Summary:** {truncate_summary(result['Summary'])}")
+        st.write(f"**Link:** {result['Link']}")
         st.markdown("---")
 
 def main():
