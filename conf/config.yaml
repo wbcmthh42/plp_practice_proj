@@ -1,6 +1,6 @@
 hydra:
   run:
-    dir: ./pipeline_outputs
+    dir: ./pipeline
     
 praw:
   praw_output: praw_output.csv
@@ -14,8 +14,19 @@ praw:
 sentiment:
   input_file: praw_output.csv
   output_file: sentiment_analysis_output.csv
-  model_name: roberta-large-mnli
+  model_name: distilbert-base-uncased-finetuned-sst-2-english
   output_dir: wordcloud_images
+
+extract:
+  extraction_model_name: 'google/flan-t5-small'
+  reddit_dataset: sentiment_analysis_output.csv
+  reddit_results_file: reddit_keywords.csv
+
+top_keywords:
+  reddit_results_file: reddit_keywords.csv
+  top_n: 20
+  output_dir: reddit_keywords_results
+
 
 base_model_name: facebook/bart-large
 save_model_name: 'tech-keywords-extractor_finetuned_bart'
