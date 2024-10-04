@@ -10,6 +10,7 @@ import json
 import time
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from datetime import datetime
 
 # Add the directory containing RAG_V3.py to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'arxiv')))
@@ -83,12 +84,17 @@ def display_keyword_details(df: pd.DataFrame, keyword: str):
     
     # Add this section to display related research papers
     st.write("Related Research Papers:")
-    results = hybrid_search(keyword, top_n=5)
-    for result in results:
+    results = hybrid_search(keyword, top_n=10)
+
+    # Sort results by date, most recent first
+    sorted_results = sorted(results, key=lambda x: datetime.strptime(x['Updated'], '%Y-%m-%d'), reverse=True)
+
+    for result in sorted_results:
         st.write(f"**Title:** {result['Title']}")
         st.write(f"**Category:** {result['Category']}")
         st.write(f"**Updated:** {result['Updated']}")
         st.write(f"**Summary:** {truncate_summary(result['Summary'])}")
+        st.write(f"**Link:** {result['Link']}")
         st.markdown("---")
 
 @st.cache_resource
@@ -121,7 +127,7 @@ def get_llm_summary(keywords: List[str]) -> str:
 
 Keywords: {', '.join(keywords)}
 
-Based on these trends, propose potential topics that would be relevant and engaging for students. Keep your response to lesser than 50 words in total.
+Based on these trends, propose 5 potential topics that would be relevant and engaging for students. Keep your response to lesser than 50 words in total.
 
 Topics:"""
 
@@ -133,11 +139,12 @@ Topics:"""
     # Decode the entire output
     full_output = tokenizer.decode(outputs[0], skip_special_tokens=True)
     
-    # Find the position of "Summary:" in the output
-    summary_start = full_output.find("Summary:") + len("Summary:")
-    
-    # Extract only the generated summary
-    summary = full_output[summary_start:].strip()
+    # Extract only the generated summary (everything after the prompt)
+    summary = full_output[len(prompt):].strip()
+
+    # Ensure the summary starts with "Possible Topics:"
+    if not summary.startswith("Possible Topics:"):
+        summary = "Possible Topics: \n" + summary
     
     return summary
     

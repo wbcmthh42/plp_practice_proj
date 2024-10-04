@@ -99,7 +99,7 @@ def flatten(results):
     return flat_results
 
 # Keyword search function
-def keyword_search(query, top_n=5):
+def keyword_search(query, top_n=15):
     keyword_results = []
     for idx, row in df.iterrows():
         if query.lower() in row['combined'].lower():
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     # Example usage
     if collection is not None and collection.count() > 0:
         query = input("Enter a keyword to search: ")
-        results = hybrid_search(query, top_n=5)
+        results = hybrid_search(query, top_n=15)
 
         for result in results:
             title = result.get('Title', 'No Title')

@@ -5,6 +5,7 @@ import re
 from typing import List, Tuple
 import sys
 import os
+from datetime import datetime
 
 # Add the directory containing RAG_V3.py to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'arxiv')))
@@ -76,8 +77,9 @@ def display_keyword_details(df: pd.DataFrame, keyword: str):
     
     # Add this section to display related research papers
     st.write("Related Research Papers:")
-    results = hybrid_search(keyword, top_n=5)
-    for result in results:
+    results = hybrid_search(keyword, top_n=10)
+    sorted_results = sorted(results, key=lambda x: datetime.strptime(x['Updated'], '%Y-%m-%d'), reverse=True)
+    for result in sorted_results:
         st.write(f"**Title:** {result['Title']}")
         st.write(f"**Category:** {result['Category']}")
         st.write(f"**Updated:** {result['Updated']}")
