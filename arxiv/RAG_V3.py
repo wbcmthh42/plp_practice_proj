@@ -7,7 +7,7 @@ from tqdm import tqdm
 from chromadb.errors import InvalidCollectionException
 
 # Step 1: Load the CSV file
-csv_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/arxiv/100_arxiv_cs_papers_2023_2023.csv'
+csv_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/arxiv/arxiv_papers_2022_2024_with_links_final.csv'
 df = pd.read_csv(csv_path)
 # df = df[:10000]
 
