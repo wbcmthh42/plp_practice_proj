@@ -2,10 +2,12 @@
 <html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Modules" href="modules.html" /><link rel="prev" title="Model Finetuning and Evaluation Pipeline" href="model_finetuning_evaluation_pipeline.html" />
 
-    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 --><title>Index - TechPulse documentation</title>
-<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
+        <title>ArXiv Database and RAG Vector Store Construction - TechPulse documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
     
@@ -176,7 +178,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -197,9 +199,9 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="model_finetuning_evaluation_pipeline.html">Model Finetuning and Evaluation Pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">ArXiv Database and RAG Vector Store Construction</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">ArXiv Database and RAG Vector Store Construction</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_training.html">model_training module</a></li>
@@ -228,7 +230,13 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/build_arxiv_vectorstore.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
@@ -237,290 +245,229 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          
-<section class="genindex-section">
-  <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#V"><strong>V</strong></a></div>
+          <section id="arxiv-database-and-rag-vector-store-construction">
+<h1>ArXiv Database and RAG Vector Store Construction<a class="headerlink" href="#arxiv-database-and-rag-vector-store-construction" title="Link to this heading">¶</a></h1>
+<p>This document outlines the process of building an arXiv database and constructing a Retrieval-Augmented Generation (RAG) vector store for efficient paper searching.</p>
+<section id="rag-vector-store-construction">
+<h2>RAG Vector Store Construction<a class="headerlink" href="#rag-vector-store-construction" title="Link to this heading">¶</a></h2>
+<p>The RAG vector store is built using the <code class="docutils literal notranslate"><span class="pre">rag.py</span></code> script, which processes the CSV file created by <code class="docutils literal notranslate"><span class="pre">retrieve_papers_with_link.py</span></code>. The construction process involves:</p>
+<img alt="RAG Vector Store Construction Process" class="align-center" src="_images/rag_vector_store.png" />
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Data Loading</strong>:</dt><dd><ul class="simple">
+<li><p>Reads the CSV file into a pandas DataFrame.</p></li>
+<li><p>Creates a ‘combined’ column by concatenating the ‘Title’ and ‘Summary’ fields.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
 </section>
-<section id="C" class="genindex-section">
-  <h2>C</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.check_vector_store_size">check_vector_store_size() (in module src.rag)</a>
-</li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.create_keyword_chart">create_keyword_chart() (in module src.streamlit_poc_with_gemma)</a>
-</li>
-    </ul></td>
-  </tr></table>
+<section id="file-structure">
+<h2>File Structure<a class="headerlink" href="#file-structure" title="Link to this heading">¶</a></h2>
+<p>Below is the tree structure for files relevant to this section:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>    project_root/
+    ├── conf/
+    │   └── config.yaml
+    ├── src/
+    │   ├── retrieve_papers_with_link.py
+    │   └── rag.py
+    ├── arxiv/
+    │   └── arxiv_papers_2022_2024_with_links_final.csv
+    └── vector_store/
+        └── (contents of vector store)
+
+- `conf/config.yaml`: Configuration file for the project.
+- `src/retrieve_papers_with_link.py`: Script for retrieving arXiv papers.
+- `src/rag.py`: Script for the Retrieval-Augmented Generation (RAG) pipeline.
+- `arxiv/arxiv_papers_2022_2024_with_links_final.csv`: CSV file containing the arXiv paper data.
+- `vector_store/`: Directory containing the vector store data.
+</pre></div>
+</div>
 </section>
-
-<section id="D" class="genindex-section">
-  <h2>D</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.display_keyword_details">display_keyword_details() (in module src.streamlit_poc_with_gemma)</a>
+<section id="arxiv-database-construction">
+<h2>ArXiv Database Construction<a class="headerlink" href="#arxiv-database-construction" title="Link to this heading">¶</a></h2>
+<p>The arXiv database is built using the <code class="docutils literal notranslate"><span class="pre">retrieve_papers_with_link.py</span></code> script. This script performs the following steps:</p>
+<ol class="arabic">
+<li><dl class="simple">
+<dt><strong>Data Retrieval</strong>:</dt><dd><ul class="simple">
+<li><p>Uses the OAI-PMH (Open Archives Initiative Protocol for Metadata Harvesting) to fetch arXiv papers.</p></li>
+<li><p>Retrieves papers from the Computer Science category within a specified date range.</p></li>
+</ul>
+</dd>
+</dl>
 </li>
-    </ul></td>
-  </tr></table>
+<li><dl>
+<dt><strong>Data Extraction</strong>:</dt><dd><ul>
+<li><p>Parses the XML response to extract relevant information for each paper:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Title</p></li>
+<li><p>Summary</p></li>
+<li><p>Updated date</p></li>
+<li><p>Category</p></li>
+<li><p>Link to the paper</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Data Storage</strong>:</dt><dd><ul class="simple">
+<li><p>Saves the extracted data to a CSV file.</p></li>
+<li><p>Performs incremental saves every 100 records to prevent data loss.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Error Handling and Retries</strong>:</dt><dd><ul class="simple">
+<li><p>Implements retry logic for network requests to handle temporary failures.</p></li>
+<li><p>Logs errors and information for monitoring the retrieval process.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Configurable Parameters</strong>:</dt><dd><ul class="simple">
+<li><p>Uses Hydra for configuration management, allowing easy adjustment of parameters such as date range and maximum results.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<p>The resulting CSV file serves as the foundation for the RAG vector store.</p>
 </section>
-
-<section id="E" class="genindex-section">
-  <h2>E</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.embed_and_store_documents">embed_and_store_documents() (in module src.rag)</a>
+<section id="id1">
+<h2>RAG Vector Store Construction<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>The RAG vector store is built using the <code class="docutils literal notranslate"><span class="pre">rag.py</span></code> script, which processes the CSV file created by <code class="docutils literal notranslate"><span class="pre">retrieve_papers_with_link.py</span></code>. The construction process involves:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Data Loading</strong>:</dt><dd><ul class="simple">
+<li><p>Reads the CSV file into a pandas DataFrame.</p></li>
+<li><p>Creates a ‘combined’ column by concatenating the ‘Title’ and ‘Summary’ fields.</p></li>
+</ul>
+</dd>
+</dl>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="evaluation.html#src.evaluation.evaluate">evaluate() (in module src.evaluation)</a>
+<li><dl class="simple">
+<dt><strong>Model Initialization</strong>:</dt><dd><ul class="simple">
+<li><p>Loads a pre-trained language model and tokenizer for generating embeddings.</p></li>
+</ul>
+</dd>
+</dl>
 </li>
-        <li><a href="evaluation.html#src.evaluation.evaluate_bert">evaluate_bert() (in module src.evaluation)</a>
+<li><dl class="simple">
+<dt><strong>Vector Store Initialization</strong>:</dt><dd><ul class="simple">
+<li><p>Sets up a Chroma vector store with persistence for storing embeddings.</p></li>
+</ul>
+</dd>
+</dl>
 </li>
-    </ul></td>
-  </tr></table>
+<li><dl class="simple">
+<dt><strong>Document Embedding</strong>:</dt><dd><ul class="simple">
+<li><p>Processes the ‘combined’ text for each paper in batches.</p></li>
+<li><p>Generates embeddings using the pre-trained model.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Vector Store Population</strong>:</dt><dd><ul class="simple">
+<li><p>Stores the embeddings along with metadata (Title, Summary, Updated date, Category, Link) in the Chroma vector store.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Persistence</strong>:</dt><dd><ul class="simple">
+<li><p>Saves the vector store to disk for future use.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Consistency Checking</strong>:</dt><dd><ul class="simple">
+<li><p>Implements a function to verify that the number of items in the vector store matches the number of items in the DataFrame.</p></li>
+<li><p>Re-creates the vector store if inconsistencies are detected.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
 </section>
-
-<section id="F" class="genindex-section">
-  <h2>F</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.flatten">flatten() (in module src.rag)</a>
+<section id="search-functionality">
+<h2>Search Functionality<a class="headerlink" href="#search-functionality" title="Link to this heading">¶</a></h2>
+<p>The RAG system provides three types of search:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Vector Search</strong>:</dt><dd><ul class="simple">
+<li><p>Uses cosine similarity to find the most relevant papers based on embedding similarity.</p></li>
+</ul>
+</dd>
+</dl>
 </li>
-    </ul></td>
-  </tr></table>
+<li><dl class="simple">
+<dt><strong>Keyword Search</strong>:</dt><dd><ul class="simple">
+<li><p>Performs a simple text-based search on the ‘combined’ column of the DataFrame.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Hybrid Search</strong>:</dt><dd><ul class="simple">
+<li><p>Combines results from both vector and keyword searches for improved accuracy.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
 </section>
-
-<section id="G" class="genindex-section">
-  <h2>G</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="evaluation.html#src.evaluation.get_dataset_average_score">get_dataset_average_score() (in module src.evaluation)</a>
-</li>
-        <li><a href="rag.html#src.rag.get_embeddings">get_embeddings() (in module src.rag)</a>
-</li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="model_training.html#src.model_training.get_feature">get_feature() (in module src.model_training)</a>
-</li>
-        <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_llm_summary">get_llm_summary() (in module src.streamlit_poc_with_gemma)</a>
-</li>
-        <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_top_keywords">get_top_keywords() (in module src.streamlit_poc_with_gemma)</a>
-</li>
-    </ul></td>
-  </tr></table>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<p>To use the RAG system:</p>
+<ol class="arabic simple">
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">retrieve_papers_with_link.py</span></code> to build the initial CSV database.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">rag.py</span></code> to construct the vector store and enable search functionality.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">hybrid_search</span></code> function to perform searches on the arXiv papers.</p></li>
+</ol>
+<p>The system allows for efficient retrieval of relevant research papers based on user queries, combining the power of semantic search with traditional keyword matching.</p>
 </section>
-
-<section id="H" class="genindex-section">
-  <h2>H</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.hybrid_search">hybrid_search() (in module src.rag)</a>
-</li>
-    </ul></td>
-  </tr></table>
 </section>
-
-<section id="I" class="genindex-section">
-  <h2>I</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.initialize_data_and_model">initialize_data_and_model() (in module src.rag)</a>
-</li>
-    </ul></td>
-  </tr></table>
-</section>
-
-<section id="K" class="genindex-section">
-  <h2>K</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.keyword_search">keyword_search() (in module src.rag)</a>
-</li>
-    </ul></td>
-  </tr></table>
-</section>
-
-<section id="L" class="genindex-section">
-  <h2>L</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_and_preprocess_data">load_and_preprocess_data() (in module src.streamlit_poc_with_gemma)</a>
-</li>
-        <li><a href="model_training.html#src.model_training.load_data">load_data() (in module src.model_training)</a>
-</li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="model_training.html#src.model_training.load_model">load_model() (in module src.model_training)</a>
-</li>
-        <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_model_and_tokenizer">load_model_and_tokenizer() (in module src.streamlit_poc_with_gemma)</a>
-</li>
-        <li><a href="rag.html#src.rag.load_vector_store">load_vector_store() (in module src.rag)</a>
-</li>
-    </ul></td>
-  </tr></table>
-</section>
-
-<section id="M" class="genindex-section">
-  <h2>M</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="evaluation.html#src.evaluation.main">main() (in module src.evaluation)</a>
-
-        <ul>
-          <li><a href="model_training.html#src.model_training.main">(in module src.model_training)</a>
-</li>
-          <li><a href="rag.html#src.rag.main">(in module src.rag)</a>
-</li>
-          <li><a href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.main">(in module src.retrieve_papers_with_link)</a>
-</li>
-          <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.main">(in module src.streamlit_poc_with_gemma)</a>
-</li>
-        </ul></li>
-        <li>
-    module
-
-        <ul>
-          <li><a href="evaluation.html#module-src.evaluation">src.evaluation</a>
-</li>
-          <li><a href="model_training.html#module-src.model_training">src.model_training</a>
-</li>
-          <li><a href="pipeline_model_finetuning_evaluation.html#module-src.pipeline_model_finetuning_evaluation">src.pipeline_model_finetuning_evaluation</a>
-</li>
-          <li><a href="rag.html#module-src.rag">src.rag</a>
-</li>
-          <li><a href="retrieve_papers_with_link.html#module-src.retrieve_papers_with_link">src.retrieve_papers_with_link</a>
-</li>
-          <li><a href="streamlit_poc_with_gemma.html#module-src.streamlit_poc_with_gemma">src.streamlit_poc_with_gemma</a>
-</li>
-        </ul></li>
-    </ul></td>
-  </tr></table>
-</section>
-
-<section id="P" class="genindex-section">
-  <h2>P</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.preprocess_keywords">preprocess_keywords() (in module src.streamlit_poc_with_gemma)</a>
-</li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.process_keywords">process_keywords() (in module src.streamlit_poc_with_gemma)</a>
-</li>
-    </ul></td>
-  </tr></table>
-</section>
-
-<section id="R" class="genindex-section">
-  <h2>R</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.retrieve_papers_with_link">retrieve_papers_with_link() (in module src.retrieve_papers_with_link)</a>
-</li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="pipeline_model_finetuning_evaluation.html#src.pipeline_model_finetuning_evaluation.run_pipeline">run_pipeline() (in module src.pipeline_model_finetuning_evaluation)</a>
-</li>
-    </ul></td>
-  </tr></table>
-</section>
-
-<section id="S" class="genindex-section">
-  <h2>S</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.save_to_csv">save_to_csv() (in module src.retrieve_papers_with_link)</a>
-</li>
-        <li><a href="rag.html#src.rag.setup_rag">setup_rag() (in module src.rag)</a>
-</li>
-        <li>
-    src.evaluation
-
-        <ul>
-          <li><a href="evaluation.html#module-src.evaluation">module</a>
-</li>
-        </ul></li>
-        <li>
-    src.model_training
-
-        <ul>
-          <li><a href="model_training.html#module-src.model_training">module</a>
-</li>
-        </ul></li>
-        <li>
-    src.pipeline_model_finetuning_evaluation
-
-        <ul>
-          <li><a href="pipeline_model_finetuning_evaluation.html#module-src.pipeline_model_finetuning_evaluation">module</a>
-</li>
-        </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li>
-    src.rag
-
-        <ul>
-          <li><a href="rag.html#module-src.rag">module</a>
-</li>
-        </ul></li>
-        <li>
-    src.retrieve_papers_with_link
-
-        <ul>
-          <li><a href="retrieve_papers_with_link.html#module-src.retrieve_papers_with_link">module</a>
-</li>
-        </ul></li>
-        <li>
-    src.streamlit_poc_with_gemma
-
-        <ul>
-          <li><a href="streamlit_poc_with_gemma.html#module-src.streamlit_poc_with_gemma">module</a>
-</li>
-        </ul></li>
-    </ul></td>
-  </tr></table>
-</section>
-
-<section id="T" class="genindex-section">
-  <h2>T</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="model_training.html#src.model_training.train_model">train_model() (in module src.model_training)</a>
-</li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.truncate_summary">truncate_summary() (in module src.rag)</a>
-</li>
-    </ul></td>
-  </tr></table>
-</section>
-
-<section id="V" class="genindex-section">
-  <h2>V</h2>
-  <table style="width: 100%" class="indextable genindextable"><tr>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.vector_search">vector_search() (in module src.rag)</a>
-</li>
-    </ul></td>
-  </tr></table>
-</section>
-
 
         </article>
       </div>
       <footer>
         
         <div class="related-pages">
-          
-          
+          <a class="next-page" href="modules.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Modules</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="model_finetuning_evaluation_pipeline.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Model Finetuning and Evaluation Pipeline</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -539,8 +486,32 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">ArXiv Database and RAG Vector Store Construction</a><ul>
+<li><a class="reference internal" href="#rag-vector-store-construction">RAG Vector Store Construction</a></li>
+<li><a class="reference internal" href="#file-structure">File Structure</a></li>
+<li><a class="reference internal" href="#arxiv-database-construction">ArXiv Database Construction</a></li>
+<li><a class="reference internal" href="#id1">RAG Vector Store Construction</a></li>
+<li><a class="reference internal" href="#search-functionality">Search Functionality</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

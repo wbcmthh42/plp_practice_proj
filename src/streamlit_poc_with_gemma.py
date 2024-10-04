@@ -1,3 +1,35 @@
+"""
+Module Description
+================
+
+TechPulse Streamlit POC with Gemma
+------------------------
+
+This module provides a Streamlit-based proof-of-concept (POC) application that retrieves Reddit tech posts from selected date ranges, extracts relevant tech keywords, and allows users to search for related arXiv research papers. The application aims to assist users in researching course materials for implementing new courses.
+
+Key Features
+------------
+
+* Retrieves Reddit tech posts from user-selected date ranges
+* Extracts relevant tech keywords from the posts
+* Allows users to select and filter keywords
+* Searches for related arXiv research papers based on the selected keywords
+* Utilizes a Large Language Model (LLM) built with Gemma to generate insights from the keywords
+
+Dependencies
+------------
+
+* Streamlit
+* Pandas
+* Plotly
+* Gemma (language model)
+* arXiv API
+
+Usage
+-----
+
+To run the application, simply execute the script using `python src/streamlit_poc_with_gemma.py`. This will launch the Streamlit app, allowing users to interact with the application and generate insights.
+"""
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -11,28 +43,74 @@ import time
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from datetime import datetime
+import hydra
+from omegaconf import DictConfig
 
 # Add the directory containing RAG_V3.py to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'arxiv')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
 # Import necessary functions from RAG_V3
-from RAG_V3 import load_vector_store, hybrid_search, truncate_summary
+from rag import load_vector_store, hybrid_search, truncate_summary, setup_rag
 # Add Hugging Face API token (make sure to keep this secure in production)
 HUGGINGFACE_API_TOKEN = "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"
 
 st.set_page_config(layout="wide")
 
 def load_and_preprocess_data(file_path: str) -> pd.DataFrame:
+
+    """
+    Loads a CSV file containing sentiment analysis results and preprocesses the data.
+
+    Parameters
+    ----------
+    file_path : str
+        Path to the CSV file containing sentiment analysis results.
+
+    Returns
+    -------
+    pd.DataFrame
+        Preprocessed dataframe containing only rows with negative sentiment.
+    """
     df = pd.read_csv(file_path)
     df['created_utc'] = pd.to_datetime(df['created_utc'])
     return df[~df['polarity'].isin(['POSITIVE', 'NEUTRAL'])]
 
 def preprocess_keywords(keyword: str, stop_words: set) -> str:
+    """
+    Preprocesses a single keyword by removing punctuation, converting to lower case, splitting into words, removing stop words and words shorter than 1 character, and then joining the remaining words back together with a space in between each word.
+
+    Parameters
+    ----------
+    keyword : str
+        Keyword to preprocess.
+    stop_words : set
+        Set of stop words to remove from the keyword.
+
+    Returns
+    -------
+    str
+        Preprocessed keyword.
+    """
     keyword = re.sub(r'[^a-z\s]', '', keyword.lower())
     words = keyword.split()
     return ' '.join(set(word for word in words if word not in stop_words and len(word) > 1)).upper()
 
 def process_keywords(df: pd.DataFrame, stop_words: set) -> pd.DataFrame:
+    """
+    Processes a dataframe containing sentiment analysis results by splitting the keywords column into individual keywords, removing empty strings, '[deleted]', '[removed]', and stop words, and then joining the remaining words back together with a space in between each word.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Dataframe containing sentiment analysis results.
+    stop_words : set
+        Set of stop words to remove from the keywords.
+
+    Returns
+    -------
+    pd.DataFrame
+        Processed dataframe containing only rows with non-empty keywords.
+    """
     df['keywords'] = df['keywords'].str.split(',')
     exploded_df = df.explode('keywords')
     exploded_df = exploded_df[~exploded_df['keywords'].isin(['', '[deleted]', '[removed]'])]
@@ -40,10 +118,40 @@ def process_keywords(df: pd.DataFrame, stop_words: set) -> pd.DataFrame:
     return exploded_df[exploded_df['keywords'] != '']
 
 def get_top_keywords(df: pd.DataFrame, n: int) -> pd.DataFrame:
+    """
+    Gets the top n keywords from a dataframe by frequency.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Dataframe containing sentiment analysis results.
+    n : int
+        Number of top keywords to return.
+
+    Returns
+    -------
+    pd.DataFrame
+        Dataframe containing the top n keywords and their frequencies.
+    """
     keyword_counts = df.groupby('keywords').size().reset_index(name='frequency')
     return keyword_counts.sort_values(by='frequency', ascending=False).head(n)
 
 def create_keyword_chart(top_keywords: pd.DataFrame, n: int) -> px.bar:
+    """
+    Creates a bar chart of the top n keywords by frequency.
+
+    Parameters
+    ----------
+    top_keywords : pd.DataFrame
+        Dataframe containing the top n keywords and their frequencies.
+    n : int
+        Number of top keywords to display.
+
+    Returns
+    -------
+    px.bar
+        Bar chart of the top n keywords by frequency.
+    """
     fig = px.bar(top_keywords, 
                  x='frequency', 
                  y='keywords', 
@@ -59,30 +167,20 @@ def create_keyword_chart(top_keywords: pd.DataFrame, n: int) -> px.bar:
     return fig
 
 def display_keyword_details(df: pd.DataFrame, keyword: str):
-    # keyword_data = df[df['keywords'] == keyword]
-    # st.write(f"Statistics for keyword: **{keyword}**")
-    # st.write(f"Total occurrences: {len(keyword_data)}")
-    
-    # top_subreddits = keyword_data['subreddit'].value_counts().head(5)
-    # st.write("Top 5 subreddits for this keyword:")
-    # st.dataframe(top_subreddits)
-    
-    # if 'body' in keyword_data.columns:
-    #     st.write("Sample comments containing this keyword:")
-    #     sample_comments = keyword_data['body'].sample(min(3, len(keyword_data))).tolist()
-    #     for comment in sample_comments:
-    #         st.text(comment[:200] + "..." if len(comment) > 200 else comment)
-    # else:
-    #     st.write("Comment body not available in the dataset.")
-    
-    # st.write("Other available information:")
-    # for column in keyword_data.columns:
-    #     if column not in ['keywords', 'subreddit', 'body']:
-    #         st.write(f"{column}: {keyword_data[column].iloc[0]}")
-    
-    # st.markdown("---")
-    
-    # Add this section to display related research papers
+    """
+    Displays the top 10 research papers related to a given keyword.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Dataframe containing the keyword data.
+    keyword : str
+        The keyword to search for.
+
+    Returns
+    -------
+    None
+    """
     st.write("Related Research Papers:")
     results = hybrid_search(keyword, top_n=10)
 
@@ -99,6 +197,18 @@ def display_keyword_details(df: pd.DataFrame, keyword: str):
 
 @st.cache_resource
 def load_model_and_tokenizer():
+    """
+    Loads the Gemma model and tokenizer, and sets up the device (either MPS, CUDA, or CPU).
+
+    Returns
+    -------
+    tokenizer : transformers.AutoTokenizer
+        The tokenizer for the Gemma model.
+    model : transformers.AutoModelForCausalLM
+        The Gemma model.
+    device : torch.device
+        The device to use for the model (either MPS, CUDA, or CPU).
+    """
     model_name = "google/gemma-2b"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     
@@ -121,6 +231,22 @@ def load_model_and_tokenizer():
     return tokenizer, model, device
 
 def get_llm_summary(keywords: List[str]) -> str:
+    """
+    Uses the Gemma LLM to generate a concise summary of the emerging tech trends
+    represented by the given keywords, and proposes 5 potential topics that would
+    be relevant and engaging for students.
+
+    Parameters
+    ----------
+    keywords : List[str]
+        The keywords to analyze.
+
+    Returns
+    -------
+    str
+        A summary of the emerging tech trends represented by the given keywords,
+        and 5 potential topics that would be relevant and engaging for students.
+    """
     tokenizer, model, device = load_model_and_tokenizer()
 
     prompt = f"""Analyze the following top keywords from recent Reddit tech discussions and provide a concise summary of the emerging tech trends they might represent:
@@ -148,8 +274,20 @@ Topics:"""
     
     return summary
     
-def main():
-    
+@hydra.main(version_base=None, config_path="../conf", config_name="config")
+def main(cfg: DictConfig):
+    # Set up RAG system
+    """
+    Main function to set up the RAG system, define a list of common stop words,
+    and display a Streamlit app to analyze the top keywords from recent Reddit tech discussions.
+
+    Parameters:
+        cfg (omegaconf.DictConfig): Configuration for the RAG model.
+
+    Returns:
+        None
+    """
+    setup_rag(cfg)
     # Define a list of common stop words
     default_stop_words = set([
         'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 'he',

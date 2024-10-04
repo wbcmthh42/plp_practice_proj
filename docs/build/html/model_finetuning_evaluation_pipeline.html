@@ -252,12 +252,17 @@
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>This document outlines the model training process for extracting tech keywords from tech-related Reddit posts. We utilize three pre-trained language models: BART, T5, and BERT, which are fine-tuned on our specific task.</p>
 </section>
-<section id="project-structure-may-comprised-other-files">
-<h2>Project Structure (may comprised other files)<a class="headerlink" href="#project-structure-may-comprised-other-files" title="Link to this heading">¶</a></h2>
+<section id="project-structure">
+<h2>Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading">¶</a></h2>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>project_root/
 ├── src/
 │   ├── evaluation.py
-│   └── model_training.py
+│   ├── model_training.py
+│   └── pipeline_model_finetuning_evaluation.py
+├── conf/
+│   └── config.yaml
+└── docs/
+    └── model_finetuning_evaluation_pipeline.rst
 </pre></div>
 </div>
 </section>
@@ -286,8 +291,7 @@
 <p>The training pipeline consists of the following steps:</p>
 <ol class="arabic simple">
 <li><p>Data Preparation
-- Load the Tech Keywords Dataset
-- Split into Train, Validation, and Test sets</p></li>
+- Load the Tech Keywords Dataset which is already split into Train, Validation, and Test sets</p></li>
 <li><p>Model Initialization
 - Load pre-trained models (BART, T5, BERT)
 - Initialize tokenizers for each model</p></li>
@@ -302,6 +306,28 @@
 - Choose the best fine-tuned model for keyword extraction</p></li>
 </ol>
 </section>
+<section id="pipeline-execution">
+<h2>Pipeline Execution<a class="headerlink" href="#pipeline-execution" title="Link to this heading">¶</a></h2>
+<p>The entire pipeline for model finetuning and evaluation can be executed using a single script. This script coordinates the training and evaluation processes, providing a streamlined workflow.</p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<p>To run the complete pipeline, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.pipeline_model_finetuning_evaluation
+</pre></div>
+</div>
+<p>This command will sequentially execute both the training and evaluation processes, offering an end-to-end execution of the pipeline.</p>
+<p>Alternatively, if you wish to run individual components of the pipeline:</p>
+<p>To train the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.model_training
+</pre></div>
+</div>
+<p>To evaluate the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.evaluation
+</pre></div>
+</div>
+<p>These commands use the configuration specified in the <code class="docutils literal notranslate"><span class="pre">conf/config.yaml</span></code> file.</p>
+</section>
 <section id="training-process">
 <h2>Training Process<a class="headerlink" href="#training-process" title="Link to this heading">¶</a></h2>
 <p>The training process is implemented in the <code class="docutils literal notranslate"><span class="pre">src/model_training.py</span></code> file. Here’s an overview of the main functions:</p>
@@ -313,27 +339,14 @@
 </ul>
 <p>The main function uses Hydra for configuration management, allowing easy customization of training parameters.</p>
 </section>
-<section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
-<p>To train the model, run the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.model_training
-</pre></div>
-</div>
-<p>This will start the training process using the configuration specified in the <code class="docutils literal notranslate"><span class="pre">conf/config.yaml</span></code> file.</p>
-</section>
-<section id="evaluation">
-<h2>Evaluation<a class="headerlink" href="#evaluation" title="Link to this heading">¶</a></h2>
-<p>After training, the models are evaluated using the test set. The evaluation process is implemented in the <code class="docutils literal notranslate"><span class="pre">src/evaluation.py</span></code> file.</p>
-<p>To run the evaluation script, use the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.evaluation
-</pre></div>
-</div>
-<p>This will execute the evaluation process on the trained models using the test set. The results will be displayed in the console and may also be saved to a file, depending on the configuration in <code class="docutils literal notranslate"><span class="pre">conf/config.yaml</span></code>.</p>
-<p>The evaluation typically includes metrics such as precision, recall, and F1-score for keyword extraction. These metrics help assess how well the models perform in identifying relevant tech keywords from the input text.</p>
+<section id="evaluation-process">
+<h2>Evaluation Process<a class="headerlink" href="#evaluation-process" title="Link to this heading">¶</a></h2>
+<p>After training, the models are evaluated using the test set with Bert Score. The evaluation process is implemented in the <code class="docutils literal notranslate"><span class="pre">src/evaluation.py</span></code> file.</p>
+<p>The evaluation includes metrics such as precision, recall, and F1-score for keyword extraction. These metrics help assess how well the models perform in identifying relevant tech keywords from the input text.</p>
 </section>
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
-<p>This document provides an overview of the model training process for tech keyword extraction. By fine-tuning powerful pre-trained language models on our specific task, we aim to create an effective system for identifying relevant tech keywords from Reddit posts.</p>
+<p>This document provides an overview of the model training and evaluation pipeline for tech keyword extraction. By fine-tuning powerful pre-trained language models on our specific task and providing a streamlined execution process, we aim to create an effective system for identifying relevant tech keywords from Reddit posts.</p>
 </section>
 </section>
 
@@ -394,12 +407,13 @@
             <ul>
 <li><a class="reference internal" href="#">Model Finetuning and Evaluation Pipeline</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
-<li><a class="reference internal" href="#project-structure-may-comprised-other-files">Project Structure (may comprised other files)</a></li>
+<li><a class="reference internal" href="#project-structure">Project Structure</a></li>
 <li><a class="reference internal" href="#pre-trained-models">Pre-trained Models</a></li>
 <li><a class="reference internal" href="#training-pipeline">Training Pipeline</a></li>
-<li><a class="reference internal" href="#training-process">Training Process</a></li>
+<li><a class="reference internal" href="#pipeline-execution">Pipeline Execution</a></li>
 <li><a class="reference internal" href="#usage">Usage</a></li>
-<li><a class="reference internal" href="#evaluation">Evaluation</a></li>
+<li><a class="reference internal" href="#training-process">Training Process</a></li>
+<li><a class="reference internal" href="#evaluation-process">Evaluation Process</a></li>
 <li><a class="reference internal" href="#conclusion">Conclusion</a></li>
 </ul>
 </li>

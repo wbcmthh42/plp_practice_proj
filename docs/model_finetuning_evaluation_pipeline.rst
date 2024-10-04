@@ -6,16 +6,20 @@ Introduction
 
 This document outlines the model training process for extracting tech keywords from tech-related Reddit posts. We utilize three pre-trained language models: BART, T5, and BERT, which are fine-tuned on our specific task.
 
-Project Structure (may comprised other files)
----------------------------------------------
+Project Structure
+-----------------
 
 .. code-block:: text
 
     project_root/
     ├── src/
     │   ├── evaluation.py
-    │   └── model_training.py
-
+    │   ├── model_training.py
+    │   └── pipeline_model_finetuning_evaluation.py
+    ├── conf/
+    │   └── config.yaml
+    └── docs/
+        └── model_finetuning_evaluation_pipeline.rst
 
 Pre-trained Models
 ------------------
@@ -47,8 +51,7 @@ Training Pipeline
 The training pipeline consists of the following steps:
 
 1. Data Preparation
-   - Load the Tech Keywords Dataset
-   - Split into Train, Validation, and Test sets
+   - Load the Tech Keywords Dataset which is already split into Train, Validation, and Test sets
 
 2. Model Initialization
    - Load pre-trained models (BART, T5, BERT)
@@ -66,45 +69,61 @@ The training pipeline consists of the following steps:
 5. Model Selection
    - Choose the best fine-tuned model for keyword extraction
 
+Pipeline Execution
+------------------
+
+The entire pipeline for model finetuning and evaluation can be executed using a single script. This script coordinates the training and evaluation processes, providing a streamlined workflow.
+
+Usage
+-----
+
+To run the complete pipeline, use the following command:
+
+.. code-block:: bash
+
+    python -m src.pipeline_model_finetuning_evaluation
+
+This command will sequentially execute both the training and evaluation processes, offering an end-to-end execution of the pipeline.
+
+Alternatively, if you wish to run individual components of the pipeline:
+
+To train the model:
+
+.. code-block:: bash
+
+    python -m src.model_training
+
+To evaluate the model:
+
+.. code-block:: bash
+
+    python -m src.evaluation
+
+These commands use the configuration specified in the ``conf/config.yaml`` file.
+
 Training Process
 ----------------
 
 The training process is implemented in the ``src/model_training.py`` file. Here's an overview of the main functions:
 
 - ``load_data(data)``: Loads the dataset using the Hugging Face datasets library.
+
 - ``load_model(model_name)``: Loads a pre-trained model and tokenizer from the Hugging Face model hub.
+
 - ``get_feature(tokenizer, batch)``: Prepares the input data for training by encoding text and target keywords.
+
 - ``train_model(tokenizer, model, dataset, save_model_name, output_dir, cfg)``: Handles the actual training process, including setting up the trainer, training arguments, and saving the model.
 
 The main function uses Hydra for configuration management, allowing easy customization of training parameters.
 
-Usage
------
-
-To train the model, run the following command:
-
-.. code-block:: bash
-
-    python -m src.model_training
-
-This will start the training process using the configuration specified in the ``conf/config.yaml`` file.
-
-Evaluation
+Evaluation Process
 ----------
 
-After training, the models are evaluated using the test set. The evaluation process is implemented in the ``src/evaluation.py`` file.
+After training, the models are evaluated using the test set with Bert Score. The evaluation process is implemented in the ``src/evaluation.py`` file.
 
-To run the evaluation script, use the following command:
-
-.. code-block:: bash
-
-    python -m src.evaluation
-
-This will execute the evaluation process on the trained models using the test set. The results will be displayed in the console and may also be saved to a file, depending on the configuration in ``conf/config.yaml``.
-
-The evaluation typically includes metrics such as precision, recall, and F1-score for keyword extraction. These metrics help assess how well the models perform in identifying relevant tech keywords from the input text.
+The evaluation includes metrics such as precision, recall, and F1-score for keyword extraction. These metrics help assess how well the models perform in identifying relevant tech keywords from the input text.
 
 Conclusion
 ----------
 
-This document provides an overview of the model training process for tech keyword extraction. By fine-tuning powerful pre-trained language models on our specific task, we aim to create an effective system for identifying relevant tech keywords from Reddit posts.
+This document provides an overview of the model training and evaluation pipeline for tech keyword extraction. By fine-tuning powerful pre-trained language models on our specific task and providing a streamlined execution process, we aim to create an effective system for identifying relevant tech keywords from Reddit posts.

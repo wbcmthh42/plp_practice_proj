@@ -6,15 +6,11 @@
 TechPulse documentation
 =======================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    model_finetuning_evaluation_pipeline
+   build_arxiv_vectorstore
    modules
 

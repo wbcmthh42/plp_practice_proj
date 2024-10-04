@@ -1,3 +1,12 @@
+"""
+Module for retrieving arXiv papers with links.
+
+This module provides functions for retrieving arXiv papers and saving them to a CSV file.
+
+Functions:
+    save_to_csv: Saves the retrieved papers to a CSV file.
+    main: Retrieves arXiv papers and saves them to a CSV file.
+"""
 import requests
 import xml.etree.ElementTree as ET
 import pandas as pd
@@ -5,12 +14,21 @@ import time
 import logging
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+import hydra
+from omegaconf import DictConfig
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 def save_to_csv(data, filename):
+    """
+    Saves the given data to a CSV file with the given filename.
+
+    Args:
+        data: List of dictionaries containing the data to be saved.
+        filename: String representing the filename of the CSV file to be saved.
+    """
     df = pd.DataFrame(data)
     df['Updated'] = pd.to_datetime(df['Updated'])
     df.to_csv(filename, index=False)
@@ -18,6 +36,17 @@ def save_to_csv(data, filename):
 
 def retrieve_papers_with_link(from_date, until_date, max_results=None):
     # Base OAI-PMH URL for arXiv
+    """
+    Retrieves the list of papers from arXiv with links for the given date range.
+
+    Args:
+        from_date: String representing the start date (YYYY-MM-DD).
+        until_date: String representing the end date (YYYY-MM-DD).
+        max_results: Optional integer representing the maximum number of results to retrieve.
+
+    Returns:
+        List of dictionaries containing the paper title, summary, category, link, and updated date.
+    """
     base_url = 'http://export.arxiv.org/oai2?verb=ListRecords'
 
     # Search parameters for OAI-PMH (for Computer Science category and metadata format 'oai_dc')
@@ -110,11 +139,22 @@ def retrieve_papers_with_link(from_date, until_date, max_results=None):
 
     return data
 
-def main():
+@hydra.main(config_path="../conf", config_name="config")
+def main(cfg: DictConfig):
+    """
+    Main function.
+
+    Retrieves arXiv papers based on the configuration provided by Hydra.
+    Saves the results to the specified output file.
+    """
     logger.info("Starting main function")
-    data = retrieve_papers_with_link('2022-01-01', '2024-10-03', max_results=200000)
+    data = retrieve_papers_with_link(
+        cfg.date_range.from_date,
+        cfg.date_range.until_date,
+        max_results=cfg.max_results
+    )
     
-    output_file = 'arxiv_papers_2022_2024_with_links_final.csv'
+    output_file = cfg.output_file
     logger.info(f"Saving final results to {output_file}")
     save_to_csv(data, output_file)
     logger.info(f"Final results saved to {output_file}")

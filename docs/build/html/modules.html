@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="model_training module" href="model_training.html" /><link rel="prev" title="Model Finetuning and Evaluation Pipeline" href="model_finetuning_evaluation_pipeline.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="pipeline_model_finetuning_evaluation module" href="pipeline_model_finetuning_evaluation.html" /><link rel="prev" title="ArXiv Database and RAG Vector Store Construction" href="build_arxiv_vectorstore.html" />
 
     <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
         <title>Modules - TechPulse documentation</title>
@@ -201,9 +201,14 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="model_finetuning_evaluation_pipeline.html">Model Finetuning and Evaluation Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">ArXiv Database and RAG Vector Store Construction</a></li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_training.html">model_training module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
 </ul>
 </li>
 </ul>
@@ -250,6 +255,10 @@
 <h1>Modules<a class="headerlink" href="#modules" title="Link to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html#src.pipeline_model_finetuning_evaluation.run_pipeline"><code class="docutils literal notranslate"><span class="pre">run_pipeline()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="model_training.html">model_training module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="model_training.html#src.model_training.get_feature"><code class="docutils literal notranslate"><span class="pre">get_feature()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_training.html#src.model_training.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
@@ -265,6 +274,40 @@
 <li class="toctree-l2"><a class="reference internal" href="evaluation.html#src.evaluation.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.retrieve_papers_with_link"><code class="docutils literal notranslate"><span class="pre">retrieve_papers_with_link()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.save_to_csv"><code class="docutils literal notranslate"><span class="pre">save_to_csv()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rag.html">rag module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.check_vector_store_size"><code class="docutils literal notranslate"><span class="pre">check_vector_store_size()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.embed_and_store_documents"><code class="docutils literal notranslate"><span class="pre">embed_and_store_documents()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.flatten"><code class="docutils literal notranslate"><span class="pre">flatten()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.get_embeddings"><code class="docutils literal notranslate"><span class="pre">get_embeddings()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.hybrid_search"><code class="docutils literal notranslate"><span class="pre">hybrid_search()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.initialize_data_and_model"><code class="docutils literal notranslate"><span class="pre">initialize_data_and_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.keyword_search"><code class="docutils literal notranslate"><span class="pre">keyword_search()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.load_vector_store"><code class="docutils literal notranslate"><span class="pre">load_vector_store()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.setup_rag"><code class="docutils literal notranslate"><span class="pre">setup_rag()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.truncate_summary"><code class="docutils literal notranslate"><span class="pre">truncate_summary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html#src.rag.vector_search"><code class="docutils literal notranslate"><span class="pre">vector_search()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#module-description">Module Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.create_keyword_chart"><code class="docutils literal notranslate"><span class="pre">create_keyword_chart()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.display_keyword_details"><code class="docutils literal notranslate"><span class="pre">display_keyword_details()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_llm_summary"><code class="docutils literal notranslate"><span class="pre">get_llm_summary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_top_keywords"><code class="docutils literal notranslate"><span class="pre">get_top_keywords()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_and_preprocess_data"><code class="docutils literal notranslate"><span class="pre">load_and_preprocess_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_model_and_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_model_and_tokenizer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.preprocess_keywords"><code class="docutils literal notranslate"><span class="pre">preprocess_keywords()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.process_keywords"><code class="docutils literal notranslate"><span class="pre">process_keywords()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -274,23 +317,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="model_training.html">
+          <a class="next-page" href="pipeline_model_finetuning_evaluation.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">model_training module</div>
+                <div class="title">pipeline_model_finetuning_evaluation module</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="model_finetuning_evaluation_pipeline.html">
+          <a class="prev-page" href="build_arxiv_vectorstore.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Model Finetuning and Evaluation Pipeline</div>
+                <div class="title">ArXiv Database and RAG Vector Store Construction</div>
                 
               </div>
             </a>

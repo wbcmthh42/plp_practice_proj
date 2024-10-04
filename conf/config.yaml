@@ -57,3 +57,21 @@ reddit_results_file: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/r
 get_trending_keywords:
   top_n: 20
   output_dir: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results
+
+date_range:
+  from_date: '2022-01-01'
+  until_date: '2024-10-03'
+max_results: 200000
+output_file: '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/arxiv/arxiv_papers_2022_2024_with_links_final.csv'
+
+embedding_model:
+  name: "sentence-transformers/all-MiniLM-L6-v2"
+
+vector_store:
+  persist_directory: "./vector_store"
+
+search:
+  top_n: 15
+
+summary:
+  word_limit: 30
