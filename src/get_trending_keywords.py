@@ -80,10 +80,10 @@ def get_trending_keywords(df, output_dir, top_n=20):
         json.dump(top_n_words, json_file, indent=2)
     logging.info(f"Top {top_n} keywords saved as '{json_path}'")
 
-@hydra.main(config_path="../conf", config_name="config")
+@hydra.main(config_path="../conf", config_name="config", version_base="1.1")
 def main(cfg):
-    df = load_data(cfg.reddit_results_file)
-    get_trending_keywords(df, cfg.get_trending_keywords.output_dir, top_n=cfg.get_trending_keywords.top_n)
+    df = load_data(cfg.top_keywords.reddit_results_file)
+    get_trending_keywords(df, cfg.top_keywords.output_dir, top_n=cfg.top_keywords.top_n)
 
 if __name__ == "__main__":
     '''python -m src.get_trending_keywords'''

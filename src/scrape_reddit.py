@@ -107,7 +107,12 @@ def scrape_reddit_comments(start_date_str, end_date_str, reddit_list, limit, fil
 
     # Remove duplicates and save the final DataFrame to CSV
     final_df['body'] = final_df['body'].astype(str)
+    ######################## This line is to limit the output for testing purposes ######################
+    final_df = final_df.head(10)
+    ###################################################################################################
     final_df.drop_duplicates().to_csv(file_name, index=False)
+    
+ 
     logging.info(f"Data successfully saved to {file_name}")
     
     # Calculate and log the time taken
@@ -116,14 +121,14 @@ def scrape_reddit_comments(start_date_str, end_date_str, reddit_list, limit, fil
     logging.info(f'Length of final DataFrame: {len(final_df)}')
 
    
-@hydra.main(config_path="../conf", config_name="config")
+@hydra.main(config_path="../conf", config_name="config", version_base="1.1")
 def main(cfg):
     # Define date range and subreddits to scrape
     start_date = '2024-05-01'
     end_date = datetime.today().strftime('%Y-%m-%d')
     file_name = cfg.praw.praw_output
     reddit_list = cfg.praw.subreddits
-    limit= 10
+    limit= 3
     # Call the scraping function
     scrape_reddit_comments(start_date, end_date, reddit_list, limit, file_name)
  
