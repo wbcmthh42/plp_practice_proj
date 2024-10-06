@@ -1,43 +1,37 @@
 
 import pandas as pd
 from datasets import Dataset, Features, Value
-from transformers import pipeline
-# import hydra
-# from omegaconf import OmegaConf
+import hydra
+from omegaconf import OmegaConf
 import os
 import torch
 from tqdm import tqdm
-from torch.utils.data import DataLoader
-import warnings
-warnings.filterwarnings("ignore")
-from torch.utils.data import Subset
-
-from tqdm import tqdm
-import pandas as pd
-import os
 from torch.utils.data import DataLoader, Subset
 from transformers import pipeline
-import torch
-
+import warnings
+warnings.filterwarnings("ignore")
 
 def load_reddit_csv_to_datasets(path):
     df = pd.read_csv(path)
     dataset = Dataset.from_pandas(df)
     return dataset
 
-def get_keywords(model_name, dataset):
-    
-    if torch.cuda.is_available():
-        device = torch.device('cuda:0')
-        print("Using GPU")
+def get_keywords(cfg, model_name, dataset):
+
+    if torch.backends.mps.is_available():
+        device = torch.device('mps')  # Use MPS if available
+        print("Using MPS")
+    elif torch.cuda.is_available():
+        device = torch.device('cuda:0')  # Use CUDA if available
+        print("Using CUDA")
     else:
-        device = torch.device('cpu')  
+        device = torch.device('cpu')  # Fall back to CPU
         print("Using CPU")
 
-    pipe = pipeline('summarization', model=model_name, truncation=True, device='cuda:0')
+    pipe = pipeline('summarization', model=model_name, truncation=True, device=device)
 
-    # Use only the first 350,000 rows of the dataset for testing
-    subset_indices = list(range(min(400000, len(dataset))))
+    # we are capping it to 400000 rows of the dataset for this POC. otherwise too much compute time needed
+    subset_indices = list(range(min(cfg.reddit_inference.inference_row_limit, len(dataset))))
     subset_dataset = Subset(dataset, subset_indices)
     
     # Check if the subset dataset is empty
@@ -45,7 +39,7 @@ def get_keywords(model_name, dataset):
         print("No data available in the dataset.")
         return pd.DataFrame()  # Return an empty DataFrame
     
-    batch_size = 256  # Adjust based on your GPU memory
+    batch_size = cfg.reddit_inference  # Adjust based on your GPU memory
     dataloader = DataLoader(subset_dataset, batch_size=batch_size, shuffle=False)
 
     updated_data = []
@@ -74,7 +68,8 @@ def get_keywords(model_name, dataset):
         # Save progress every 10% of total batches, avoiding division by zero
         if total_batches > 0 and batch_index % (total_batches // 10) == 0:
             temp_df = pd.DataFrame(updated_data)
-            temp_file_name = f'/kaggle/working/reddit_keywords_hybrid_temp_{(batch_index // (total_batches // 10) + 1) * 10}.csv'
+            os.makedirs('./tmp', exist_ok=True)
+            temp_file_name = f'./tmp/reddit_keywords_vader_temp_{(batch_index // (total_batches // 10) + 1) * 10}.csv'
             temp_df.to_csv(temp_file_name, index=False)
 
     # Final save after processing all batches
@@ -84,16 +79,17 @@ def get_keywords(model_name, dataset):
 def save_to_csv(dataset, path):
     dataset.to_csv(path, index=False)
 
-def main():
-    model_name = 'wbcmthh42/bart_tech_keywords_model2'
-    reddit_dataset_path = '/kaggle/input/vader-distilbert-hybrid/sentiment_analysis_results_hybrid_160k.csv'
+@hydra.main(config_path="../conf", config_name="config", version_base="1.1")
+def main(cfg):
+    model_name = cfg.saved_model_in_hf
+    reddit_dataset_path = cfg.reddit_dataset
     
     os.makedirs(os.path.dirname(reddit_dataset_path), exist_ok=True)
     reddit_dataset = load_reddit_csv_to_datasets(reddit_dataset_path)
     
-    dataset = get_keywords(model_name, reddit_dataset)
+    dataset = get_keywords(cfg, model_name, reddit_dataset)
     
-    save_to_csv(dataset, '/kaggle/working/reddit_keywords_vader.csv')
+    save_to_csv(dataset, cfg.reddit_results_file_for_ui)
 
 if __name__ == '__main__':
     '''python -m src.extract_reddit_keywords'''
