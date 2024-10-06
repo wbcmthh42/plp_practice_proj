@@ -57,6 +57,10 @@ def get_keywords(model_name, dataset):
         # Process each text in the batch individually
         keywords_batch = []
         for text in texts:
+            if text is None:  # Check for None values
+                keywords_batch.append("")  # Append an empty string or handle as needed
+                continue
+            
             max_length = max(10, min(512, len(text.split())))
             min_length = max(1, min(5, len(text.split()) // 2))
             
