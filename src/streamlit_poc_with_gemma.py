@@ -73,7 +73,8 @@ def load_and_preprocess_data(file_path: str) -> pd.DataFrame:
     """
     df = pd.read_csv(file_path)
     df['created_utc'] = pd.to_datetime(df['created_utc'])
-    return df[~df['polarity'].isin(['POSITIVE', 'NEUTRAL'])]
+    # return df[df['polarity'].isin(['POSITIVE', 'NEUTRAL'])]
+    return df
 
 def preprocess_keywords(keyword: str, stop_words: set) -> str:
     """
@@ -119,7 +120,7 @@ def process_keywords(df: pd.DataFrame, stop_words: set) -> pd.DataFrame:
 
 def get_top_keywords(df: pd.DataFrame, n: int) -> pd.DataFrame:
     """
-    Gets the top n keywords from a dataframe by frequency.
+    Gets the top n keywords from a dataframe by frequency and includes polarity counts.
 
     Parameters
     ----------
@@ -131,37 +132,51 @@ def get_top_keywords(df: pd.DataFrame, n: int) -> pd.DataFrame:
     Returns
     -------
     pd.DataFrame
-        Dataframe containing the top n keywords and their frequencies.
+        Dataframe containing the top n keywords and their sentiment counts.
     """
-    keyword_counts = df.groupby('keywords').size().reset_index(name='frequency')
-    return keyword_counts.sort_values(by='frequency', ascending=False).head(n)
+    # Group by keywords and count occurrences of each polarity
+    keyword_counts = df.groupby(['keywords', 'polarity']).size().unstack(fill_value=0)
+    keyword_counts = keyword_counts.reset_index()
+    keyword_counts['total'] = keyword_counts[['POSITIVE', 'NEUTRAL', 'NEGATIVE']].sum(axis=1)
+    
+    # Sort by total frequency and get top n
+    return keyword_counts.sort_values(by='total', ascending=False).head(n)
 
 def create_keyword_chart(top_keywords: pd.DataFrame, n: int) -> px.bar:
     """
-    Creates a bar chart of the top n keywords by frequency.
+    Creates a horizontal stacked bar chart of the top n keywords by frequency of sentiments.
 
     Parameters
     ----------
     top_keywords : pd.DataFrame
-        Dataframe containing the top n keywords and their frequencies.
+        Dataframe containing the top n keywords and their sentiment counts.
     n : int
         Number of top keywords to display.
 
     Returns
     -------
     px.bar
-        Bar chart of the top n keywords by frequency.
+        Horizontal stacked bar chart of the top n keywords by sentiment frequency.
     """
-    fig = px.bar(top_keywords, 
-                 x='frequency', 
-                 y='keywords', 
-                 orientation='h',
-                 title=f'Top {n} Keywords by Frequency',
-                 labels={'frequency': 'Frequency', 'keywords': 'Keywords'},
-                 color='frequency',
-                 color_continuous_scale='Blues')
-    fig.update_layout(height=1000, 
-                      width=800,
+    # Melt the DataFrame to long format for stacked bar chart
+    melted_df = top_keywords.melt(id_vars='keywords', 
+                                   value_vars=['POSITIVE', 'NEUTRAL', 'NEGATIVE'], 
+                                   var_name='polarity', 
+                                   value_name='count')
+
+    # Create a horizontal stacked bar chart
+    fig = px.bar(melted_df, 
+                 y='keywords',  # Set y to keywords for horizontal bars
+                 x='count',     # Set x to count for horizontal bars
+                 color='polarity', 
+                 title=f'Top {n} Keywords by Sentiment',
+                 labels={'count': 'Count', 'keywords': 'Keywords'},
+                 text='count',
+                 color_discrete_sequence=['green', 'gray', 'red'])  # Specify colors for each sentiment
+
+    fig.update_layout(barmode='stack', 
+                      height=800,  # Adjust height as needed
+                      width=1000,  # Adjust width as needed
                       yaxis={'categoryorder':'total ascending'},
                       clickmode='event+select')
     return fig
