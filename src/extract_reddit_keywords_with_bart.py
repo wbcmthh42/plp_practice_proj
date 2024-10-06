@@ -39,11 +39,15 @@ def get_keywords(cfg, model_name, dataset):
         print("No data available in the dataset.")
         return pd.DataFrame()  # Return an empty DataFrame
     
-    batch_size = cfg.reddit_inference  # Adjust based on your GPU memory
+    batch_size = cfg.reddit_inference.batch_size  # Adjust based on your GPU memory
     dataloader = DataLoader(subset_dataset, batch_size=batch_size, shuffle=False)
 
     updated_data = []
     total_batches = len(dataloader)
+
+    if total_batches == 0:
+        print("No batches available for processing.")
+        return pd.DataFrame()  # Return an empty DataFrame
 
     for batch_index, batch in enumerate(tqdm(dataloader, desc="Extracting keywords")):
         texts = batch['sentence']
@@ -68,8 +72,9 @@ def get_keywords(cfg, model_name, dataset):
         # Save progress every 10% of total batches, avoiding division by zero
         if total_batches > 0 and batch_index % (total_batches // 10) == 0:
             temp_df = pd.DataFrame(updated_data)
-            os.makedirs('./tmp', exist_ok=True)
-            temp_file_name = f'./tmp/reddit_keywords_vader_temp_{(batch_index // (total_batches // 10) + 1) * 10}.csv'
+            tmp_dir = os.path.join(os.getcwd(), 'tmp')
+            os.makedirs(tmp_dir, exist_ok=True)
+            temp_file_name = f'{tmp_dir}/reddit_keywords_hybrid_temp_{(batch_index // (total_batches // 10) + 1) * 10}.csv'
             temp_df.to_csv(temp_file_name, index=False)
 
     # Final save after processing all batches
@@ -81,6 +86,7 @@ def save_to_csv(dataset, path):
 
 @hydra.main(config_path="../conf", config_name="config", version_base="1.1")
 def main(cfg):
+
     model_name = cfg.saved_model_in_hf
     reddit_dataset_path = cfg.reddit_dataset
     

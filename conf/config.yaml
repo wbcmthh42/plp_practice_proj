@@ -30,7 +30,9 @@ top_keywords:
 
 base_model_name: facebook/bart-large
 save_model_name: 'tech-keywords-extractor_finetuned_bart'
-saved_model_in_hf: 'wbcmthh42/bart_tech_keywords_model2'
+saved_model_in_hf: '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/12-47-35/tech-keywords-extractor_finetuned_bart'
+# saved_model_in_hf: 'wbcmthh42/bart_tech_keywords_model2'
+
 # base_model_name: google/flan-t5-large
 # save_model_name: 'tech-keywords-extractor_finetuned_t5'
 dataset_name: ilsilfverskiold/tech-keywords-topics-summary
@@ -69,7 +71,7 @@ reddit_results_file_for_ui: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice
 
 reddit_inference:
   batch_size: 256
-  inference_row_limit: 400
+  inference_row_limit: 400000
 
 get_trending_keywords:
   top_n: 20
