@@ -175,7 +175,7 @@ def create_keyword_chart(top_keywords: pd.DataFrame, n: int) -> px.bar:
                  color_discrete_sequence=['green', 'gray', 'red'])  # Specify colors for each sentiment
 
     fig.update_layout(barmode='stack', 
-                      height=800,  # Adjust height as needed
+                      height=1000,  # Adjust height as needed
                       width=1000,  # Adjust width as needed
                       yaxis={'categoryorder':'total ascending'},
                       clickmode='event+select')
