@@ -356,7 +356,7 @@ def main(cfg: DictConfig):
         st.text("")
 
         # Custom stop words input
-        custom_stop_words = st.text_input("Add custom words to be filtered out (Note: comma separate each word):")
+        custom_stop_words = st.text_input("Unwanted words to be filter out (Note: comma separate each word):")
         if custom_stop_words:
             custom_stop_words = set(word.strip().lower() for word in custom_stop_words.split(','))
             stop_words = default_stop_words.union(custom_stop_words)
