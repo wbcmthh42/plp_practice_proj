@@ -44,15 +44,13 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from datetime import datetime
 import hydra
+from hydra.core.global_hydra import GlobalHydra
 from omegaconf import DictConfig
 
 # Add the directory containing RAG_V3.py to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
-
 # Import necessary functions from RAG_V3
 from rag import load_vector_store, hybrid_search, truncate_summary, setup_rag
-# Add Hugging Face API token (make sure to keep this secure in production)
-HUGGINGFACE_API_TOKEN = "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"
 
 st.set_page_config(layout="wide")
 
@@ -302,6 +300,10 @@ def main(cfg: DictConfig):
     Returns:
         None
     """
+    # Clear any previous Hydra instance
+    if GlobalHydra.instance().is_initialized():
+        GlobalHydra.instance().clear()
+    
     setup_rag(cfg)
     # Define a list of common stop words
     default_stop_words = set([
@@ -329,7 +331,7 @@ def main(cfg: DictConfig):
         'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"
     ])
     
-    st.title('Reddit Keyword Frequency Analysis')
+    st.title("TechPulse: Latest Research on Current Tech Trends")
 
     # Load the vector store
     load_vector_store()
