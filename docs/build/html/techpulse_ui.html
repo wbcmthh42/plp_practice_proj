@@ -258,6 +258,22 @@
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>The TechPulse App is an application that allows users to analyze Reddit tech posts and find related arXiv research papers. This document provides a guide on how to use the application effectively.</p>
 </section>
+<section id="configuration-instructions">
+<h2>Configuration Instructions<a class="headerlink" href="#configuration-instructions" title="Link to this heading">¶</a></h2>
+<p>Before using the application, you need to configure it to ensure it can access the updated Reddit keyword files. Follow these steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Locate the Hydra Configuration File</strong>:
+- Find the Hydra configuration file, named <cite>config.yaml</cite> in the <cite>conf</cite> directory of the project.</p></li>
+<li><p><strong>Update the Reddit Results File Path</strong>:
+- Open the configuration file and locate the <cite>reddit_results_file_for_ui</cite> entry. This entry specifies the path where the application expects to find the updated Reddit keyword files.
+- Ensure that this path points to the correct location where you will place the updated files.</p></li>
+<li><p><strong>Place the Updated Reddit Keyword Files</strong>:
+- Download or prepare the updated Reddit keyword files that you want to use with the application.
+- Place these files in the directory specified by the <cite>cfg.reddit_results_file_for_ui</cite> path in the Hydra configuration file.</p></li>
+<li><p><strong>Verify the Configuration</strong>:
+- Double-check that the path is correct and that the files are accessible. You can do this by navigating to the specified directory in your terminal or file explorer.</p></li>
+</ol>
+</section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
 <p>To launch the application, run the following command in your terminal:</p>
@@ -349,6 +365,7 @@
             <ul>
 <li><a class="reference internal" href="#">TechPulse User Interface</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#configuration-instructions">Configuration Instructions</a></li>
 <li><a class="reference internal" href="#usage">Usage</a></li>
 <li><a class="reference internal" href="#conclusion">Conclusion</a></li>
 </ul>

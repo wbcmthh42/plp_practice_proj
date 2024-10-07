@@ -6,6 +6,25 @@ Introduction
 
 The TechPulse App is an application that allows users to analyze Reddit tech posts and find related arXiv research papers. This document provides a guide on how to use the application effectively.
 
+Configuration Instructions
+--------------------------
+
+Before using the application, you need to configure it to ensure it can access the updated Reddit keyword files. Follow these steps:
+
+1. **Locate the Hydra Configuration File**:
+   - Find the Hydra configuration file, named `config.yaml` in the `conf` directory of the project.
+
+2. **Update the Reddit Results File Path**:
+   - Open the configuration file and locate the `reddit_results_file_for_ui` entry. This entry specifies the path where the application expects to find the updated Reddit keyword files.
+   - Ensure that this path points to the correct location where you will place the updated files.
+
+3. **Place the Updated Reddit Keyword Files**:
+   - Download or prepare the updated Reddit keyword files that you want to use with the application.
+   - Place these files in the directory specified by the `cfg.reddit_results_file_for_ui` path in the Hydra configuration file.
+
+4. **Verify the Configuration**:
+   - Double-check that the path is correct and that the files are accessible. You can do this by navigating to the specified directory in your terminal or file explorer.
+
 Usage
 -----
 

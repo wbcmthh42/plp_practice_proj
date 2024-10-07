@@ -612,7 +612,7 @@
     <span class="c1"># Load the vector store</span>
     <span class="n">load_vector_store</span><span class="p">()</span>
 
-    <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_hybrid.csv&#39;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">reddit_results_file_for_ui</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">load_and_preprocess_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
     <span class="n">min_date</span><span class="p">,</span> <span class="n">max_date</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
