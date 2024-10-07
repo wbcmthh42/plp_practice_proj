@@ -117,7 +117,7 @@ The training process is implemented in the ``src/model_training.py`` file. Here'
 The main function uses Hydra for configuration management, allowing easy customization of training parameters.
 
 Evaluation Process
-----------
+------------------
 
 After training, the models are evaluated using the test set with Bert Score. The evaluation process is implemented in the ``src/evaluation.py`` file.
 

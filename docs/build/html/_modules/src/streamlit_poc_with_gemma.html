@@ -201,6 +201,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../model_finetuning_evaluation_pipeline.html">Model Finetuning and Evaluation Pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../build_arxiv_vectorstore.html">ArXiv Database and RAG Vector Store Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../techpulse_ui.html">TechPulse User Interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../model_training.html">model_training module</a></li>
@@ -247,10 +248,10 @@
           <h1>Source code for src.streamlit_poc_with_gemma</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Module Description</span>
-<span class="sd">================</span>
+<span class="sd">===================</span>
 
 <span class="sd">TechPulse Streamlit POC with Gemma</span>
-<span class="sd">------------------------</span>
+<span class="sd">-----------------------------------</span>
 
 <span class="sd">This module provides a Streamlit-based proof-of-concept (POC) application that retrieves Reddit tech posts from selected date ranges, extracts relevant tech keywords, and allows users to search for related arXiv research papers. The application aims to assist users in researching course materials for implementing new courses.</span>
 
@@ -291,15 +292,13 @@
 <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForCausalLM</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">hydra</span>
+<span class="kn">from</span> <span class="nn">hydra.core.global_hydra</span> <span class="kn">import</span> <span class="n">GlobalHydra</span>
 <span class="kn">from</span> <span class="nn">omegaconf</span> <span class="kn">import</span> <span class="n">DictConfig</span>
 
 <span class="c1"># Add the directory containing RAG_V3.py to the Python path</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;.&#39;</span><span class="p">)))</span>
-
 <span class="c1"># Import necessary functions from RAG_V3</span>
 <span class="kn">from</span> <span class="nn">rag</span> <span class="kn">import</span> <span class="n">load_vector_store</span><span class="p">,</span> <span class="n">hybrid_search</span><span class="p">,</span> <span class="n">truncate_summary</span><span class="p">,</span> <span class="n">setup_rag</span>
-<span class="c1"># Add Hugging Face API token (make sure to keep this secure in production)</span>
-<span class="n">HUGGINGFACE_API_TOKEN</span> <span class="o">=</span> <span class="s2">&quot;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&quot;</span>
 
 <span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">&quot;wide&quot;</span><span class="p">)</span>
 
@@ -322,7 +321,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;polarity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;POSITIVE&#39;</span><span class="p">,</span> <span class="s1">&#39;NEUTRAL&#39;</span><span class="p">])]</span></div>
+    <span class="c1"># return df[df[&#39;sentiment&#39;].isin([&#39;POSITIVE&#39;, &#39;NEUTRAL&#39;])]</span>
+    <span class="k">return</span> <span class="n">df</span></div>
 
 
 <div class="viewcode-block" id="preprocess_keywords">
@@ -343,6 +343,8 @@
 <span class="sd">    str</span>
 <span class="sd">        Preprocessed keyword.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># Check if keyword is not a string</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>  <span class="c1"># Return an empty string for non-string inputs</span>
     <span class="n">keyword</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
     <span class="n">words</span> <span class="o">=</span> <span class="n">keyword</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span></div>
@@ -377,7 +379,7 @@
 <a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_top_keywords">[docs]</a>
 <span class="k">def</span> <span class="nf">get_top_keywords</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Gets the top n keywords from a dataframe by frequency.</span>
+<span class="sd">    Gets the top n keywords from a dataframe by frequency and includes sentiment counts.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -389,40 +391,54 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
-<span class="sd">        Dataframe containing the top n keywords and their frequencies.</span>
+<span class="sd">        Dataframe containing the top n keywords and their sentiment counts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">keyword_counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;keywords&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">keyword_counts</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+    <span class="c1"># Group by keywords and count occurrences of each sentiment</span>
+    <span class="n">keyword_counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">keyword_counts</span> <span class="o">=</span> <span class="n">keyword_counts</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">keyword_counts</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyword_counts</span><span class="p">[[</span><span class="s1">&#39;POSITIVE&#39;</span><span class="p">,</span> <span class="s1">&#39;NEUTRAL&#39;</span><span class="p">,</span> <span class="s1">&#39;NEGATIVE&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Sort by total frequency and get top n</span>
+    <span class="k">return</span> <span class="n">keyword_counts</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="create_keyword_chart">
 <a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.create_keyword_chart">[docs]</a>
 <span class="k">def</span> <span class="nf">create_keyword_chart</span><span class="p">(</span><span class="n">top_keywords</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Creates a bar chart of the top n keywords by frequency.</span>
+<span class="sd">    Creates a horizontal stacked bar chart of the top n keywords by frequency of sentiments.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    top_keywords : pd.DataFrame</span>
-<span class="sd">        Dataframe containing the top n keywords and their frequencies.</span>
+<span class="sd">        Dataframe containing the top n keywords and their sentiment counts.</span>
 <span class="sd">    n : int</span>
 <span class="sd">        Number of top keywords to display.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    px.bar</span>
-<span class="sd">        Bar chart of the top n keywords by frequency.</span>
+<span class="sd">        Horizontal stacked bar chart of the top n keywords by sentiment frequency.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">top_keywords</span><span class="p">,</span> 
-                 <span class="n">x</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span> 
-                 <span class="n">y</span><span class="o">=</span><span class="s1">&#39;keywords&#39;</span><span class="p">,</span> 
-                 <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span>
-                 <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Top </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> Keywords by Frequency&#39;</span><span class="p">,</span>
-                 <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="s1">&#39;Frequency&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="s1">&#39;Keywords&#39;</span><span class="p">},</span>
-                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span>
-                 <span class="n">color_continuous_scale</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> 
-                      <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+    <span class="c1"># Melt the DataFrame to long format for stacked bar chart</span>
+    <span class="n">melted_df</span> <span class="o">=</span> <span class="n">top_keywords</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;keywords&#39;</span><span class="p">,</span> 
+                                   <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POSITIVE&#39;</span><span class="p">,</span> <span class="s1">&#39;NEUTRAL&#39;</span><span class="p">,</span> <span class="s1">&#39;NEGATIVE&#39;</span><span class="p">],</span> 
+                                   <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;sentiment&#39;</span><span class="p">,</span> 
+                                   <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create a horizontal stacked bar chart</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">melted_df</span><span class="p">,</span> 
+                 <span class="n">y</span><span class="o">=</span><span class="s1">&#39;keywords&#39;</span><span class="p">,</span>  <span class="c1"># Set y to keywords for horizontal bars</span>
+                 <span class="n">x</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span>     <span class="c1"># Set x to count for horizontal bars</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;sentiment&#39;</span><span class="p">,</span> 
+                 <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Top </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> Keywords by Sentiment&#39;</span><span class="p">,</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="s1">&#39;Count&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="s1">&#39;Keywords&#39;</span><span class="p">},</span>
+                 <span class="n">text</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span>
+                 <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">])</span>  <span class="c1"># Specify colors for each sentiment</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;stack&#39;</span><span class="p">,</span> 
+                      <span class="n">height</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>  <span class="c1"># Adjust height as needed</span>
+                      <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>  <span class="c1"># Adjust width as needed</span>
                       <span class="n">yaxis</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;categoryorder&#39;</span><span class="p">:</span><span class="s1">&#39;total ascending&#39;</span><span class="p">},</span>
                       <span class="n">clickmode</span><span class="o">=</span><span class="s1">&#39;event+select&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fig</span></div>
@@ -560,6 +576,10 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Clear any previous Hydra instance</span>
+    <span class="k">if</span> <span class="n">GlobalHydra</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+        <span class="n">GlobalHydra</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    
     <span class="n">setup_rag</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
     <span class="c1"># Define a list of common stop words</span>
     <span class="n">default_stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span>
@@ -587,12 +607,12 @@
         <span class="s1">&#39;wasn&#39;</span><span class="p">,</span> <span class="s2">&quot;wasn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;weren&#39;</span><span class="p">,</span> <span class="s2">&quot;weren&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;won&#39;</span><span class="p">,</span> <span class="s2">&quot;won&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;wouldn&#39;</span><span class="p">,</span> <span class="s2">&quot;wouldn&#39;t&quot;</span>
     <span class="p">])</span>
     
-    <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Reddit Keyword Frequency Analysis&#39;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;TechPulse: Latest Research on Current Tech Trends&quot;</span><span class="p">)</span>
 
     <span class="c1"># Load the vector store</span>
     <span class="n">load_vector_store</span><span class="p">()</span>
 
-    <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_91%_vader.csv&#39;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_hybrid.csv&#39;</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">load_and_preprocess_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
     <span class="n">min_date</span><span class="p">,</span> <span class="n">max_date</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
@@ -614,7 +634,7 @@
         <span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
         <span class="c1"># Custom stop words input</span>
-        <span class="n">custom_stop_words</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Add custom words to be filtered out (Note: comma separate each word):&quot;</span><span class="p">)</span>
+        <span class="n">custom_stop_words</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Unwanted words to be filter out (Note: comma separate each word):&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">custom_stop_words</span><span class="p">:</span>
             <span class="n">custom_stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">custom_stop_words</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span>
             <span class="n">stop_words</span> <span class="o">=</span> <span class="n">default_stop_words</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">custom_stop_words</span><span class="p">)</span>

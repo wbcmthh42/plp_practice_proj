@@ -67,7 +67,7 @@ eval:
 
 reddit_dataset: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/data/sentiment_by_vader_sentlevel.csv
 reddit_results_file: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords.csv
-reddit_results_file_for_ui: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_for_ui.csv
+reddit_results_file_for_ui: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_hybrid.csv
 
 reddit_inference:
   batch_size: 256

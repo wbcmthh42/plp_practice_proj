@@ -12,5 +12,6 @@ TechPulse documentation
 
    model_finetuning_evaluation_pipeline
    build_arxiv_vectorstore
+   techpulse_ui
    modules
 

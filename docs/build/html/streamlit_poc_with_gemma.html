@@ -202,6 +202,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="model_finetuning_evaluation_pipeline.html">Model Finetuning and Evaluation Pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">ArXiv Database and RAG Vector Store Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="techpulse_ui.html">TechPulse User Interface</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_training.html">model_training module</a></li>
@@ -287,16 +288,16 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="src.streamlit_poc_with_gemma.create_keyword_chart">
 <span class="sig-prename descclassname"><span class="pre">src.streamlit_poc_with_gemma.</span></span><span class="sig-name descname"><span class="pre">create_keyword_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_keywords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bar</span></span></span><a class="reference internal" href="_modules/src/streamlit_poc_with_gemma.html#create_keyword_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.streamlit_poc_with_gemma.create_keyword_chart" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a bar chart of the top n keywords by frequency.</p>
+<dd><p>Creates a horizontal stacked bar chart of the top n keywords by frequency of sentiments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>top_keywords</strong> (<em>pd.DataFrame</em>) – Dataframe containing the top n keywords and their frequencies.</p></li>
+<li><p><strong>top_keywords</strong> (<em>pd.DataFrame</em>) – Dataframe containing the top n keywords and their sentiment counts.</p></li>
 <li><p><strong>n</strong> (<em>int</em>) – Number of top keywords to display.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Bar chart of the top n keywords by frequency.</p>
+<dd class="field-even"><p>Horizontal stacked bar chart of the top n keywords by sentiment frequency.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>px.bar</p>
@@ -344,7 +345,7 @@ and 5 potential topics that would be relevant and engaging for students.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.streamlit_poc_with_gemma.get_top_keywords">
 <span class="sig-prename descclassname"><span class="pre">src.streamlit_poc_with_gemma.</span></span><span class="sig-name descname"><span class="pre">get_top_keywords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/src/streamlit_poc_with_gemma.html#get_top_keywords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.streamlit_poc_with_gemma.get_top_keywords" title="Link to this definition">¶</a></dt>
-<dd><p>Gets the top n keywords from a dataframe by frequency.</p>
+<dd><p>Gets the top n keywords from a dataframe by frequency and includes sentiment counts.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -353,7 +354,7 @@ and 5 potential topics that would be relevant and engaging for students.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dataframe containing the top n keywords and their frequencies.</p>
+<dd class="field-even"><p>Dataframe containing the top n keywords and their sentiment counts.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pd.DataFrame</p>

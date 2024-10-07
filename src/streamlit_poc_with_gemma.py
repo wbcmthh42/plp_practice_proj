@@ -1,9 +1,9 @@
 """
 Module Description
-================
+===================
 
 TechPulse Streamlit POC with Gemma
-------------------------
+-----------------------------------
 
 This module provides a Streamlit-based proof-of-concept (POC) application that retrieves Reddit tech posts from selected date ranges, extracts relevant tech keywords, and allows users to search for related arXiv research papers. The application aims to assist users in researching course materials for implementing new courses.
 
@@ -71,7 +71,7 @@ def load_and_preprocess_data(file_path: str) -> pd.DataFrame:
     """
     df = pd.read_csv(file_path)
     df['created_utc'] = pd.to_datetime(df['created_utc'])
-    # return df[df['polarity'].isin(['POSITIVE', 'NEUTRAL'])]
+    # return df[df['sentiment'].isin(['POSITIVE', 'NEUTRAL'])]
     return df
 
 def preprocess_keywords(keyword: str, stop_words: set) -> str:
@@ -90,6 +90,8 @@ def preprocess_keywords(keyword: str, stop_words: set) -> str:
     str
         Preprocessed keyword.
     """
+    if not isinstance(keyword, str):  # Check if keyword is not a string
+        return ''  # Return an empty string for non-string inputs
     keyword = re.sub(r'[^a-z\s]', '', keyword.lower())
     words = keyword.split()
     return ' '.join(set(word for word in words if word not in stop_words and len(word) > 1)).upper()
@@ -118,7 +120,7 @@ def process_keywords(df: pd.DataFrame, stop_words: set) -> pd.DataFrame:
 
 def get_top_keywords(df: pd.DataFrame, n: int) -> pd.DataFrame:
     """
-    Gets the top n keywords from a dataframe by frequency and includes polarity counts.
+    Gets the top n keywords from a dataframe by frequency and includes sentiment counts.
 
     Parameters
     ----------
@@ -132,8 +134,8 @@ def get_top_keywords(df: pd.DataFrame, n: int) -> pd.DataFrame:
     pd.DataFrame
         Dataframe containing the top n keywords and their sentiment counts.
     """
-    # Group by keywords and count occurrences of each polarity
-    keyword_counts = df.groupby(['keywords', 'polarity']).size().unstack(fill_value=0)
+    # Group by keywords and count occurrences of each sentiment
+    keyword_counts = df.groupby(['keywords', 'sentiment']).size().unstack(fill_value=0)
     keyword_counts = keyword_counts.reset_index()
     keyword_counts['total'] = keyword_counts[['POSITIVE', 'NEUTRAL', 'NEGATIVE']].sum(axis=1)
     
@@ -159,14 +161,14 @@ def create_keyword_chart(top_keywords: pd.DataFrame, n: int) -> px.bar:
     # Melt the DataFrame to long format for stacked bar chart
     melted_df = top_keywords.melt(id_vars='keywords', 
                                    value_vars=['POSITIVE', 'NEUTRAL', 'NEGATIVE'], 
-                                   var_name='polarity', 
+                                   var_name='sentiment', 
                                    value_name='count')
 
     # Create a horizontal stacked bar chart
     fig = px.bar(melted_df, 
                  y='keywords',  # Set y to keywords for horizontal bars
                  x='count',     # Set x to count for horizontal bars
-                 color='polarity', 
+                 color='sentiment', 
                  title=f'Top {n} Keywords by Sentiment',
                  labels={'count': 'Count', 'keywords': 'Keywords'},
                  text='count',
@@ -336,7 +338,7 @@ def main(cfg: DictConfig):
     # Load the vector store
     load_vector_store()
 
-    file_path = '/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_91%_vader.csv'
+    file_path = cfg.reddit_results_file_for_ui
     df = load_and_preprocess_data(file_path)
 
     min_date, max_date = df['created_utc'].min().date(), df['created_utc'].max().date()
