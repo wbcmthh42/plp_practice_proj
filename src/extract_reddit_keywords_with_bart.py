@@ -16,6 +16,7 @@ from torch.utils.data import DataLoader, Subset
 from transformers import pipeline
 import warnings
 warnings.filterwarnings("ignore")
+import logging
 
 def load_reddit_csv_to_datasets(path):
     """
@@ -57,6 +58,7 @@ def get_keywords(cfg, model_name, dataset):
 
     pipe = pipeline('summarization', model=model_name, truncation=True, device=device)
 
+    logging.info(f"Extracting keywords from dataset...")
     # we are capping it to 400000 rows of the dataset for this POC. otherwise too much compute time needed
     subset_indices = list(range(min(cfg.reddit_inference.inference_row_limit, len(dataset))))
     subset_dataset = Subset(dataset, subset_indices)
@@ -101,15 +103,19 @@ def get_keywords(cfg, model_name, dataset):
             updated_data.append(entry)
 
         # Save progress every 10% of total batches, avoiding division by zero
-        if total_batches > 0 and batch_index % (total_batches // 10) == 0:
-            temp_df = pd.DataFrame(updated_data)
-            tmp_dir = os.path.join(os.getcwd(), 'tmp')
-            os.makedirs(tmp_dir, exist_ok=True)
-            temp_file_name = f'{tmp_dir}/reddit_keywords_hybrid_temp_{(batch_index // (total_batches // 10) + 1) * 10}.csv'
-            temp_df.to_csv(temp_file_name, index=False)
+        if total_batches > 0:
+            # Ensure divisor is not zero by setting a minimum of 1
+            divisor = max(1, total_batches // 10)
+            if batch_index % divisor == 0:
+                temp_df = pd.DataFrame(updated_data)
+                tmp_dir = os.path.join(os.getcwd(), 'tmp')
+                os.makedirs(tmp_dir, exist_ok=True)
+                temp_file_name = f'{tmp_dir}/reddit_keywords_hybrid_temp_{(batch_index // divisor + 1) * 10}.csv'
+                temp_df.to_csv(temp_file_name, index=False)
 
     # Final save after processing all batches
     df = pd.DataFrame(updated_data)
+    logging.info(f"Finished extracting keywords from dataset.")
     return df
             
 def save_to_csv(dataset, path):
@@ -131,15 +137,13 @@ def main(cfg):
     Extracts keywords from the dataset specified in the configuration file using the BART model.
     Saves the results to a CSV file specified in the configuration file.
     """
-    model_name = cfg.saved_model_in_hf
-    reddit_dataset_path = cfg.reddit_dataset
-    
-    os.makedirs(os.path.dirname(reddit_dataset_path), exist_ok=True)
+    model_name = cfg.extract.extraction_model_name
+    reddit_dataset_path = cfg.sentiment.output_file
     reddit_dataset = load_reddit_csv_to_datasets(reddit_dataset_path)
     
     dataset = get_keywords(cfg, model_name, reddit_dataset)
     
-    save_to_csv(dataset, cfg.reddit_results_file_for_ui)
+    save_to_csv(dataset, cfg.extract.reddit_results_file_for_ui)
 
 if __name__ == '__main__':
     '''python -m src.extract_reddit_keywords'''

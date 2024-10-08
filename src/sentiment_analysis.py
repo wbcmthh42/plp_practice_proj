@@ -1,3 +1,8 @@
+"""
+Module Description:
+This script, `sentiment_analysis.py`, performs sentiment analysis on Reddit comments using a zero-shot classification model and VADER sentiment analysis. 
+It processes text data, assigns sentiment labels, generates word clouds based on sentiment categories, and saves the analysis results to CSV.
+"""
 import pandas as pd
 import torch
 from tqdm import tqdm
@@ -30,17 +35,45 @@ else:
 
 # Define helper functions
 def truncate_to_max_length(text, tokenizer, max_length):
+    """
+    Truncates text to a specified maximum length using a tokenizer.
+
+    Args:
+        text (str): The text to truncate.
+        tokenizer (transformers.PreTrainedTokenizer): The tokenizer to use for truncating the text.
+        max_length (int): The maximum length of the tokenized text.
+
+    Returns:
+        str: The truncated text decoded from the tokenized representation.
+    """
     encoded_input = tokenizer(text, truncation=True, max_length=max_length, return_tensors='pt')
     return tokenizer.decode(encoded_input['input_ids'][0], skip_special_tokens=True)
 
 def get_sentiment(text):
+    """
+    Analyzes the sentiment of a given text using the VADER sentiment analysis tool.
+
+    Args:
+        text (str): The input text to analyze.
+
+    Returns:
+        dict: A dictionary containing the VADER sentiment scores ('neg', 'neu', 'pos', 'compound').
+    """
     vader_obj = SentimentIntensityAnalyzer()
     if isinstance(text, str):
         return vader_obj.polarity_scores(text)
     else:
         return {'neg': 0, 'neu': 0, 'pos': 0, 'compound': 0}  # Return neutral for non-strings
 def get_sentiment_label(compound_score):
-    """Assign sentiment label based on VADER sentiment scores."""
+    """
+    Assigns a sentiment label (POSITIVE, NEGATIVE, NEUTRAL) based on the VADER compound score.
+
+    Args:
+        compound_score (float): The compound sentiment score from VADER.
+
+    Returns:
+        str: The sentiment label ('POSITIVE', 'NEGATIVE', 'NEUTRAL').
+    """
     if compound_score > 0.05:
         return 'POSITIVE'
     elif compound_score < -0.05:
@@ -49,12 +82,33 @@ def get_sentiment_label(compound_score):
         return 'NEUTRAL'
 
 def hybrid_sentiment(row):
+    """
+    Combines the results of two sentiment predictions (from VADER and another model) to determine the final sentiment.
+
+    Args:
+        row (pandas.Series): A DataFrame row containing two sentiment predictions ('d_prediction' and 'v_prediction').
+
+    Returns:
+        str: The final sentiment label. If the two predictions are the same, the common sentiment is returned; otherwise, 'NEUTRAL'.
+    """
     if row['d_prediction'] == row['v_prediction']:
         return row['d_prediction']  # If both are the same, return the common sentiment
     else:
         return 'NEUTRAL'  # If they are different, return 'NEUTRAL'
 
 def process_sentiment_analysis(df, sentiment_analyzer,tokenizer, output_file):
+    """
+    Performs sentiment analysis on the text data in a DataFrame using both zero-shot classification and VADER.
+
+    Args:
+        df (pandas.DataFrame): The input DataFrame containing text data.
+        sentiment_analyzer (transformers.pipeline): A Hugging Face sentiment analysis pipeline for zero-shot classification.
+        tokenizer (transformers.PreTrainedTokenizer): The tokenizer to truncate the text data.
+        output_file (str): The file path where the sentiment analysis results will be saved.
+
+    Returns:
+        None
+    """
     start_time = time.time()
     logging.info(f"Sentiment analysis started.")
     
@@ -102,6 +156,15 @@ def process_sentiment_analysis(df, sentiment_analyzer,tokenizer, output_file):
     logging.info(f"Sentiment analysis results saved to {output_file}")
 
 def preprocess_text(text):
+    """
+    Preprocesses the text by removing URLs, punctuation, stopwords, and converting to lowercase.
+
+    Args:
+        text (str): The text to preprocess.
+
+    Returns:
+        str: The cleaned and preprocessed text.
+    """
     # Set up stopwords list for word cloud
     stopwords_list = stopwords.words('english')  
     # Remove URLs
@@ -115,6 +178,17 @@ def preprocess_text(text):
     return text
 
 def generate_wordcloud(df, sentiment, output_dir):
+    """
+    Generates and saves a word cloud for sentences with a specific sentiment.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame containing sentiment analysis results.
+        sentiment (str): The sentiment to filter (e.g., 'POSITIVE', 'NEGATIVE').
+        output_dir (str): The directory where the word cloud image will be saved.
+
+    Returns:
+        None
+    """
     # Filter the DataFrame for the specified sentiment
     filtered_df = df[df['sentiment'] == sentiment]
 
@@ -148,6 +222,18 @@ def generate_wordcloud(df, sentiment, output_dir):
 
 @hydra.main(config_path="../conf", config_name="config", version_base="1.1")
 def main(cfg):
+    """
+    Main function to orchestrate sentiment analysis and word cloud generation.
+
+    Loads the dataset, processes sentiment analysis using both zero-shot classification and VADER, 
+    and generates word clouds for each sentiment category.
+
+    Args:
+        cfg (DictConfig): Hydra configuration object with input/output file paths and model name.
+    
+    Returns:
+        None
+    """
     # Define variables for input/output files and model
     input_file = cfg.sentiment.input_file  # Input dataset file
     output_file = cfg.sentiment.output_file  # Output file for results
