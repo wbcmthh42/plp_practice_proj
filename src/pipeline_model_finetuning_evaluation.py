@@ -18,7 +18,9 @@ def run_pipeline() -> None:
     """
     logging.info("Running model_training.py")
     subprocess.run(["python", "-m", "src.model_training"], check=True)
-    
+
+    logging.info("Running finetune_BERT.py")
+    subprocess.run(["python", "-m", "src.finetune_BERT"], check=True)
     # Run evaluation.py
     logging.info("Running evaluation.py")
     subprocess.run(["python", "-m", "src.evaluation"], check=True)

@@ -6,6 +6,7 @@ Modules
 
    pipeline_model_finetuning_evaluation
    model_training
+   finetune_BERT
    evaluation
    retrieve_papers_with_link
    rag

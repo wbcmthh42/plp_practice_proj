@@ -1,3 +1,48 @@
+"""
+Module Description: BERT Fine-Tuner
+
+This module provides a comprehensive implementation for fine-tuning BERT (Bidirectional Encoder Representations from Transformers) models specifically for token classification tasks. It includes functionalities for data loading, preprocessing, model setup, training, and evaluation.
+
+Key Components:
+
+1. BERTFineTuner Class:
+
+   - Handles the entire fine-tuning process of a BERT model.
+
+   - Manages configuration parameters, model initialization, and training routines.
+
+   - Contains methods for loading datasets, preprocessing text, labeling keywords, and processing datasets.
+
+2. CustomDataset Class:
+
+   - A custom dataset class that extends PyTorch's Dataset.
+
+   - Responsible for tokenizing input text and encoding labels for BERT.
+
+   - Ensures that the input and label lengths are consistent.
+
+Main Functionality:
+
+- The script is designed to be executed as a standalone program.
+
+- It utilizes Hydra for configuration management, allowing for flexible and dynamic configuration of model parameters and dataset paths.
+
+Features:
+
+- Data Handling: Loads datasets from specified paths, preprocesses text by removing punctuation, and labels keywords based on provided annotations.
+
+- Model Setup: Initializes the BERT tokenizer and model, allowing for easy integration of different pretrained BERT models.
+
+- Training and Evaluation: Implements training loops with validation, including loss calculation and accuracy metrics.
+
+- Device Management: Automatically detects and utilizes available hardware (CPU/GPU) for model training.
+
+- Model Saving: Saves the fine-tuned model, tokenizer, and label mappings for future use.
+
+Usage:
+
+To run the fine-tuning process, execute the script with the appropriate configuration file. The configuration file should specify paths to datasets, model parameters, and other settings.
+"""
 import torch
 import pandas as pd
 import numpy as np

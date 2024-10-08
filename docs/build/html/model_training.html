@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="evaluation module" href="evaluation.html" /><link rel="prev" title="pipeline_model_finetuning_evaluation module" href="pipeline_model_finetuning_evaluation.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="model_training module - Finetuning BERT" href="finetune_BERT.html" /><link rel="prev" title="pipeline_model_finetuning_evaluation module" href="pipeline_model_finetuning_evaluation.html" />
 
     <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
-        <title>model_training module - TechPulse documentation</title>
+        <title>model_training module - Finetuning Bart and T5 - TechPulse documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -206,7 +206,8 @@
 <li class="toctree-l1"><a class="reference internal" href="techpulse_ui.html">TechPulse User Interface</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">model_training module</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">model_training module - Finetuning Bart and T5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finetune_BERT.html">model_training module - Finetuning BERT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
@@ -254,7 +255,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="module-src.model_training">
-<span id="model-training-module"></span><h1>model_training module<a class="headerlink" href="#module-src.model_training" title="Link to this heading">¶</a></h1>
+<span id="model-training-module-finetuning-bart-and-t5"></span><h1>model_training module - Finetuning Bart and T5<a class="headerlink" href="#module-src.model_training" title="Link to this heading">¶</a></h1>
 <p>Module for training a sequence-to-sequence (seq2seq) model on a dataset.</p>
 <p>This script loads a dataset, loads a pre-trained model and tokenizer, and trains the model on the dataset.
 It also provides functions for loading data, loading models, and getting features for training.</p>
@@ -360,12 +361,12 @@ training a seq2seq model.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="evaluation.html">
+          <a class="next-page" href="finetune_BERT.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">evaluation module</div>
+                <div class="title">model_training module - Finetuning BERT</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -410,7 +411,7 @@ training a seq2seq model.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">model_training module</a><ul>
+<li><a class="reference internal" href="#">model_training module - Finetuning Bart and T5</a><ul>
 <li><a class="reference internal" href="#src.model_training.get_feature"><code class="docutils literal notranslate"><span class="pre">get_feature()</span></code></a></li>
 <li><a class="reference internal" href="#src.model_training.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
 <li><a class="reference internal" href="#src.model_training.load_model"><code class="docutils literal notranslate"><span class="pre">load_model()</span></code></a></li>

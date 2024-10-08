@@ -1,5 +1,5 @@
-model\_training module
-======================
+model\_training module - Finetuning Bart and T5
+===============================================
 
 .. automodule:: src.model_training
    :members:
