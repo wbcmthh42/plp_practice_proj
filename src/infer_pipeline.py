@@ -25,7 +25,7 @@ def run_pipeline():
     1. `scrape_reddit.py`: Scrapes Reddit data using PRAW.
 
     2. `sentiment_analysis.py`: Performs sentiment analysis on the scraped Reddit data.
-    
+
     3. `extract_reddit_keywords_with_bart.py`: Extracts keywords from Reddit posts using the BART model.
 
     Each script is run using a subprocess, and the process flow is logged for tracking.
@@ -43,5 +43,5 @@ def run_pipeline():
     subprocess.run(["python", "-m", "src.extract_reddit_keywords_with_bart"], check=True)
 
 if __name__ == "__main__":
-    '''python -m src.pipeline'''
+    '''python -m src.infer_pipeline'''
     run_pipeline()
