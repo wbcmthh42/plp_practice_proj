@@ -4,6 +4,7 @@ hydra:
     
 praw:
   praw_output: praw_output.csv
+  start_date: 2024-05-01
   subreddits:
     - datascience
     - MachineLearning
@@ -18,9 +19,9 @@ sentiment:
   output_dir: wordcloud_images
 
 extract:
-  extraction_model_name: 'google/flan-t5-small'
+  extraction_model_name: 'wbcmthh42/bart_tech_keywords_model2'
   reddit_dataset: sentiment_analysis_output.csv
-  reddit_results_file: reddit_keywords.csv
+  reddit_results_file_for_ui: reddit_keywords.csv
 
 top_keywords:
   reddit_results_file: reddit_keywords.csv
