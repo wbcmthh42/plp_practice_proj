@@ -211,6 +211,10 @@
 <li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
 </ul>
 </li>
@@ -298,20 +302,35 @@
 </a>
 <p>The training pipeline consists of the following steps:</p>
 <ol class="arabic simple">
-<li><p>Data Preparation
-- Load the Tech Keywords Dataset which is already split into Train, Validation, and Test sets</p></li>
-<li><p>Model Initialization
-- Load pre-trained models (BART, T5, BERT)
-- Initialize tokenizers for each model</p></li>
-<li><p>Fine-tuning
-- Train each model on the training set
-- Validate performance using the validation set
-- Save model checkpoints</p></li>
-<li><p>Evaluation
-- Evaluate model performance on the test set
-- Select the best-performing model based on evaluation metrics</p></li>
-<li><p>Model Selection
-- Choose the best fine-tuned model for keyword extraction</p></li>
+<li><p>Data Preparation</p>
+<ul class="simple">
+<li><p>Load the Tech Keywords Dataset which is already split into Train, Validation, and Test sets</p></li>
+</ul>
+</li>
+<li><p>Model Initialization</p>
+<ul class="simple">
+<li><p>Load pre-trained models (BART, T5, BERT)</p></li>
+<li><p>Initialize tokenizers for each model</p></li>
+</ul>
+</li>
+<li><p>Fine-tuning</p>
+<ul class="simple">
+<li><p>Train each model on the training set</p></li>
+<li><p>Validate performance using the validation set</p></li>
+<li><p>Save model checkpoints</p></li>
+</ul>
+</li>
+<li><p>Evaluation</p>
+<ul class="simple">
+<li><p>Evaluate model performance on the test set</p></li>
+<li><p>Select the best-performing model based on evaluation metrics</p></li>
+</ul>
+</li>
+<li><p>Model Selection</p>
+<ul class="simple">
+<li><p>Choose the best fine-tuned model for keyword extraction</p></li>
+</ul>
+</li>
 </ol>
 </section>
 <section id="pipeline-execution">

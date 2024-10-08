@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="retrieve_papers_with_link module" href="retrieve_papers_with_link.html" /><link rel="prev" title="model_training module - Finetuning BERT" href="finetune_BERT.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts" href="extract_reddit_keywords_with_bart.html" /><link rel="prev" title="scrape_reddit - Extract from Reddit Posts using PRAW API" href="scrape_reddit.html" />
 
     <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
-        <title>evaluation module - TechPulse documentation</title>
+        <title>sentiment_analysis - Extract Sentimentd from Reddit Posts - TechPulse documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -208,12 +208,12 @@
 <li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_training.html">model_training module - Finetuning Bart and T5</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finetune_BERT.html">model_training module - Finetuning BERT</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
 </ul>
@@ -238,7 +238,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="_sources/evaluation.rst.txt" title="View this page">
+  <a class="muted-link" href="_sources/sentiment_analysis.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -258,73 +258,151 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-src.evaluation">
-<span id="evaluation-module"></span><h1>evaluation module<a class="headerlink" href="#module-src.evaluation" title="Link to this heading">¶</a></h1>
-<p>Module for evaluating the performance of a trained seq2seq model.</p>
-<p>This script loads a trained model, loads a dataset, and evaluates the model’s performance on the dataset.
-It also provides functions for loading data, loading models, and getting features for evaluation.</p>
-<dl class="simple">
-<dt>Usage:</dt><dd><p>python -m src.evaluation</p>
-</dd>
-</dl>
+          <section id="module-src.sentiment_analysis">
+<span id="sentiment-analysis-extract-sentimentd-from-reddit-posts"></span><h1>sentiment_analysis - Extract Sentimentd from Reddit Posts<a class="headerlink" href="#module-src.sentiment_analysis" title="Link to this heading">¶</a></h1>
+<p>Module Description:
+This script, <cite>sentiment_analysis.py</cite>, performs sentiment analysis on Reddit comments using a zero-shot classification model and VADER sentiment analysis.
+It processes text data, assigns sentiment labels, generates word clouds based on sentiment categories, and saves the analysis results to CSV.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="src.evaluation.evaluate">
-<span class="sig-prename descclassname"><span class="pre">src.evaluation.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/evaluation.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.evaluation.evaluate" title="Link to this definition">¶</a></dt>
-<dd><p>Evaluate a model’s performance on a dataset.</p>
+<dt class="sig sig-object py" id="src.sentiment_analysis.generate_wordcloud">
+<span class="sig-prename descclassname"><span class="pre">src.sentiment_analysis.</span></span><span class="sig-name descname"><span class="pre">generate_wordcloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sentiment_analysis.html#generate_wordcloud"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sentiment_analysis.generate_wordcloud" title="Link to this definition">¶</a></dt>
+<dd><p>Generates and saves a word cloud for sentences with a specific sentiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<em>str</em>) – The name of the model to evaluate.</p></li>
-<li><p><strong>dataset</strong> (<em>DatasetDict</em>) – A dataset containing test data.</p></li>
-<li><p><strong>results_file</strong> (<em>str</em>) – The file where the results should be written to.</p></li>
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The DataFrame containing sentiment analysis results.</p></li>
+<li><p><strong>sentiment</strong> (<em>str</em>) – The sentiment to filter (e.g., ‘POSITIVE’, ‘NEGATIVE’).</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – The directory where the word cloud image will be saved.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
 </dl>
-<p>This function evaluates a model’s performance by generating summaries of all the text in the dataset and comparing them to the ground truth. The results are written to a csv file.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.evaluation.evaluate_bert">
-<span class="sig-prename descclassname"><span class="pre">src.evaluation.</span></span><span class="sig-name descname"><span class="pre">evaluate_bert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/evaluation.html#evaluate_bert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.evaluation.evaluate_bert" title="Link to this definition">¶</a></dt>
-<dd><p>Evaluate a BERT model’s performance on a dataset.</p>
+<dt class="sig sig-object py" id="src.sentiment_analysis.get_sentiment">
+<span class="sig-prename descclassname"><span class="pre">src.sentiment_analysis.</span></span><span class="sig-name descname"><span class="pre">get_sentiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sentiment_analysis.html#get_sentiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sentiment_analysis.get_sentiment" title="Link to this definition">¶</a></dt>
+<dd><p>Analyzes the sentiment of a given text using the VADER sentiment analysis tool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The input text to analyze.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the VADER sentiment scores (‘neg’, ‘neu’, ‘pos’, ‘compound’).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sentiment_analysis.get_sentiment_label">
+<span class="sig-prename descclassname"><span class="pre">src.sentiment_analysis.</span></span><span class="sig-name descname"><span class="pre">get_sentiment_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compound_score</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sentiment_analysis.html#get_sentiment_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sentiment_analysis.get_sentiment_label" title="Link to this definition">¶</a></dt>
+<dd><p>Assigns a sentiment label (POSITIVE, NEGATIVE, NEUTRAL) based on the VADER compound score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>compound_score</strong> (<em>float</em>) – The compound sentiment score from VADER.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The sentiment label (‘POSITIVE’, ‘NEGATIVE’, ‘NEUTRAL’).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sentiment_analysis.hybrid_sentiment">
+<span class="sig-prename descclassname"><span class="pre">src.sentiment_analysis.</span></span><span class="sig-name descname"><span class="pre">hybrid_sentiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sentiment_analysis.html#hybrid_sentiment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sentiment_analysis.hybrid_sentiment" title="Link to this definition">¶</a></dt>
+<dd><p>Combines the results of two sentiment predictions (from VADER and another model) to determine the final sentiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>row</strong> (<em>pandas.Series</em>) – A DataFrame row containing two sentiment predictions (‘d_prediction’ and ‘v_prediction’).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The final sentiment label. If the two predictions are the same, the common sentiment is returned; otherwise, ‘NEUTRAL’.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sentiment_analysis.main">
+<span class="sig-prename descclassname"><span class="pre">src.sentiment_analysis.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sentiment_analysis.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sentiment_analysis.main" title="Link to this definition">¶</a></dt>
+<dd><p>Main function to orchestrate sentiment analysis and word cloud generation.</p>
+<p>Loads the dataset, processes sentiment analysis using both zero-shot classification and VADER,
+and generates word clouds for each sentiment category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>DictConfig</em>) – Hydra configuration object with input/output file paths and model name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sentiment_analysis.preprocess_text">
+<span class="sig-prename descclassname"><span class="pre">src.sentiment_analysis.</span></span><span class="sig-name descname"><span class="pre">preprocess_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sentiment_analysis.html#preprocess_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sentiment_analysis.preprocess_text" title="Link to this definition">¶</a></dt>
+<dd><p>Preprocesses the text by removing URLs, punctuation, stopwords, and converting to lowercase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The text to preprocess.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cleaned and preprocessed text.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sentiment_analysis.process_sentiment_analysis">
+<span class="sig-prename descclassname"><span class="pre">src.sentiment_analysis.</span></span><span class="sig-name descname"><span class="pre">process_sentiment_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentiment_analyzer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sentiment_analysis.html#process_sentiment_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sentiment_analysis.process_sentiment_analysis" title="Link to this definition">¶</a></dt>
+<dd><p>Performs sentiment analysis on the text data in a DataFrame using both zero-shot classification and VADER.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<em>str</em>) – The name of the BERT model to evaluate.</p></li>
-<li><p><strong>dataset</strong> (<em>DatasetDict</em>) – A dataset containing test data.</p></li>
-<li><p><strong>results_file</strong> (<em>str</em>) – The file where the results should be written to.</p></li>
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The input DataFrame containing text data.</p></li>
+<li><p><strong>sentiment_analyzer</strong> (<em>transformers.pipeline</em>) – A Hugging Face sentiment analysis pipeline for zero-shot classification.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to truncate the text data.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – The file path where the sentiment analysis results will be saved.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
 </dl>
-<p>This function evaluates a BERT model’s performance by generating summaries of all the text in the dataset and comparing them to the ground truth. The results are written to a csv file.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.evaluation.get_dataset_average_score">
-<span class="sig-prename descclassname"><span class="pre">src.evaluation.</span></span><span class="sig-name descname"><span class="pre">get_dataset_average_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/evaluation.html#get_dataset_average_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.evaluation.get_dataset_average_score" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate and log the average P, R, and F1 scores of a set of summaries in a csv file.</p>
+<dt class="sig sig-object py" id="src.sentiment_analysis.truncate_to_max_length">
+<span class="sig-prename descclassname"><span class="pre">src.sentiment_analysis.</span></span><span class="sig-name descname"><span class="pre">truncate_to_max_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sentiment_analysis.html#truncate_to_max_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sentiment_analysis.truncate_to_max_length" title="Link to this definition">¶</a></dt>
+<dd><p>Truncates text to a specified maximum length using a tokenizer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>csv_data</strong> (<em>str</em>) – The path to the csv file containing the results.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – The text to truncate.</p></li>
+<li><p><strong>tokenizer</strong> (<em>transformers.PreTrainedTokenizer</em>) – The tokenizer to use for truncating the text.</p></li>
+<li><p><strong>max_length</strong> (<em>int</em>) – The maximum length of the tokenized text.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The truncated text decoded from the tokenized representation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-<p>This function reads a csv file containing the results of evaluating a model on a dataset, calculates the average P, R, and F1 scores, and logs the results.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.evaluation.main">
-<span class="sig-prename descclassname"><span class="pre">src.evaluation.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/evaluation.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.evaluation.main" title="Link to this definition">¶</a></dt>
-<dd><p>Evaluate a model on a dataset.</p>
-<p>This function loads a dataset and a model, evaluates the model on the dataset, and logs the results. The results are written to a csv file. The function then calculates the average P, R, and F1 scores of the results and logs them.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cfg</strong> (<em>OmegaConf</em>) – The Hydra configuration object. The following fields are used:
-- eval.evaluation_model_name (str): The name of the model to evaluate.
-- dataset_name (str): The name of the dataset to evaluate the model on.
-- eval.results_file (str): The file where the results should be written to.</p>
-</dd>
-</dl>
-<p>This function is the main entry point of the script when it is run as a Python module. Hydra is used to handle configuration and logging.</p>
 </dd></dl>
 
 </section>
@@ -334,23 +412,23 @@ It also provides functions for loading data, loading models, and getting feature
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="retrieve_papers_with_link.html">
+          <a class="next-page" href="extract_reddit_keywords_with_bart.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">retrieve_papers_with_link module</div>
+                <div class="title">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="finetune_BERT.html">
+          <a class="prev-page" href="scrape_reddit.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">model_training module - Finetuning BERT</div>
+                <div class="title">scrape_reddit - Extract from Reddit Posts using PRAW API</div>
                 
               </div>
             </a>
@@ -384,11 +462,15 @@ It also provides functions for loading data, loading models, and getting feature
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">evaluation module</a><ul>
-<li><a class="reference internal" href="#src.evaluation.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
-<li><a class="reference internal" href="#src.evaluation.evaluate_bert"><code class="docutils literal notranslate"><span class="pre">evaluate_bert()</span></code></a></li>
-<li><a class="reference internal" href="#src.evaluation.get_dataset_average_score"><code class="docutils literal notranslate"><span class="pre">get_dataset_average_score()</span></code></a></li>
-<li><a class="reference internal" href="#src.evaluation.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#">sentiment_analysis - Extract Sentimentd from Reddit Posts</a><ul>
+<li><a class="reference internal" href="#src.sentiment_analysis.generate_wordcloud"><code class="docutils literal notranslate"><span class="pre">generate_wordcloud()</span></code></a></li>
+<li><a class="reference internal" href="#src.sentiment_analysis.get_sentiment"><code class="docutils literal notranslate"><span class="pre">get_sentiment()</span></code></a></li>
+<li><a class="reference internal" href="#src.sentiment_analysis.get_sentiment_label"><code class="docutils literal notranslate"><span class="pre">get_sentiment_label()</span></code></a></li>
+<li><a class="reference internal" href="#src.sentiment_analysis.hybrid_sentiment"><code class="docutils literal notranslate"><span class="pre">hybrid_sentiment()</span></code></a></li>
+<li><a class="reference internal" href="#src.sentiment_analysis.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#src.sentiment_analysis.preprocess_text"><code class="docutils literal notranslate"><span class="pre">preprocess_text()</span></code></a></li>
+<li><a class="reference internal" href="#src.sentiment_analysis.process_sentiment_analysis"><code class="docutils literal notranslate"><span class="pre">process_sentiment_analysis()</span></code></a></li>
+<li><a class="reference internal" href="#src.sentiment_analysis.truncate_to_max_length"><code class="docutils literal notranslate"><span class="pre">truncate_to_max_length()</span></code></a></li>
 </ul>
 </li>
 </ul>

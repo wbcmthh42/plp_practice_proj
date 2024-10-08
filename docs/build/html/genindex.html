@@ -209,6 +209,10 @@
 <li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
 </ul>
 </li>
@@ -321,10 +325,12 @@
   <h2>F</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="rag.html#src.rag.flatten">flatten() (in module src.rag)</a>
+        <li><a href="scrape_reddit.html#src.scrape_reddit.fetch_comments_from_submission">fetch_comments_from_submission() (in module src.scrape_reddit)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="rag.html#src.rag.flatten">flatten() (in module src.rag)</a>
+</li>
         <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.format_time">format_time() (src.finetune_BERT.BERTFineTuner method)</a>
 </li>
     </ul></td>
@@ -335,15 +341,23 @@
   <h2>G</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="sentiment_analysis.html#src.sentiment_analysis.generate_wordcloud">generate_wordcloud() (in module src.sentiment_analysis)</a>
+</li>
         <li><a href="evaluation.html#src.evaluation.get_dataset_average_score">get_dataset_average_score() (in module src.evaluation)</a>
 </li>
         <li><a href="rag.html#src.rag.get_embeddings">get_embeddings() (in module src.rag)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="model_training.html#src.model_training.get_feature">get_feature() (in module src.model_training)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="extract_reddit_keywords_with_bart.html#src.extract_reddit_keywords_with_bart.get_keywords">get_keywords() (in module src.extract_reddit_keywords_with_bart)</a>
+</li>
         <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_llm_summary">get_llm_summary() (in module src.streamlit_poc_with_gemma)</a>
+</li>
+        <li><a href="sentiment_analysis.html#src.sentiment_analysis.get_sentiment">get_sentiment() (in module src.sentiment_analysis)</a>
+</li>
+        <li><a href="sentiment_analysis.html#src.sentiment_analysis.get_sentiment_label">get_sentiment_label() (in module src.sentiment_analysis)</a>
 </li>
         <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_top_keywords">get_top_keywords() (in module src.streamlit_poc_with_gemma)</a>
 </li>
@@ -356,6 +370,10 @@
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="rag.html#src.rag.hybrid_search">hybrid_search() (in module src.rag)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="sentiment_analysis.html#src.sentiment_analysis.hybrid_sentiment">hybrid_sentiment() (in module src.sentiment_analysis)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -401,10 +419,10 @@
 </li>
         <li><a href="finetune_BERT.html#src.finetune_BERT.CustomDataset.len">len (src.finetune_BERT.CustomDataset attribute)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_and_preprocess_data">load_and_preprocess_data() (in module src.streamlit_poc_with_gemma)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="model_training.html#src.model_training.load_data">load_data() (in module src.model_training)</a>
 </li>
         <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.load_datasets">load_datasets() (src.finetune_BERT.BERTFineTuner method)</a>
@@ -412,6 +430,8 @@
         <li><a href="model_training.html#src.model_training.load_model">load_model() (in module src.model_training)</a>
 </li>
         <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_model_and_tokenizer">load_model_and_tokenizer() (in module src.streamlit_poc_with_gemma)</a>
+</li>
+        <li><a href="extract_reddit_keywords_with_bart.html#src.extract_reddit_keywords_with_bart.load_reddit_csv_to_datasets">load_reddit_csv_to_datasets() (in module src.extract_reddit_keywords_with_bart)</a>
 </li>
         <li><a href="rag.html#src.rag.load_vector_store">load_vector_store() (in module src.rag)</a>
 </li>
@@ -426,6 +446,8 @@
         <li><a href="evaluation.html#src.evaluation.main">main() (in module src.evaluation)</a>
 
         <ul>
+          <li><a href="extract_reddit_keywords_with_bart.html#src.extract_reddit_keywords_with_bart.main">(in module src.extract_reddit_keywords_with_bart)</a>
+</li>
           <li><a href="finetune_BERT.html#src.finetune_BERT.main">(in module src.finetune_BERT)</a>
 </li>
           <li><a href="model_training.html#src.model_training.main">(in module src.model_training)</a>
@@ -433,6 +455,10 @@
           <li><a href="rag.html#src.rag.main">(in module src.rag)</a>
 </li>
           <li><a href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.main">(in module src.retrieve_papers_with_link)</a>
+</li>
+          <li><a href="scrape_reddit.html#src.scrape_reddit.main">(in module src.scrape_reddit)</a>
+</li>
+          <li><a href="sentiment_analysis.html#src.sentiment_analysis.main">(in module src.sentiment_analysis)</a>
 </li>
           <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.main">(in module src.streamlit_poc_with_gemma)</a>
 </li>
@@ -455,7 +481,11 @@
         <ul>
           <li><a href="evaluation.html#module-src.evaluation">src.evaluation</a>
 </li>
+          <li><a href="extract_reddit_keywords_with_bart.html#module-src.extract_reddit_keywords_with_bart">src.extract_reddit_keywords_with_bart</a>
+</li>
           <li><a href="finetune_BERT.html#module-src.finetune_BERT">src.finetune_BERT</a>
+</li>
+          <li><a href="infer_pipeline.html#module-src.infer_pipeline">src.infer_pipeline</a>
 </li>
           <li><a href="model_training.html#module-src.model_training">src.model_training</a>
 </li>
@@ -464,6 +494,10 @@
           <li><a href="rag.html#module-src.rag">src.rag</a>
 </li>
           <li><a href="retrieve_papers_with_link.html#module-src.retrieve_papers_with_link">src.retrieve_papers_with_link</a>
+</li>
+          <li><a href="scrape_reddit.html#module-src.scrape_reddit">src.scrape_reddit</a>
+</li>
+          <li><a href="sentiment_analysis.html#module-src.sentiment_analysis">src.sentiment_analysis</a>
 </li>
           <li><a href="streamlit_poc_with_gemma.html#module-src.streamlit_poc_with_gemma">src.streamlit_poc_with_gemma</a>
 </li>
@@ -498,8 +532,12 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.preprocess_keywords">preprocess_keywords() (in module src.streamlit_poc_with_gemma)</a>
 </li>
-        <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.preprocess_text">preprocess_text() (src.finetune_BERT.BERTFineTuner method)</a>
+        <li><a href="sentiment_analysis.html#src.sentiment_analysis.preprocess_text">preprocess_text() (in module src.sentiment_analysis)</a>
+
+        <ul>
+          <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.preprocess_text">(src.finetune_BERT.BERTFineTuner method)</a>
 </li>
+        </ul></li>
         <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.pretrained_model">pretrained_model (src.finetune_BERT.BERTFineTuner attribute)</a>
 </li>
     </ul></td>
@@ -510,6 +548,8 @@
 </li>
         <li><a href="streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.process_keywords">process_keywords() (in module src.streamlit_poc_with_gemma)</a>
 </li>
+        <li><a href="sentiment_analysis.html#src.sentiment_analysis.process_sentiment_analysis">process_sentiment_analysis() (in module src.sentiment_analysis)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -518,14 +558,20 @@
   <h2>R</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="scrape_reddit.html#src.scrape_reddit.retrieve_list_of_submission_id">retrieve_list_of_submission_id() (in module src.scrape_reddit)</a>
+</li>
         <li><a href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.retrieve_papers_with_link">retrieve_papers_with_link() (in module src.retrieve_papers_with_link)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.run">run() (src.finetune_BERT.BERTFineTuner method)</a>
 </li>
-        <li><a href="pipeline_model_finetuning_evaluation.html#src.pipeline_model_finetuning_evaluation.run_pipeline">run_pipeline() (in module src.pipeline_model_finetuning_evaluation)</a>
+        <li><a href="infer_pipeline.html#src.infer_pipeline.run_pipeline">run_pipeline() (in module src.infer_pipeline)</a>
+
+        <ul>
+          <li><a href="pipeline_model_finetuning_evaluation.html#src.pipeline_model_finetuning_evaluation.run_pipeline">(in module src.pipeline_model_finetuning_evaluation)</a>
 </li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -536,7 +582,13 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.save_model">save_model() (src.finetune_BERT.BERTFineTuner method)</a>
 </li>
-        <li><a href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.save_to_csv">save_to_csv() (in module src.retrieve_papers_with_link)</a>
+        <li><a href="extract_reddit_keywords_with_bart.html#src.extract_reddit_keywords_with_bart.save_to_csv">save_to_csv() (in module src.extract_reddit_keywords_with_bart)</a>
+
+        <ul>
+          <li><a href="retrieve_papers_with_link.html#src.retrieve_papers_with_link.save_to_csv">(in module src.retrieve_papers_with_link)</a>
+</li>
+        </ul></li>
+        <li><a href="scrape_reddit.html#src.scrape_reddit.scrape_reddit_comments">scrape_reddit_comments() (in module src.scrape_reddit)</a>
 </li>
         <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.setup_device">setup_device() (src.finetune_BERT.BERTFineTuner method)</a>
 </li>
@@ -554,10 +606,24 @@
 </li>
         </ul></li>
         <li>
+    src.extract_reddit_keywords_with_bart
+
+        <ul>
+          <li><a href="extract_reddit_keywords_with_bart.html#module-src.extract_reddit_keywords_with_bart">module</a>
+</li>
+        </ul></li>
+        <li>
     src.finetune_BERT
 
         <ul>
           <li><a href="finetune_BERT.html#module-src.finetune_BERT">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.infer_pipeline
+
+        <ul>
+          <li><a href="infer_pipeline.html#module-src.infer_pipeline">module</a>
 </li>
         </ul></li>
     </ul></td>
@@ -591,6 +657,20 @@
 </li>
         </ul></li>
         <li>
+    src.scrape_reddit
+
+        <ul>
+          <li><a href="scrape_reddit.html#module-src.scrape_reddit">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.sentiment_analysis
+
+        <ul>
+          <li><a href="sentiment_analysis.html#module-src.sentiment_analysis">module</a>
+</li>
+        </ul></li>
+        <li>
     src.streamlit_poc_with_gemma
 
         <ul>
@@ -611,13 +691,15 @@
           <li><a href="finetune_BERT.html#src.finetune_BERT.CustomDataset.tokenizer">(src.finetune_BERT.CustomDataset attribute)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="finetune_BERT.html#src.finetune_BERT.BERTFineTuner.train">train() (src.finetune_BERT.BERTFineTuner method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="model_training.html#src.model_training.train_model">train_model() (in module src.model_training)</a>
 </li>
         <li><a href="rag.html#src.rag.truncate_summary">truncate_summary() (in module src.rag)</a>
+</li>
+        <li><a href="sentiment_analysis.html#src.sentiment_analysis.truncate_to_max_length">truncate_to_max_length() (in module src.sentiment_analysis)</a>
 </li>
     </ul></td>
   </tr></table>

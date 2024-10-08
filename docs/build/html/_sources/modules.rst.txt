@@ -10,5 +10,9 @@ Modules
    evaluation
    retrieve_papers_with_link
    rag
+   infer_pipeline
+   scrape_reddit
+   sentiment_analysis
+   extract_reddit_keywords_with_bart
    streamlit_poc_with_gemma
 

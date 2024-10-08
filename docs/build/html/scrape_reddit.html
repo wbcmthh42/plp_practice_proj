@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="retrieve_papers_with_link module" href="retrieve_papers_with_link.html" /><link rel="prev" title="model_training module - Finetuning BERT" href="finetune_BERT.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="sentiment_analysis - Extract Sentimentd from Reddit Posts" href="sentiment_analysis.html" /><link rel="prev" title="infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords" href="infer_pipeline.html" />
 
     <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
-        <title>evaluation module - TechPulse documentation</title>
+        <title>scrape_reddit - Extract from Reddit Posts using PRAW API - TechPulse documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -208,11 +208,11 @@
 <li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_training.html">model_training module - Finetuning Bart and T5</a></li>
 <li class="toctree-l2"><a class="reference internal" href="finetune_BERT.html">model_training module - Finetuning BERT</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
@@ -238,7 +238,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="_sources/evaluation.rst.txt" title="View this page">
+  <a class="muted-link" href="_sources/scrape_reddit.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -258,73 +258,92 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-src.evaluation">
-<span id="evaluation-module"></span><h1>evaluation module<a class="headerlink" href="#module-src.evaluation" title="Link to this heading">¶</a></h1>
-<p>Module for evaluating the performance of a trained seq2seq model.</p>
-<p>This script loads a trained model, loads a dataset, and evaluates the model’s performance on the dataset.
-It also provides functions for loading data, loading models, and getting features for evaluation.</p>
-<dl class="simple">
-<dt>Usage:</dt><dd><p>python -m src.evaluation</p>
-</dd>
-</dl>
+          <section id="module-src.scrape_reddit">
+<span id="scrape-reddit-extract-from-reddit-posts-using-praw-api"></span><h1>scrape_reddit - Extract from Reddit Posts using PRAW API<a class="headerlink" href="#module-src.scrape_reddit" title="Link to this heading">¶</a></h1>
+<p>Module Description:
+This script, <cite>scrape_reddit.py</cite>, is designed to scrape comments from specified subreddits within a date range.
+It uses the PRAW (Python Reddit API Wrapper) library to retrieve submission and comment data from Reddit,
+filters comments by date, and saves the results to a CSV file.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="src.evaluation.evaluate">
-<span class="sig-prename descclassname"><span class="pre">src.evaluation.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/evaluation.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.evaluation.evaluate" title="Link to this definition">¶</a></dt>
-<dd><p>Evaluate a model’s performance on a dataset.</p>
+<dt class="sig sig-object py" id="src.scrape_reddit.fetch_comments_from_submission">
+<span class="sig-prename descclassname"><span class="pre">src.scrape_reddit.</span></span><span class="sig-name descname"><span class="pre">fetch_comments_from_submission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">submission_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/scrape_reddit.html#fetch_comments_from_submission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.scrape_reddit.fetch_comments_from_submission" title="Link to this definition">¶</a></dt>
+<dd><p>Fetches comments from a given submission within the specified date range.</p>
+<p>This function extracts all comments from the submission, converts the timestamps to a readable format,
+and filters them by the given start and end dates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<em>str</em>) – The name of the model to evaluate.</p></li>
-<li><p><strong>dataset</strong> (<em>DatasetDict</em>) – A dataset containing test data.</p></li>
-<li><p><strong>results_file</strong> (<em>str</em>) – The file where the results should be written to.</p></li>
+<li><p><strong>submission_id</strong> (<em>str</em>) – The ID of the submission to extract comments from.</p></li>
+<li><p><strong>start_date</strong> (<em>datetime</em>) – The start date to filter comments.</p></li>
+<li><p><strong>end_date</strong> (<em>datetime</em>) – The end date to filter comments.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the extracted comments.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
 </dl>
-<p>This function evaluates a model’s performance by generating summaries of all the text in the dataset and comparing them to the ground truth. The results are written to a csv file.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.evaluation.evaluate_bert">
-<span class="sig-prename descclassname"><span class="pre">src.evaluation.</span></span><span class="sig-name descname"><span class="pre">evaluate_bert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/evaluation.html#evaluate_bert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.evaluation.evaluate_bert" title="Link to this definition">¶</a></dt>
-<dd><p>Evaluate a BERT model’s performance on a dataset.</p>
+<dt class="sig sig-object py" id="src.scrape_reddit.main">
+<span class="sig-prename descclassname"><span class="pre">src.scrape_reddit.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/scrape_reddit.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.scrape_reddit.main" title="Link to this definition">¶</a></dt>
+<dd><p>Main entry point for scraping Reddit comments.</p>
+<p>This function reads the configuration file, sets up the date range and subreddits to scrape,
+and calls the <cite>scrape_reddit_comments</cite> function to extract and save comments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>DictConfig</em>) – A Hydra configuration object containing PRAW parameters such as the start date,
+subreddits, and output file name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.scrape_reddit.retrieve_list_of_submission_id">
+<span class="sig-prename descclassname"><span class="pre">src.scrape_reddit.</span></span><span class="sig-name descname"><span class="pre">retrieve_list_of_submission_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subreddit_name_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/scrape_reddit.html#retrieve_list_of_submission_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.scrape_reddit.retrieve_list_of_submission_id" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieves a list of submission IDs from the specified subreddits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<em>str</em>) – The name of the BERT model to evaluate.</p></li>
-<li><p><strong>dataset</strong> (<em>DatasetDict</em>) – A dataset containing test data.</p></li>
-<li><p><strong>results_file</strong> (<em>str</em>) – The file where the results should be written to.</p></li>
+<li><p><strong>subreddit_name_list</strong> (<em>list</em>) – A list of subreddit names to retrieve submissions from.</p></li>
+<li><p><strong>limit</strong> (<em>int</em>) – The number of submissions to retrieve per subreddit.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of submission IDs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
 </dl>
-<p>This function evaluates a BERT model’s performance by generating summaries of all the text in the dataset and comparing them to the ground truth. The results are written to a csv file.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.evaluation.get_dataset_average_score">
-<span class="sig-prename descclassname"><span class="pre">src.evaluation.</span></span><span class="sig-name descname"><span class="pre">get_dataset_average_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/evaluation.html#get_dataset_average_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.evaluation.get_dataset_average_score" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate and log the average P, R, and F1 scores of a set of summaries in a csv file.</p>
+<dt class="sig sig-object py" id="src.scrape_reddit.scrape_reddit_comments">
+<span class="sig-prename descclassname"><span class="pre">src.scrape_reddit.</span></span><span class="sig-name descname"><span class="pre">scrape_reddit_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddit_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/scrape_reddit.html#scrape_reddit_comments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.scrape_reddit.scrape_reddit_comments" title="Link to this definition">¶</a></dt>
+<dd><p>Scrapes comments from the specified subreddits within a given date range and saves them to a CSV file.</p>
+<p>This function retrieves submission IDs from the specified subreddits, fetches comments from each submission,
+filters the comments by date, and saves the resulting DataFrame to a CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>csv_data</strong> (<em>str</em>) – The path to the csv file containing the results.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_date_str</strong> (<em>str</em>) – The start date in ‘YYYY-MM-DD’ format.</p></li>
+<li><p><strong>end_date_str</strong> (<em>str</em>) – The end date in ‘YYYY-MM-DD’ format.</p></li>
+<li><p><strong>reddit_list</strong> (<em>list</em>) – A list of subreddit names to scrape.</p></li>
+<li><p><strong>limit</strong> (<em>int</em>) – The number of submissions to scrape from each subreddit.</p></li>
+<li><p><strong>file_name</strong> (<em>str</em>) – The name of the CSV file to save the comments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
-<p>This function reads a csv file containing the results of evaluating a model on a dataset, calculates the average P, R, and F1 scores, and logs the results.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.evaluation.main">
-<span class="sig-prename descclassname"><span class="pre">src.evaluation.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/evaluation.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.evaluation.main" title="Link to this definition">¶</a></dt>
-<dd><p>Evaluate a model on a dataset.</p>
-<p>This function loads a dataset and a model, evaluates the model on the dataset, and logs the results. The results are written to a csv file. The function then calculates the average P, R, and F1 scores of the results and logs them.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>cfg</strong> (<em>OmegaConf</em>) – The Hydra configuration object. The following fields are used:
-- eval.evaluation_model_name (str): The name of the model to evaluate.
-- dataset_name (str): The name of the dataset to evaluate the model on.
-- eval.results_file (str): The file where the results should be written to.</p>
-</dd>
-</dl>
-<p>This function is the main entry point of the script when it is run as a Python module. Hydra is used to handle configuration and logging.</p>
 </dd></dl>
 
 </section>
@@ -334,23 +353,23 @@ It also provides functions for loading data, loading models, and getting feature
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="retrieve_papers_with_link.html">
+          <a class="next-page" href="sentiment_analysis.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">retrieve_papers_with_link module</div>
+                <div class="title">sentiment_analysis - Extract Sentimentd from Reddit Posts</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="finetune_BERT.html">
+          <a class="prev-page" href="infer_pipeline.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">model_training module - Finetuning BERT</div>
+                <div class="title">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</div>
                 
               </div>
             </a>
@@ -384,11 +403,11 @@ It also provides functions for loading data, loading models, and getting feature
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">evaluation module</a><ul>
-<li><a class="reference internal" href="#src.evaluation.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
-<li><a class="reference internal" href="#src.evaluation.evaluate_bert"><code class="docutils literal notranslate"><span class="pre">evaluate_bert()</span></code></a></li>
-<li><a class="reference internal" href="#src.evaluation.get_dataset_average_score"><code class="docutils literal notranslate"><span class="pre">get_dataset_average_score()</span></code></a></li>
-<li><a class="reference internal" href="#src.evaluation.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#">scrape_reddit - Extract from Reddit Posts using PRAW API</a><ul>
+<li><a class="reference internal" href="#src.scrape_reddit.fetch_comments_from_submission"><code class="docutils literal notranslate"><span class="pre">fetch_comments_from_submission()</span></code></a></li>
+<li><a class="reference internal" href="#src.scrape_reddit.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#src.scrape_reddit.retrieve_list_of_submission_id"><code class="docutils literal notranslate"><span class="pre">retrieve_list_of_submission_id()</span></code></a></li>
+<li><a class="reference internal" href="#src.scrape_reddit.scrape_reddit_comments"><code class="docutils literal notranslate"><span class="pre">scrape_reddit_comments()</span></code></a></li>
 </ul>
 </li>
 </ul>

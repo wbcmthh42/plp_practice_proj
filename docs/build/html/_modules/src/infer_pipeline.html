@@ -1,15 +1,14 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="./">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="model_training module - Finetuning Bart and T5" href="model_training.html" /><link rel="prev" title="Modules" href="modules.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
-        <title>pipeline_model_finetuning_evaluation module - TechPulse documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+        <title>src.infer_pipeline - TechPulse documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     
     
 
@@ -166,7 +165,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">TechPulse  documentation</div></a>
+      <a href="../../index.html"><div class="brand">TechPulse  documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -178,7 +177,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -187,35 +186,35 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
   <span class="sidebar-brand-text">TechPulse  documentation</span>
   
-</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="model_finetuning_evaluation_pipeline.html">Model Finetuning and Evaluation Pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">ArXiv Database and RAG Vector Store Construction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeline_retrieve_reddit_post_sentiment_keywords.html">Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
-<li class="toctree-l1"><a class="reference internal" href="techpulse_ui.html">TechPulse User Interface</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Modules</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">pipeline_model_finetuning_evaluation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model_training.html">model_training module - Finetuning Bart and T5</a></li>
-<li class="toctree-l2"><a class="reference internal" href="finetune_BERT.html">model_training module - Finetuning BERT</a></li>
-<li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../model_finetuning_evaluation_pipeline.html">Model Finetuning and Evaluation Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_arxiv_vectorstore.html">ArXiv Database and RAG Vector Store Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipeline_retrieve_reddit_post_sentiment_keywords.html">Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../techpulse_ui.html">TechPulse User Interface</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_training.html">model_training module - Finetuning Bart and T5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../finetune_BERT.html">model_training module - Finetuning BERT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../evaluation.html">evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rag.html">rag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
 </ul>
 </li>
 </ul>
@@ -237,13 +236,7 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="view-this-page">
-  <a class="muted-link" href="_sources/pipeline_model_finetuning_evaluation.rst.txt" title="View this page">
-    <svg><use href="#svg-eye"></use></svg>
-    <span class="visually-hidden">View this page</span>
-  </a>
-</div>
-<div class="theme-toggle-container theme-toggle-content">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
@@ -252,55 +245,71 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-src.pipeline_model_finetuning_evaluation">
-<span id="pipeline-model-finetuning-evaluation-module"></span><h1>pipeline_model_finetuning_evaluation module<a class="headerlink" href="#module-src.pipeline_model_finetuning_evaluation" title="Link to this heading">¶</a></h1>
-<p>Module for running the entire pipeline, including model training and evaluation.</p>
-<p>This module provides a single function, <cite>run_pipeline</cite>, which orchestrates the execution of the model training and evaluation scripts.</p>
-<dl class="simple">
-<dt>Functions:</dt><dd><p>run_pipeline: Runs the entire pipeline, including model training and evaluation.</p>
-</dd>
-</dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="src.pipeline_model_finetuning_evaluation.run_pipeline">
-<span class="sig-prename descclassname"><span class="pre">src.pipeline_model_finetuning_evaluation.</span></span><span class="sig-name descname"><span class="pre">run_pipeline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/pipeline_model_finetuning_evaluation.html#run_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.pipeline_model_finetuning_evaluation.run_pipeline" title="Link to this definition">¶</a></dt>
-<dd><p>Runs the entire pipeline:
-1. Model training
-2. Evaluation</p>
-</dd></dl>
+          <h1>Source code for src.infer_pipeline</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module Description:</span>
+<span class="sd">This script, `pipeline.py`, is a simple pipeline manager that sequentially runs multiple Python scripts in the project.</span>
+<span class="sd">It uses subprocess calls to execute different modules, including Reddit scraping, sentiment analysis, keyword extraction, and trending keyword analysis.</span>
 
-</section>
+<span class="sd">Each step in the pipeline is logged to track execution progress.</span>
 
+<span class="sd">The scripts being executed are:</span>
+
+<span class="sd">1. `scrape_reddit.py` - Scrapes Reddit data.</span>
+
+<span class="sd">2. `sentiment_analysis.py` - Analyzes sentiment in the scraped Reddit data.</span>
+
+<span class="sd">3. `extract_reddit_keywords_with_bart.py` - Extracts keywords from the Reddit data using the BART model.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<div class="viewcode-block" id="run_pipeline">
+<a class="viewcode-back" href="../../infer_pipeline.html#src.infer_pipeline.run_pipeline">[docs]</a>
+<span class="k">def</span> <span class="nf">run_pipeline</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Runs the data processing pipeline by sequentially executing a series of Python scripts.</span>
+
+<span class="sd">    The pipeline executes the following scripts:</span>
+
+<span class="sd">    1. `scrape_reddit.py`: Scrapes Reddit data using PRAW.</span>
+
+<span class="sd">    2. `sentiment_analysis.py`: Performs sentiment analysis on the scraped Reddit data.</span>
+<span class="sd">    </span>
+<span class="sd">    3. `extract_reddit_keywords_with_bart.py`: Extracts keywords from Reddit posts using the BART model.</span>
+
+<span class="sd">    Each script is run using a subprocess, and the process flow is logged for tracking.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Run PRAW retrieval</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running scrape_reddit.py&quot;</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;src.scrape_reddit&quot;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># # Run PRAW retrieval</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running sentiment_analysis.py&quot;</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;src.sentiment_analysis&quot;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Run reddit_keywords.py</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running reddit_keywords.py&quot;</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;src.extract_reddit_keywords_with_bart&quot;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;python -m src.pipeline&#39;&#39;&#39;</span>
+    <span class="n">run_pipeline</span><span class="p">()</span>
+</pre></div>
         </article>
       </div>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="model_training.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">model_training module - Finetuning Bart and T5</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="modules.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Modules</div>
-                
-              </div>
-            </a>
+          
+          
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -319,34 +328,15 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">pipeline_model_finetuning_evaluation module</a><ul>
-<li><a class="reference internal" href="#src.pipeline_model_finetuning_evaluation.run_pipeline"><code class="docutils literal notranslate"><span class="pre">run_pipeline()</span></code></a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+</div><script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
     </body>
 </html>

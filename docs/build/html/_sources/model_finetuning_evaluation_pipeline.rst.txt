@@ -51,22 +51,31 @@ Training Pipeline
 The training pipeline consists of the following steps:
 
 1. Data Preparation
+
    - Load the Tech Keywords Dataset which is already split into Train, Validation, and Test sets
 
 2. Model Initialization
+
    - Load pre-trained models (BART, T5, BERT)
+
    - Initialize tokenizers for each model
 
 3. Fine-tuning
+
    - Train each model on the training set
+
    - Validate performance using the validation set
+
    - Save model checkpoints
 
 4. Evaluation
+
    - Evaluate model performance on the test set
+
    - Select the best-performing model based on evaluation metrics
 
 5. Model Selection
+
    - Choose the best fine-tuned model for keyword extraction
 
 Pipeline Execution

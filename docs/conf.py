@@ -33,4 +33,4 @@ exclude_patterns = []
 
 html_theme = "furo"
 
-autodoc_mock_imports = ['datasets', 'bert_score']
+autodoc_mock_imports = ['datasets', 'bert_score', 'praw', 'nltk', 'prawcore', 'wordcloud', 'vaderSentiment']
