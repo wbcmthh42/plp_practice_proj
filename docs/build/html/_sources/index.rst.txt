@@ -12,6 +12,7 @@ TechPulse documentation
 
    model_finetuning_evaluation_pipeline
    build_arxiv_vectorstore
+   pipeline_retrieve_reddit_post_sentiment_keywords
    techpulse_ui
    modules
 

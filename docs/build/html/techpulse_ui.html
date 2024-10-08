@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Modules" href="modules.html" /><link rel="prev" title="ArXiv Database and RAG Vector Store Construction" href="build_arxiv_vectorstore.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Modules" href="modules.html" /><link rel="prev" title="Retrieve Reddit Posts and Extract Sentiments and Keywords" href="pipeline_retrieve_reddit_post_sentiment_keywords.html" />
 
     <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
         <title>TechPulse User Interface - TechPulse documentation</title>
@@ -202,6 +202,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="model_finetuning_evaluation_pipeline.html">Model Finetuning and Evaluation Pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">ArXiv Database and RAG Vector Store Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline_retrieve_reddit_post_sentiment_keywords.html">Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">TechPulse User Interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
@@ -257,6 +258,11 @@
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>The TechPulse App is an application that allows users to analyze Reddit tech posts and find related arXiv research papers. This document provides a guide on how to use the application effectively.</p>
+</section>
+<section id="user-interface-data-flowchart-overview">
+<h2>User Interface Data Flowchart Overview<a class="headerlink" href="#user-interface-data-flowchart-overview" title="Link to this heading">¶</a></h2>
+<a class="reference internal image-reference" href="_images/streamlit_flowchart.png"><img alt="Overview of User Interface Information Flow" src="_images/streamlit_flowchart.png" style="width: 100%;" />
+</a>
 </section>
 <section id="configuration-instructions">
 <h2>Configuration Instructions<a class="headerlink" href="#configuration-instructions" title="Link to this heading">¶</a></h2>
@@ -322,14 +328,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="build_arxiv_vectorstore.html">
+          <a class="prev-page" href="pipeline_retrieve_reddit_post_sentiment_keywords.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">ArXiv Database and RAG Vector Store Construction</div>
+                <div class="title">Retrieve Reddit Posts and Extract Sentiments and Keywords</div>
                 
               </div>
             </a>
@@ -365,6 +371,7 @@
             <ul>
 <li><a class="reference internal" href="#">TechPulse User Interface</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#user-interface-data-flowchart-overview">User Interface Data Flowchart Overview</a></li>
 <li><a class="reference internal" href="#configuration-instructions">Configuration Instructions</a></li>
 <li><a class="reference internal" href="#usage">Usage</a></li>
 <li><a class="reference internal" href="#conclusion">Conclusion</a></li>

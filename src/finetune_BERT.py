@@ -12,6 +12,9 @@ import os
 import json
 import datetime
 import sys
+import hydra
+from omegaconf import DictConfig
+from datasets import load_dataset
 
 class BERTFineTuner:
     """
@@ -35,10 +38,11 @@ class BERTFineTuner:
         output_dir (str): Directory to save the fine-tuned model.
     """
 
-    def __init__(self):
+    def __init__(self, cfg):
         """
         Initializes the BERTFineTuner with default settings.
         """
+        self.cfg = cfg  # Store the configuration as an instance variable
         self.tokenizer = None
         self.model = None
         self.device = None
@@ -46,13 +50,14 @@ class BERTFineTuner:
         self.ids_to_labels = {1: 'B-TEC', 2: 'I-TEC', 0: 'O'}
         self.MAX_LEN = None
         
-        # Configuration parameters
-        self.pretrained_model = "dbmdz/bert-large-cased-finetuned-conll03-english"
-        self.max_len = 256
-        self.batch_size = 32
-        self.num_epochs = 3
-        self.learning_rate = 3e-5
-        self.output_dir = "./model_checkpoint"
+        # Configuration parameters from Hydra
+        self.pretrained_model = self.cfg.bert.pretrained_model
+        self.max_len = self.cfg.bert.max_len
+        self.batch_size = self.cfg.bert.batch_size
+        self.num_epochs = self.cfg.bert.num_epochs
+        self.learning_rate = self.cfg.bert.learning_rate
+        self.output_dir = self.cfg.bert.output_dir
+
 
     def format_time(self, elapsed):
         """
@@ -66,18 +71,22 @@ class BERTFineTuner:
         """
         elapsed_rounded = int(round((elapsed)))
         return str(datetime.timedelta(seconds=elapsed_rounded))
-
-    def load_datasets(self):
+    
+    def load_datasets(self, cfg):
         """
         Loads the train, validation, and test datasets.
 
         Returns:
             tuple: Containing train_dataset, validation_dataset, and test_dataset.
         """
-        splits = {'train': 'data/train-00000-of-00001.parquet', 'validation': 'data/validation-00000-of-00001.parquet', 'test': 'data/test-00000-of-00001.parquet'}
-        train_dataset = pd.read_parquet("hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/" + splits["train"])
-        validation_dataset = pd.read_parquet("hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/" + splits["validation"])
-        test_dataset = pd.read_parquet("hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/" + splits["test"])
+        splits = {
+            'train': cfg.bert.datasets.train,
+            'validation': cfg.bert.datasets.validation,
+            'test': cfg.bert.datasets.test
+        }
+        train_dataset = pd.read_parquet(splits["train"])
+        validation_dataset = pd.read_parquet(splits["validation"])
+        test_dataset = pd.read_parquet(splits["test"])
         return train_dataset, validation_dataset, test_dataset
 
     def preprocess_text(self, row):
@@ -408,11 +417,11 @@ class BERTFineTuner:
 
         print(f"Model checkpoint and artifacts saved to {output_dir}")
 
-    def run(self):
+    def run(self, cfg):
         """
         Runs the entire fine-tuning process.
         """
-        train_dataset, validation_dataset, test_dataset = self.load_datasets()
+        train_dataset, validation_dataset, test_dataset = self.load_datasets(cfg)
         train_dataset_processed, validation_dataset_processed, test_dataset_processed, train_dataset_filtered = self.process_datasets(train_dataset, validation_dataset, test_dataset)
         self.setup_tokenizer_and_model()
         train_dataset, val_dataset, test_dataset = self.create_datasets(train_dataset_processed, validation_dataset_processed, test_dataset_processed)
@@ -516,6 +525,11 @@ class CustomDataset(Dataset):
         """
         return self.len
 
+@hydra.main(config_path="../conf", config_name="config")
+def main(cfg: DictConfig):
+    fine_tuner = BERTFineTuner(cfg)  # Pass the cfg to the BERTFineTuner
+    fine_tuner.run(cfg)  # Call the run method to start the fine-tuning process
+
 if __name__ == "__main__":
-    fine_tuner = BERTFineTuner()
-    fine_tuner.run()
+    # fine_tuner = BERTFineTuner()
+    main()

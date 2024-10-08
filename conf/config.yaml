@@ -27,6 +27,18 @@ top_keywords:
   top_n: 20
   output_dir: reddit_keywords_results
 
+bert:
+  pretrained_model: "dbmdz/bert-large-cased-finetuned-conll03-english"
+  max_len: 256
+  batch_size: 32
+  num_epochs: 1
+  learning_rate: 3e-5
+  output_dir: "./model_checkpoint"
+  datasets:
+    train: "hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/train-00000-of-00001.parquet"
+    validation: "hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/validation-00000-of-00001.parquet"
+    test: "hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/test-00000-of-00001.parquet"
+
 
 base_model_name: facebook/bart-large
 save_model_name: 'tech-keywords-extractor_finetuned_bart'

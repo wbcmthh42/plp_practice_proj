@@ -6,6 +6,13 @@ Introduction
 
 The TechPulse App is an application that allows users to analyze Reddit tech posts and find related arXiv research papers. This document provides a guide on how to use the application effectively.
 
+User Interface Data Flowchart Overview
+--------------------------------------
+
+.. image:: source/_static/streamlit_flowchart.png
+   :alt: Overview of User Interface Information Flow
+   :width: 100%
+
 Configuration Instructions
 --------------------------
 

@@ -13,11 +13,7 @@ def run_pipeline():
 
     # Run reddit_keywords.py
     logging.info("Running reddit_keywords.py")
-    subprocess.run(["python", "-m", "src.extract_reddit_keywords"], check=True)
-
-    # # Run get_trending_keywords.py
-    logging.info("Running get_trending_keywords.py")
-    subprocess.run(["python", "-m", "src.get_trending_keywords"], check=True)
+    subprocess.run(["python", "-m", "src.extract_reddit_keywords_with_bart"], check=True)
 
 if __name__ == "__main__":
     '''python -m src.pipeline'''
