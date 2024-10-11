@@ -487,8 +487,6 @@
         <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="load_model_and_tokenizer">
-<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_model_and_tokenizer">[docs]</a>
 <span class="nd">@st</span><span class="o">.</span><span class="n">cache_resource</span>
 <span class="k">def</span> <span class="nf">load_model_and_tokenizer</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -522,8 +520,7 @@
         <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span> <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;cuda&quot;</span><span class="p">,</span> <span class="s2">&quot;mps&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span>
     <span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span></div>
-
+    <span class="k">return</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span>
 
 <div class="viewcode-block" id="get_llm_summary">
 <a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_llm_summary">[docs]</a>
