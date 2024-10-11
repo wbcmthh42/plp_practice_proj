@@ -1,5 +1,5 @@
-ArXiv Database and RAG Vector Store Construction
-================================================
+Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG
+===============================================================
 
 This document outlines the process of building an arXiv database and constructing a Retrieval-Augmented Generation (RAG) vector store for efficient paper searching.
 

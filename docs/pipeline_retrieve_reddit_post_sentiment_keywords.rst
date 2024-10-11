@@ -1,5 +1,5 @@
-Retrieve Reddit Posts and Extract Sentiments and Keywords
-=========================================================
+Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords
+=============================================================================
 
 This document provides step-by-step instructions on how to run the pipeline defined in `infer_pipeline.py`. The pipeline consists of three main scripts: `scrape_reddit.py`, `sentiment_analysis.py`, and `extract_reddit_keywords_with_bart.py`. Each script performs a specific function in the data processing workflow.
 

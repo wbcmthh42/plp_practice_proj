@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="ArXiv Database and RAG Vector Store Construction" href="build_arxiv_vectorstore.html" /><link rel="prev" title="TechPulse documentation" href="index.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Select Sentiment Extraction Model + Evaluate Model" href="sentiment_extraction_model_selection.html" /><link rel="prev" title="Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG" href="build_arxiv_vectorstore.html" />
 
     <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
-        <title>Model Finetuning and Evaluation Pipeline - TechPulse documentation</title>
+        <title>Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation - TechPulse documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -189,6 +189,9 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/techpulse.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">TechPulse  documentation</span>
   
@@ -200,9 +203,11 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Model Finetuning and Evaluation Pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">ArXiv Database and RAG Vector Store Construction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeline_retrieve_reddit_post_sentiment_keywords.html">Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment_extraction_model_selection.html">Select Sentiment Extraction Model + Evaluate Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline_retrieve_reddit_post_sentiment_keywords.html">Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords</a></li>
 <li class="toctree-l1"><a class="reference internal" href="techpulse_ui.html">TechPulse User Interface</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
@@ -258,8 +263,8 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="model-finetuning-and-evaluation-pipeline">
-<h1>Model Finetuning and Evaluation Pipeline<a class="headerlink" href="#model-finetuning-and-evaluation-pipeline" title="Link to this heading">¶</a></h1>
+          <section id="pipeline-2-finetune-model-for-keyword-extraction-and-model-evaluation">
+<h1>Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation<a class="headerlink" href="#pipeline-2-finetune-model-for-keyword-extraction-and-model-evaluation" title="Link to this heading">¶</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>This document outlines the model training process for extracting tech keywords from tech-related Reddit posts. We utilize three pre-trained language models: BART, T5, and BERT, which are fine-tuned on our specific task.</p>
@@ -382,23 +387,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="build_arxiv_vectorstore.html">
+          <a class="next-page" href="sentiment_extraction_model_selection.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">ArXiv Database and RAG Vector Store Construction</div>
+                <div class="title">Select Sentiment Extraction Model + Evaluate Model</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="build_arxiv_vectorstore.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Home</div>
+                <div class="title">Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG</div>
                 
               </div>
             </a>
@@ -432,7 +437,7 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Model Finetuning and Evaluation Pipeline</a><ul>
+<li><a class="reference internal" href="#">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#project-structure">Project Structure</a></li>
 <li><a class="reference internal" href="#pre-trained-models">Pre-trained Models</a></li>

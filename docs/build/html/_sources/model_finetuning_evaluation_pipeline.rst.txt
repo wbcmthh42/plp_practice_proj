@@ -1,5 +1,5 @@
-Model Finetuning and Evaluation Pipeline
-=========================================
+Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation
+=======================================================================
 
 Introduction
 ------------
