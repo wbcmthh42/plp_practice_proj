@@ -20,31 +20,31 @@ Refer to the below notebooks for more information:
 
 1. **VADER Analysis**:
 
-   - Notebook: `notebooks/sentiment_analysis_vader_sentlevel.ipynb`
+   - Notebook: `notebook/sentiment_analysis_vader_sentlevel.ipynb`
    
    - Description: Detailed analysis of the VADER model, including implementation and evaluation metrics.
 
 2. **TextBlob Analysis**:
 
-   - Notebook: `notebooks/sentiment_analysis_textblob_sentlevel.ipynb`
+   - Notebook: `notebook/sentiment_analysis_textblob_sentlevel.ipynb`
    
    - Description: Comprehensive review of the TextBlob model, showcasing its performance and use cases.
 
 3. **DistilBERT Analysis**:
 
-   - Notebook: `notebooks/Sentiment_Analysis_Scoring_Distilbert.ipynb`
+   - Notebook: `notebook/Sentiment_Analysis_Scoring_Distilbert.ipynb`
    
    - Description: In-depth exploration of the DistilBERT model, focusing on its architecture and evaluation results.
 
 4. **RoBERTa Analysis**:
 
-   - Notebook: `notebooks/Sentiment_Analysis_Scoring_Roberta.ipynb`
+   - Notebook: `notebook/Sentiment_Analysis_Scoring_Roberta.ipynb`
    
    - Description: Examination of the RoBERTa model, highlighting its strengths and weaknesses in sentiment extraction.
 
 5. **Combined Model Approach**:
 
-   - Notebook: `notebooks/Sentiment_Analysis_Scoring_Distilbert+Vader.ipynb`
+   - Notebook: `notebook/Sentiment_Analysis_Scoring_Distilbert+Vader.ipynb`
    
    - Description: Analysis of the combined VADER and DistilBERT approach, including methodology and performance metrics.
 
