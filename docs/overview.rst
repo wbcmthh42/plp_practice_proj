@@ -177,7 +177,7 @@ Example Final Repo Structure (showing only the key sample files)
 
 - **reddit_keywords_results/**: This folder contains CSV files with extracted keywords from Reddit posts, which are used for analysis or UI display.
 
-- **requirements.txt**: This file lists the Python packages required for the project, which can be installed using pip.
+- **environment.yml**: This file lists the Python packages required for the project conda environment.
 
 - **src/**: This directory contains the source code for the application, including scripts for evaluation, data extraction, model training, and sentiment analysis.
 
