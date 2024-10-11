@@ -274,6 +274,7 @@
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>project_root/
 ├── src/
 │   ├── evaluation.py
+│   ├── finetune_BERT.py
 │   ├── model_training.py
 │   └── pipeline_model_finetuning_evaluation.py
 ├── conf/
@@ -360,6 +361,84 @@
 </div>
 <p>These commands use the configuration specified in the <code class="docutils literal notranslate"><span class="pre">conf/config.yaml</span></code> file.</p>
 </section>
+<section id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Link to this heading">¶</a></h2>
+<section id="bert-configuration">
+<h3><strong>BERT Configuration</strong><a class="headerlink" href="#bert-configuration" title="Link to this heading">¶</a></h3>
+<p>When training the BERT model, ensure that the configurations in <cite>conf/config.yaml</cite> are correctly set. The relevant parameters for BERT include:</p>
+<ul class="simple">
+<li><p><strong>Pretrained Model</strong>: Specify the model to be used (e.g., <cite>dbmdz/bert-large-cased-finetuned-conll03-english</cite>).</p></li>
+<li><p><strong>Maximum Length</strong>: Set the maximum sequence length for tokenization (e.g., <cite>256</cite>).</p></li>
+<li><p><strong>Batch Size</strong>: Define the batch size for training and evaluation (e.g., <cite>32</cite>).</p></li>
+<li><p><strong>Number of Epochs</strong>: Set the number of training epochs (e.g., <cite>1</cite>).</p></li>
+<li><p><strong>Learning Rate</strong>: Specify the learning rate for optimization (e.g., <cite>3e-5</cite>).</p></li>
+<li><p><strong>Output Directory</strong>: Define where to save the fine-tuned model (e.g., <cite>./model_checkpoint</cite>).</p></li>
+<li><p><strong>Datasets</strong>: Ensure the paths to the training, validation, and test datasets are correctly specified.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bert:
+<span class="w">   </span>pretrained_model:<span class="w"> </span><span class="s2">&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;</span>
+<span class="w">   </span>max_len:<span class="w"> </span><span class="m">256</span>
+<span class="w">   </span>batch_size:<span class="w"> </span><span class="m">32</span>
+<span class="w">   </span>num_epochs:<span class="w"> </span><span class="m">1</span>
+<span class="w">   </span>learning_rate:<span class="w"> </span>3e-5
+<span class="w">   </span>output_dir:<span class="w"> </span><span class="s2">&quot;./model_checkpoint&quot;</span>
+<span class="w">   </span>datasets:
+<span class="w">      </span>train:<span class="w"> </span><span class="s2">&quot;hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/train-00000-of-00001.parquet&quot;</span>
+<span class="w">      </span>validation:<span class="w"> </span><span class="s2">&quot;hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/validation-00000-of-00001.parquet&quot;</span>
+<span class="w">      </span>test:<span class="w"> </span><span class="s2">&quot;hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/test-00000-of-00001.parquet&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bart-and-t5-configurations">
+<h2>BART and T5 Configurations<a class="headerlink" href="#bart-and-t5-configurations" title="Link to this heading">¶</a></h2>
+<p>When training sequence-to-sequence models like BART and T5, you need to ensure that the configurations in <cite>conf/config.yaml</cite> are correctly set. Below are the relevant parameters and their descriptions for both models.</p>
+<section id="bart-configuration">
+<h3><strong>BART Configuration</strong><a class="headerlink" href="#bart-configuration" title="Link to this heading">¶</a></h3>
+<p>To configure BART, you should specify the following parameters in the <cite>conf/config.yaml</cite> file:</p>
+<ul class="simple">
+<li><p><strong>Base Model Name</strong>: Set the base model name for BART (e.g., <cite>facebook/bart-large</cite>).</p></li>
+<li><p><strong>Save Model Name</strong>: Define the name under which the fine-tuned BART model will be saved (e.g., <cite>tech-keywords-extractor_finetuned_bart</cite>).</p></li>
+<li><p><strong>Output Directory</strong>: Specify the directory where the model checkpoints will be saved (e.g., <cite>./bart_tech_keywords_model</cite>).</p></li>
+<li><p><strong>Training Parameters</strong>: Adjust the training parameters under the <cite>training</cite> section, such as:</p>
+<ul>
+<li><p><cite>num_train_epochs</cite>: Number of epochs for training (e.g., <cite>3</cite>).</p></li>
+<li><p><cite>per_device_train_batch_size</cite>: Batch size for training (e.g., <cite>4</cite>).</p></li>
+<li><p><cite>weight_decay</cite>: Weight decay for optimization (e.g., <cite>0.01</cite>).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="t5-configuration">
+<h3><strong>T5 Configuration</strong><a class="headerlink" href="#t5-configuration" title="Link to this heading">¶</a></h3>
+<p>For T5, the configuration is similar, but you need to ensure that the base model name is set to a T5 model. Here’s how to configure it:</p>
+<ul class="simple">
+<li><p><strong>Base Model Name</strong>: Set the base model name for T5 (e.g., <cite>google/flan-t5-large</cite>).</p></li>
+<li><p><strong>Save Model Name</strong>: Define the name under which the fine-tuned T5 model will be saved (e.g., <cite>tech-keywords-extractor_finetuned_t5</cite>).</p></li>
+<li><p><strong>Output Directory</strong>: Specify the directory where the model checkpoints will be saved (e.g., <cite>./t5_tech_keywords_model</cite>).</p></li>
+<li><p><strong>Training Parameters</strong>: Similar to BART, adjust the training parameters under the <cite>training</cite> section.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>base_model_name:<span class="w"> </span>facebook/bart-large
+save_model_name:<span class="w"> </span><span class="s1">&#39;tech-keywords-extractor_finetuned_bart&#39;</span>
+dataset_name:<span class="w"> </span>ilsilfverskiold/tech-keywords-topics-summary
+output_dir:<span class="w"> </span><span class="s1">&#39;./bart_tech_keywords_model&#39;</span>
+training:
+<span class="w">   </span>num_train_epochs:<span class="w"> </span><span class="m">3</span>
+<span class="w">   </span>warmup_steps:<span class="w"> </span><span class="m">500</span>
+<span class="w">   </span>per_device_train_batch_size:<span class="w"> </span><span class="m">4</span>
+<span class="w">   </span>per_device_eval_batch_size:<span class="w"> </span><span class="m">4</span>
+<span class="w">   </span>weight_decay:<span class="w"> </span><span class="m">0</span>.01
+<span class="w">   </span>logging_steps:<span class="w"> </span><span class="m">10</span>
+<span class="w">   </span>evaluation_strategy:<span class="w"> </span><span class="s1">&#39;steps&#39;</span>
+<span class="w">   </span>eval_steps:<span class="w"> </span><span class="m">50</span>
+<span class="w">   </span>save_steps:<span class="w"> </span>1e6
+<span class="w">   </span>gradient_accumulation_steps:<span class="w"> </span><span class="m">16</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="training-process">
 <h2>Training Process<a class="headerlink" href="#training-process" title="Link to this heading">¶</a></h2>
 <p>The training process is implemented in the <code class="docutils literal notranslate"><span class="pre">src/model_training.py</span></code> file. Here’s an overview of the main functions:</p>
@@ -375,6 +454,17 @@
 <h2>Evaluation Process<a class="headerlink" href="#evaluation-process" title="Link to this heading">¶</a></h2>
 <p>After training, the models are evaluated using the test set with Bert Score. The evaluation process is implemented in the <code class="docutils literal notranslate"><span class="pre">src/evaluation.py</span></code> file.</p>
 <p>The evaluation includes metrics such as precision, recall, and F1-score for keyword extraction. These metrics help assess how well the models perform in identifying relevant tech keywords from the input text.</p>
+<p><strong>Important:</strong> The following configuration parameters are required for the evaluation process to run smoothly:</p>
+<ul class="simple">
+<li><p><strong>Evaluation Model Name</strong>: Specify the path to the fine-tuned model to be evaluated (e.g., <cite>/path/to/your/model</cite>).</p></li>
+<li><p><strong>Results File</strong>: Define the output file path where the evaluation results will be saved (e.g., <cite>${hydra:output}/evaluation_results/results.csv</cite>).</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>eval:
+<span class="w">   </span>evaluation_model_name:<span class="w"> </span>/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/08-48-55/tech-keywords-extractor_finetuned_bart
+<span class="w">   </span>results_file:<span class="w"> </span><span class="si">${</span><span class="nv">hydra</span><span class="p">:</span><span class="nv">output</span><span class="si">}</span>/evaluation_results/bart_base_model_results.csv
+</pre></div>
+</div>
 </section>
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
@@ -444,6 +534,15 @@
 <li><a class="reference internal" href="#training-pipeline">Training Pipeline</a></li>
 <li><a class="reference internal" href="#pipeline-execution">Pipeline Execution</a></li>
 <li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#configurations">Configurations</a><ul>
+<li><a class="reference internal" href="#bert-configuration"><strong>BERT Configuration</strong></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bart-and-t5-configurations">BART and T5 Configurations</a><ul>
+<li><a class="reference internal" href="#bart-configuration"><strong>BART Configuration</strong></a></li>
+<li><a class="reference internal" href="#t5-configuration"><strong>T5 Configuration</strong></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#training-process">Training Process</a></li>
 <li><a class="reference internal" href="#evaluation-process">Evaluation Process</a></li>
 <li><a class="reference internal" href="#conclusion">Conclusion</a></li>

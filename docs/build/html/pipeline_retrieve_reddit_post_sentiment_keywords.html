@@ -289,9 +289,11 @@
 <h2>Configuration File<a class="headerlink" href="#configuration-file" title="Link to this heading">¶</a></h2>
 <p>The configuration for the pipeline is stored in <cite>conf/config.yaml</cite>. You need to prepare this file before running the pipeline. Below are the key sections you need to configure:</p>
 <ol class="arabic">
-<li><p><strong>PRAW Configuration</strong>:
-- <cite>praw_output</cite>: The name of the output CSV file for scraped Reddit data.
-- <cite>subreddits</cite>: A list of subreddit names to scrape.</p>
+<li><p><strong>PRAW Configuration</strong>:</p>
+<ul class="simple">
+<li><p><cite>praw_output</cite>: The name of the output CSV file for scraped Reddit data.</p></li>
+<li><p><cite>subreddits</cite>: A list of subreddit names to scrape.</p></li>
+</ul>
 <p>Example:</p>
 </li>
 </ol>
@@ -306,10 +308,12 @@ subreddits:
 </pre></div>
 </div>
 <ol class="arabic" start="2">
-<li><p><strong>Sentiment Analysis Configuration</strong>:
-- <cite>input_file</cite>: The input CSV file generated from the scraping step.
-- <cite>output_file</cite>: The name of the output CSV file for sentiment analysis results.
-- <cite>model_name</cite>: The model to be used for sentiment analysis.</p>
+<li><p><strong>Sentiment Analysis Configuration</strong>:</p>
+<ul class="simple">
+<li><p><cite>input_file</cite>: The input CSV file generated from the scraping step.</p></li>
+<li><p><cite>output_file</cite>: The name of the output CSV file for sentiment analysis results.</p></li>
+<li><p><cite>model_name</cite>: The model to be used for sentiment analysis.</p></li>
+</ul>
 <p>Example:</p>
 </li>
 </ol>
@@ -320,9 +324,11 @@ subreddits:
 </pre></div>
 </div>
 <ol class="arabic" start="3">
-<li><p><strong>Keyword Extraction Configuration</strong>:
-- <cite>reddit_dataset</cite>: The input file for keyword extraction (output from sentiment analysis).
-- <cite>reddit_results_file</cite>: The output file for extracted keywords.</p>
+<li><p><strong>Keyword Extraction Configuration</strong>:</p>
+<ul class="simple">
+<li><p><cite>reddit_dataset</cite>: The input file for keyword extraction (output from sentiment analysis).</p></li>
+<li><p><cite>reddit_results_file</cite>: The output file for extracted keywords.</p></li>
+</ul>
 <p>Example:</p>
 </li>
 </ol>

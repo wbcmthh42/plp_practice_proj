@@ -26,7 +26,9 @@ Configuration File
 The configuration for the pipeline is stored in `conf/config.yaml`. You need to prepare this file before running the pipeline. Below are the key sections you need to configure:
 
 1. **PRAW Configuration**:
+
    - `praw_output`: The name of the output CSV file for scraped Reddit data.
+   
    - `subreddits`: A list of subreddit names to scrape.
 
    Example:
@@ -43,8 +45,11 @@ The configuration for the pipeline is stored in `conf/config.yaml`. You need to 
         - cybersecurity
 
 2. **Sentiment Analysis Configuration**:
+
    - `input_file`: The input CSV file generated from the scraping step.
+   
    - `output_file`: The name of the output CSV file for sentiment analysis results.
+   
    - `model_name`: The model to be used for sentiment analysis.
 
    Example:
@@ -57,7 +62,9 @@ The configuration for the pipeline is stored in `conf/config.yaml`. You need to 
      model_name: distilbert-base-uncased-finetuned-sst-2-english
 
 3. **Keyword Extraction Configuration**:
+   
    - `reddit_dataset`: The input file for keyword extraction (output from sentiment analysis).
+   
    - `reddit_results_file`: The output file for extracted keywords.
 
    Example:

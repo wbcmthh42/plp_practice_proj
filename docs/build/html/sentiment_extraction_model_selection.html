@@ -266,7 +266,7 @@
           <section id="select-sentiment-extraction-model-evaluate-model">
 <h1>Select Sentiment Extraction Model + Evaluate Model<a class="headerlink" href="#select-sentiment-extraction-model-evaluate-model" title="Link to this heading">¶</a></h1>
 <section id="introduction">
-<h2><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>This section documents the steps taken by the team to select a model to do sentiment extraction from Reddit posts. The team began by comparing four prominent sentiment analysis models: VADER, TextBlob, DistilBERT, and RoBERTa. These models were chosen due to their varying methodologies and performance characteristics in sentiment extraction tasks. VADER and TextBlob are rule-based models known for their simplicity and efficiency, making them suitable for real-time applications. In contrast, DistilBERT and RoBERTa are transformer-based models that leverage deep learning techniques, offering potentially higher accuracy at the cost of increased computational complexity. This comparison aims to identify the most effective model for our sentiment extraction needs based on empirical performance metrics.</p>
 <section id="flowchart-on-sentiment-model-selection">
 <h3>Flowchart on Sentiment Model Selection<a class="headerlink" href="#flowchart-on-sentiment-model-selection" title="Link to this heading">¶</a></h3>
@@ -311,7 +311,7 @@
 </section>
 </section>
 <section id="model-selection-methodology">
-<h2><strong>Model Selection Methodology</strong><a class="headerlink" href="#model-selection-methodology" title="Link to this heading">¶</a></h2>
+<h2>Model Selection Methodology<a class="headerlink" href="#model-selection-methodology" title="Link to this heading">¶</a></h2>
 <p>The model selection process involves the following steps:</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -353,7 +353,7 @@
 </div></blockquote>
 </section>
 <section id="model-evaluation-criteria">
-<h2><strong>Model Evaluation Criteria</strong><a class="headerlink" href="#model-evaluation-criteria" title="Link to this heading">¶</a></h2>
+<h2>Model Evaluation Criteria<a class="headerlink" href="#model-evaluation-criteria" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p><strong>Confusion Matrix</strong>: Analyze the confusion matrix for each model to understand the distribution of true positives, false positives, true negatives, and false negatives.</p></li>
@@ -367,7 +367,7 @@
 <strong>F1 Score</strong> is the other important criteria in sentiment analysis because it accounts for both false positives and false negatives, providing a more nuanced view of model performance. In scenarios where one sentiment class may be more prevalent than others (e.g., more neutral comments), relying solely on accuracy can be misleading. The F1 score helps ensure that the model performs well across all classes, making it a critical metric for applications where identifying all sentiment types accurately is essential.</p>
 </section>
 <section id="model-comparison">
-<h2><strong>Model Comparison</strong><a class="headerlink" href="#model-comparison" title="Link to this heading">¶</a></h2>
+<h2>Model Comparison<a class="headerlink" href="#model-comparison" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>Compare the confusion matrices from each model:</p>
@@ -382,7 +382,7 @@
 </div></blockquote>
 </section>
 <section id="performance-metrics">
-<h2><strong>Performance Metrics</strong><a class="headerlink" href="#performance-metrics" title="Link to this heading">¶</a></h2>
+<h2>Performance Metrics<a class="headerlink" href="#performance-metrics" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>Summarize the performance metrics for each model:</p>
@@ -398,7 +398,7 @@
 <p>As mentioned in Model Evaluation Criteria, the performance criteria of interest here is <strong>Accuracy</strong> and <strong>F1 Score</strong>.</p>
 </section>
 <section id="final-decision">
-<h2><strong>Final Decision</strong><a class="headerlink" href="#final-decision" title="Link to this heading">¶</a></h2>
+<h2>Final Decision<a class="headerlink" href="#final-decision" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>Based on the summarized metrics, select the model that:</p>
@@ -412,7 +412,7 @@
 </div></blockquote>
 </section>
 <section id="implementation">
-<h2><strong>Implementation</strong><a class="headerlink" href="#implementation" title="Link to this heading">¶</a></h2>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li><p>Once the final model is selected, implement it in the sentiment extraction pipeline.</p></li>
@@ -738,17 +738,17 @@ By following this methodology, the team has systematically evaluate and select t
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Select Sentiment Extraction Model + Evaluate Model</a><ul>
-<li><a class="reference internal" href="#introduction"><strong>Introduction</strong></a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
 <li><a class="reference internal" href="#flowchart-on-sentiment-model-selection">Flowchart on Sentiment Model Selection</a></li>
 <li><a class="reference internal" href="#reference-notebooks">Reference Notebooks</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#model-selection-methodology"><strong>Model Selection Methodology</strong></a></li>
-<li><a class="reference internal" href="#model-evaluation-criteria"><strong>Model Evaluation Criteria</strong></a></li>
-<li><a class="reference internal" href="#model-comparison"><strong>Model Comparison</strong></a></li>
-<li><a class="reference internal" href="#performance-metrics"><strong>Performance Metrics</strong></a></li>
-<li><a class="reference internal" href="#final-decision"><strong>Final Decision</strong></a></li>
-<li><a class="reference internal" href="#implementation"><strong>Implementation</strong></a></li>
+<li><a class="reference internal" href="#model-selection-methodology">Model Selection Methodology</a></li>
+<li><a class="reference internal" href="#model-evaluation-criteria">Model Evaluation Criteria</a></li>
+<li><a class="reference internal" href="#model-comparison">Model Comparison</a></li>
+<li><a class="reference internal" href="#performance-metrics">Performance Metrics</a></li>
+<li><a class="reference internal" href="#final-decision">Final Decision</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
 <li><a class="reference internal" href="#key-results">Key Results</a><ul>
 <li><a class="reference internal" href="#vader"><strong>VADER</strong>:</a></li>
 <li><a class="reference internal" href="#textblob"><strong>TextBlob</strong>:</a></li>

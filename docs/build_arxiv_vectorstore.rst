@@ -75,8 +75,20 @@ The arXiv database is built using the ``retrieve_papers_with_link.py`` script. T
 
     - Logs errors and information for monitoring the retrieval process.
 
-5. **Configurable Parameters**:
+5. **Configurable Parameters using `config.yaml`**:
+
     - Uses Hydra for configuration management, allowing easy adjustment of parameters such as date range and maximum results.
+
+    - Open the `conf/config.yaml` file to adjust the parameters for retrieving arXiv papers.
+    
+    - **`start_date`**: Set the starting date using `date_range.from_date` for the paper retrieval (format: YYYY-MM-DD).
+    
+    - **`until_date`**: Set the ending date using `date_range.until_date` for the paper retrieval (format: YYYY-MM-DD).
+    
+    - **`max_results`**: Specify the maximum number of papers to retrieve using `max_results` (default is 200,000).
+    
+    - **`output_file`**: Define the path where the retrieved papers will be saved as a CSV file using `output_file`.
+
 
 The resulting CSV file serves as the foundation for the RAG vector store.
 
@@ -136,5 +148,19 @@ To use the RAG system:
 2. Run ``rag.py`` to construct the vector store and enable search functionality.
 
 3. Use the ``hybrid_search`` function to perform searches on the arXiv papers.
+
+4. **Configuring `config.yaml`**:
+
+    - Open the `conf/config.yaml` file to adjust the parameters for retrieving arXiv papers.
+    
+    - **`output_file`**: Define the path where the retrieved papers will be saved as a CSV file using `output_file`.
+
+    - **`embedding_model.name`**: Specify the name of the pre-trained model to be used for generating embeddings (e.g., `"sentence-transformers/all-MiniLM-L6-v2"`).
+    
+    - **`vector_store.persist_directory`**: Set the directory path where the vector store will be persisted (e.g., `"./vector_store"`).
+    
+    - **`search.top_n`**: Define the number of top results to return for search queries (default is `15`).
+    
+    - **`summary.word_limit`**: Set the maximum number of words for the summary truncation (default is `30`).
 
 The system allows for efficient retrieval of relevant research papers based on user queries, combining the power of semantic search with traditional keyword matching.

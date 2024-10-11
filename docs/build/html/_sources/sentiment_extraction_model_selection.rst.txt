@@ -1,8 +1,8 @@
 Select Sentiment Extraction Model + Evaluate Model
 ==================================================
 
-**Introduction**
-------------------
+Introduction
+------------
 
 This section documents the steps taken by the team to select a model to do sentiment extraction from Reddit posts. The team began by comparing four prominent sentiment analysis models: VADER, TextBlob, DistilBERT, and RoBERTa. These models were chosen due to their varying methodologies and performance characteristics in sentiment extraction tasks. VADER and TextBlob are rule-based models known for their simplicity and efficiency, making them suitable for real-time applications. In contrast, DistilBERT and RoBERTa are transformer-based models that leverage deep learning techniques, offering potentially higher accuracy at the cost of increased computational complexity. This comparison aims to identify the most effective model for our sentiment extraction needs based on empirical performance metrics.
 
@@ -49,8 +49,8 @@ Refer to the below notebooks for more information:
    - Description: Analysis of the combined VADER and DistilBERT approach, including methodology and performance metrics.
 
 
-**Model Selection Methodology**
----------------------------------
+Model Selection Methodology
+---------------------------
 
 The model selection process involves the following steps:
 
@@ -79,8 +79,8 @@ The model selection process involves the following steps:
     - Select the best sentiment classification model based on the evaluation results.
 
 
-**Model Evaluation Criteria**
-------------------------------
+Model Evaluation Criteria
+-------------------------
 
    - **Confusion Matrix**: Analyze the confusion matrix for each model to understand the distribution of true positives, false positives, true negatives, and false negatives.
    
@@ -95,8 +95,8 @@ The model selection process involves the following steps:
 The main criteria for this assessment is **Accuracy** which gives a straightforward measure of overall performance, indicating how many predictions were correct out of all predictions made. It is especially useful when the classes are balanced.
 **F1 Score** is the other important criteria in sentiment analysis because it accounts for both false positives and false negatives, providing a more nuanced view of model performance. In scenarios where one sentiment class may be more prevalent than others (e.g., more neutral comments), relying solely on accuracy can be misleading. The F1 score helps ensure that the model performs well across all classes, making it a critical metric for applications where identifying all sentiment types accurately is essential.
 
-**Model Comparison**
---------------------
+Model Comparison
+----------------
    
    - Compare the confusion matrices from each model:
      
@@ -108,8 +108,8 @@ The main criteria for this assessment is **Accuracy** which gives a straightforw
    
    - Look for patterns in the confusion matrices, such as which model consistently misclassifies certain sentiments.
 
-**Performance Metrics**
------------------------
+Performance Metrics
+-------------------
    
    - Summarize the performance metrics for each model:
      
@@ -123,8 +123,8 @@ The main criteria for this assessment is **Accuracy** which gives a straightforw
 
 As mentioned in Model Evaluation Criteria, the performance criteria of interest here is **Accuracy** and **F1 Score**.
 
-**Final Decision**
-------------------
+Final Decision
+--------------
    
    - Based on the summarized metrics, select the model that:
      
@@ -134,8 +134,8 @@ As mentioned in Model Evaluation Criteria, the performance criteria of interest 
    
    - Consider the complexity and computational efficiency of the models. Simpler models like VADER and TextBlob may be preferred for real-time applications, while transformer models may be used for batch processing where accuracy is paramount.
 
-**Implementation**
-------------------
+Implementation
+--------------
    
    - Once the final model is selected, implement it in the sentiment extraction pipeline.
    

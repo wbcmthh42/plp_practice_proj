@@ -65,11 +65,11 @@ training:
   save_steps: 1e6
   gradient_accumulation_steps: 16
 
-#Evaluation
+#Evaluation (replace with your local directory as applicable)
 eval:
   # evaluation_model_name: 'google/flan-t5-large'
   # evaluation_model_name: 'facebook/bart-large'
-  evaluation_model_name: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/08-48-55/tech-keywords-extractor_finetuned_t5
+  evaluation_model_name: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/08-48-55/tech-keywords-extractor_finetuned_bart
   # evaluation_model_name: ./outputs/2024-09-16/12-47-35/tech-keywords-extractor_finetuned_bart
   # evaluation_model_name: ./finetune_llm/model_checkpoint_bert
 

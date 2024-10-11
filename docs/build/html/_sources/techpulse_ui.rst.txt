@@ -32,6 +32,13 @@ Before using the application, you need to configure it to ensure it can access t
 4. **Verify the Configuration**:
    - Double-check that the path is correct and that the files are accessible. You can do this by navigating to the specified directory in your terminal or file explorer.
 
+Example:
+
+.. code-block:: bash
+
+   reddit_results_file_for_ui: /Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/reddit_keywords_results/reddit_keywords_hybrid.csv
+
+
 Usage
 -----
 

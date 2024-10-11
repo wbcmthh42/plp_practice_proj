@@ -348,12 +348,17 @@
 </dd>
 </dl>
 </li>
-<li><dl class="simple">
-<dt><strong>Configurable Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><strong>Configurable Parameters using `config.yaml`</strong>:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>Uses Hydra for configuration management, allowing easy adjustment of parameters such as date range and maximum results.</p></li>
+<li><p>Open the <cite>conf/config.yaml</cite> file to adjust the parameters for retrieving arXiv papers.</p></li>
+<li><p><strong>`start_date`</strong>: Set the starting date using <cite>date_range.from_date</cite> for the paper retrieval (format: YYYY-MM-DD).</p></li>
+<li><p><strong>`until_date`</strong>: Set the ending date using <cite>date_range.until_date</cite> for the paper retrieval (format: YYYY-MM-DD).</p></li>
+<li><p><strong>`max_results`</strong>: Specify the maximum number of papers to retrieve using <cite>max_results</cite> (default is 200,000).</p></li>
+<li><p><strong>`output_file`</strong>: Define the path where the retrieved papers will be saved as a CSV file using <cite>output_file</cite>.</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 </ol>
 <p>The resulting CSV file serves as the foundation for the RAG vector store.</p>
@@ -446,10 +451,22 @@
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
 <p>To use the RAG system:</p>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">retrieve_papers_with_link.py</span></code> to build the initial CSV database.</p></li>
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">rag.py</span></code> to construct the vector store and enable search functionality.</p></li>
 <li><p>Use the <code class="docutils literal notranslate"><span class="pre">hybrid_search</span></code> function to perform searches on the arXiv papers.</p></li>
+<li><p><strong>Configuring `config.yaml`</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Open the <cite>conf/config.yaml</cite> file to adjust the parameters for retrieving arXiv papers.</p></li>
+<li><p><strong>`output_file`</strong>: Define the path where the retrieved papers will be saved as a CSV file using <cite>output_file</cite>.</p></li>
+<li><p><strong>`embedding_model.name`</strong>: Specify the name of the pre-trained model to be used for generating embeddings (e.g., <cite>“sentence-transformers/all-MiniLM-L6-v2”</cite>).</p></li>
+<li><p><strong>`vector_store.persist_directory`</strong>: Set the directory path where the vector store will be persisted (e.g., <cite>“./vector_store”</cite>).</p></li>
+<li><p><strong>`search.top_n`</strong>: Define the number of top results to return for search queries (default is <cite>15</cite>).</p></li>
+<li><p><strong>`summary.word_limit`</strong>: Set the maximum number of words for the summary truncation (default is <cite>30</cite>).</p></li>
+</ul>
+</div></blockquote>
+</li>
 </ol>
 <p>The system allows for efficient retrieval of relevant research papers based on user queries, combining the power of semantic search with traditional keyword matching.</p>
 </section>
