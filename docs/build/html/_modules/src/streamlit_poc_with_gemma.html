@@ -1,0 +1,726 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
+        <title>src.streamlit_poc_with_gemma - TechPulse documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">TechPulse  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../../_static/techpulse.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">TechPulse  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">TechPulse Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../build_arxiv_vectorstore.html">Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_finetuning_evaluation_pipeline.html">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sentiment_extraction_model_selection.html">Select Sentiment Extraction Model + Evaluate Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipeline_retrieve_reddit_post_sentiment_keywords.html">Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../techpulse_ui.html">TechPulse User Interface</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_training.html">model_training module - Finetuning Bart and T5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../finetune_BERT.html">model_training module - Finetuning BERT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../evaluation.html">evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rag.html">rag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for src.streamlit_poc_with_gemma</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module Description</span>
+<span class="sd">===================</span>
+
+<span class="sd">TechPulse Streamlit POC with Gemma</span>
+<span class="sd">-----------------------------------</span>
+
+<span class="sd">This module provides a Streamlit-based proof-of-concept (POC) application that retrieves Reddit tech posts from selected date ranges, extracts relevant tech keywords, and allows users to search for related arXiv research papers. The application aims to assist users in researching course materials for implementing new courses.</span>
+
+<span class="sd">Key Features</span>
+<span class="sd">------------</span>
+
+<span class="sd">* Retrieves Reddit tech posts from user-selected date ranges</span>
+<span class="sd">* Extracts relevant tech keywords from the posts</span>
+<span class="sd">* Allows users to select and filter keywords</span>
+<span class="sd">* Searches for related arXiv research papers based on the selected keywords</span>
+<span class="sd">* Utilizes a Large Language Model (LLM) built with Gemma to generate insights from the keywords</span>
+
+<span class="sd">Dependencies</span>
+<span class="sd">------------</span>
+
+<span class="sd">* Streamlit</span>
+<span class="sd">* Pandas</span>
+<span class="sd">* Plotly</span>
+<span class="sd">* Gemma (language model)</span>
+<span class="sd">* arXiv API</span>
+
+<span class="sd">Usage</span>
+<span class="sd">-----</span>
+
+<span class="sd">To run the application, simply execute the script using `python src/streamlit_poc_with_gemma.py`. This will launch the Streamlit app, allowing users to interact with the application and generate insights.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForCausalLM</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">hydra</span>
+<span class="kn">from</span> <span class="nn">hydra.core.global_hydra</span> <span class="kn">import</span> <span class="n">GlobalHydra</span>
+<span class="kn">from</span> <span class="nn">omegaconf</span> <span class="kn">import</span> <span class="n">DictConfig</span>
+
+<span class="c1"># Add the directory containing RAG_V3.py to the Python path</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;.&#39;</span><span class="p">)))</span>
+<span class="c1"># Import necessary functions from RAG_V3</span>
+<span class="kn">from</span> <span class="nn">rag</span> <span class="kn">import</span> <span class="n">load_vector_store</span><span class="p">,</span> <span class="n">hybrid_search</span><span class="p">,</span> <span class="n">truncate_summary</span><span class="p">,</span> <span class="n">setup_rag</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">set_page_config</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">&quot;wide&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="load_and_preprocess_data">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_and_preprocess_data">[docs]</a>
+<span class="k">def</span> <span class="nf">load_and_preprocess_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads a CSV file containing sentiment analysis results and preprocesses the data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_path : str</span>
+<span class="sd">        Path to the CSV file containing sentiment analysis results.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Preprocessed dataframe containing only rows with negative sentiment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">])</span>
+    <span class="c1"># return df[df[&#39;sentiment&#39;].isin([&#39;POSITIVE&#39;, &#39;NEUTRAL&#39;])]</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="preprocess_keywords">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.preprocess_keywords">[docs]</a>
+<span class="k">def</span> <span class="nf">preprocess_keywords</span><span class="p">(</span><span class="n">keyword</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stop_words</span><span class="p">:</span> <span class="nb">set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Preprocesses a single keyword by removing punctuation, converting to lower case, splitting into words, removing stop words and words shorter than 1 character, and then joining the remaining words back together with a space in between each word.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keyword : str</span>
+<span class="sd">        Keyword to preprocess.</span>
+<span class="sd">    stop_words : set</span>
+<span class="sd">        Set of stop words to remove from the keyword.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Preprocessed keyword.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># Check if keyword is not a string</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>  <span class="c1"># Return an empty string for non-string inputs</span>
+    <span class="n">keyword</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-z\s]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">keyword</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">keyword</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="process_keywords">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.process_keywords">[docs]</a>
+<span class="k">def</span> <span class="nf">process_keywords</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">stop_words</span><span class="p">:</span> <span class="nb">set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes a dataframe containing sentiment analysis results by splitting the keywords column into individual keywords, removing empty strings, &#39;[deleted]&#39;, &#39;[removed]&#39;, and stop words, and then joining the remaining words back together with a space in between each word.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Dataframe containing sentiment analysis results.</span>
+<span class="sd">    stop_words : set</span>
+<span class="sd">        Set of stop words to remove from the keywords.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Processed dataframe containing only rows with non-empty keywords.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">exploded_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">&#39;keywords&#39;</span><span class="p">)</span>
+    <span class="n">exploded_df</span> <span class="o">=</span> <span class="n">exploded_df</span><span class="p">[</span><span class="o">~</span><span class="n">exploded_df</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;[deleted]&#39;</span><span class="p">,</span> <span class="s1">&#39;[removed]&#39;</span><span class="p">])]</span>
+    <span class="n">exploded_df</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exploded_df</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">preprocess_keywords</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">stop_words</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">exploded_df</span><span class="p">[</span><span class="n">exploded_df</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_top_keywords">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_top_keywords">[docs]</a>
+<span class="k">def</span> <span class="nf">get_top_keywords</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets the top n keywords from a dataframe by frequency and includes sentiment counts.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Dataframe containing sentiment analysis results.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Number of top keywords to return.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Dataframe containing the top n keywords and their sentiment counts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Group by keywords and count occurrences of each sentiment</span>
+    <span class="n">keyword_counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">keyword_counts</span> <span class="o">=</span> <span class="n">keyword_counts</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">keyword_counts</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keyword_counts</span><span class="p">[[</span><span class="s1">&#39;POSITIVE&#39;</span><span class="p">,</span> <span class="s1">&#39;NEUTRAL&#39;</span><span class="p">,</span> <span class="s1">&#39;NEGATIVE&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Sort by total frequency and get top n</span>
+    <span class="k">return</span> <span class="n">keyword_counts</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_keyword_chart">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.create_keyword_chart">[docs]</a>
+<span class="k">def</span> <span class="nf">create_keyword_chart</span><span class="p">(</span><span class="n">top_keywords</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a horizontal stacked bar chart of the top n keywords by frequency of sentiments.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    top_keywords : pd.DataFrame</span>
+<span class="sd">        Dataframe containing the top n keywords and their sentiment counts.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Number of top keywords to display.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    px.bar</span>
+<span class="sd">        Horizontal stacked bar chart of the top n keywords by sentiment frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Melt the DataFrame to long format for stacked bar chart</span>
+    <span class="n">melted_df</span> <span class="o">=</span> <span class="n">top_keywords</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;keywords&#39;</span><span class="p">,</span> 
+                                   <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POSITIVE&#39;</span><span class="p">,</span> <span class="s1">&#39;NEUTRAL&#39;</span><span class="p">,</span> <span class="s1">&#39;NEGATIVE&#39;</span><span class="p">],</span> 
+                                   <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;sentiment&#39;</span><span class="p">,</span> 
+                                   <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create a horizontal stacked bar chart</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">melted_df</span><span class="p">,</span> 
+                 <span class="n">y</span><span class="o">=</span><span class="s1">&#39;keywords&#39;</span><span class="p">,</span>  <span class="c1"># Set y to keywords for horizontal bars</span>
+                 <span class="n">x</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span>     <span class="c1"># Set x to count for horizontal bars</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;sentiment&#39;</span><span class="p">,</span> 
+                 <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Top </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1"> Keywords by Sentiment&#39;</span><span class="p">,</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="s1">&#39;Count&#39;</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="s1">&#39;Keywords&#39;</span><span class="p">},</span>
+                 <span class="n">text</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span>
+                 <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">])</span>  <span class="c1"># Specify colors for each sentiment</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;stack&#39;</span><span class="p">,</span> 
+                      <span class="n">height</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>  <span class="c1"># Adjust height as needed</span>
+                      <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>  <span class="c1"># Adjust width as needed</span>
+                      <span class="n">yaxis</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;categoryorder&#39;</span><span class="p">:</span><span class="s1">&#39;total ascending&#39;</span><span class="p">},</span>
+                      <span class="n">clickmode</span><span class="o">=</span><span class="s1">&#39;event+select&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="display_keyword_details">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.display_keyword_details">[docs]</a>
+<span class="k">def</span> <span class="nf">display_keyword_details</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">keyword</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays the top 10 research papers related to a given keyword.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Dataframe containing the keyword data.</span>
+<span class="sd">    keyword : str</span>
+<span class="sd">        The keyword to search for.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Related Research Papers:&quot;</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">hybrid_search</span><span class="p">(</span><span class="n">keyword</span><span class="p">,</span> <span class="n">top_n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Sort results by date, most recent first</span>
+    <span class="n">sorted_results</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;Updated&#39;</span><span class="p">],</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">sorted_results</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Title:** </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Category:** </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;Category&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Updated:** </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;Updated&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Summary:** </span><span class="si">{</span><span class="n">truncate_summary</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;Summary&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;**Link:** </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;Link&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_model_and_tokenizer">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.load_model_and_tokenizer">[docs]</a>
+<span class="nd">@st</span><span class="o">.</span><span class="n">cache_resource</span>
+<span class="k">def</span> <span class="nf">load_model_and_tokenizer</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads the Gemma model and tokenizer, and sets up the device (either MPS, CUDA, or CPU).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tokenizer : transformers.AutoTokenizer</span>
+<span class="sd">        The tokenizer for the Gemma model.</span>
+<span class="sd">    model : transformers.AutoModelForCausalLM</span>
+<span class="sd">        The Gemma model.</span>
+<span class="sd">    device : torch.device</span>
+<span class="sd">        The device to use for the model (either MPS, CUDA, or CPU).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;google/gemma-2b&quot;</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+    
+    <span class="c1"># Check if MPS is available</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;mps&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using MPS device&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using CUDA device&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using CPU device&quot;</span><span class="p">)</span>
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+        <span class="n">model_name</span><span class="p">,</span>
+        <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span> <span class="k">if</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;cuda&quot;</span><span class="p">,</span> <span class="s2">&quot;mps&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span>
+    <span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span></div>
+
+
+<div class="viewcode-block" id="get_llm_summary">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.get_llm_summary">[docs]</a>
+<span class="k">def</span> <span class="nf">get_llm_summary</span><span class="p">(</span><span class="n">keywords</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Uses the Gemma LLM to generate a concise summary of the emerging tech trends</span>
+<span class="sd">    represented by the given keywords, and proposes 5 potential topics that would</span>
+<span class="sd">    be relevant and engaging for students.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keywords : List[str]</span>
+<span class="sd">        The keywords to analyze.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        A summary of the emerging tech trends represented by the given keywords,</span>
+<span class="sd">        and 5 potential topics that would be relevant and engaging for students.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="n">load_model_and_tokenizer</span><span class="p">()</span>
+
+    <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Analyze the following top keywords from recent Reddit tech discussions and provide a concise summary of the emerging tech trends they might represent:</span>
+
+<span class="s2">Keywords: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span><span class="si">}</span>
+
+<span class="s2">Based on these trends, propose 5 potential topics that would be relevant and engaging for students. Keep your response to lesser than 50 words in total.</span>
+
+<span class="s2">Topics:&quot;&quot;&quot;</span>
+
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">top_p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Decode the entire output</span>
+    <span class="n">full_output</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Extract only the generated summary (everything after the prompt)</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">full_output</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">prompt</span><span class="p">):]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="c1"># Ensure the summary starts with &quot;Possible Topics:&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">summary</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Possible Topics:&quot;</span><span class="p">):</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="s2">&quot;Possible Topics: </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">summary</span>
+    
+    <span class="k">return</span> <span class="n">summary</span></div>
+
+    
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../streamlit_poc_with_gemma.html#src.streamlit_poc_with_gemma.main">[docs]</a>
+<span class="nd">@hydra</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">version_base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config_path</span><span class="o">=</span><span class="s2">&quot;../conf&quot;</span><span class="p">,</span> <span class="n">config_name</span><span class="o">=</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">cfg</span><span class="p">:</span> <span class="n">DictConfig</span><span class="p">):</span>
+    <span class="c1"># Set up RAG system</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main function to set up the RAG system, define a list of common stop words,</span>
+<span class="sd">    and display a Streamlit app to analyze the top keywords from recent Reddit tech discussions.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        cfg (omegaconf.DictConfig): Configuration for the RAG model.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Clear any previous Hydra instance</span>
+    <span class="k">if</span> <span class="n">GlobalHydra</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+        <span class="n">GlobalHydra</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    
+    <span class="n">setup_rag</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+    <span class="c1"># Define a list of common stop words</span>
+    <span class="n">default_stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;an&#39;</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">,</span> <span class="s1">&#39;are&#39;</span><span class="p">,</span> <span class="s1">&#39;as&#39;</span><span class="p">,</span> <span class="s1">&#39;at&#39;</span><span class="p">,</span> <span class="s1">&#39;be&#39;</span><span class="p">,</span> <span class="s1">&#39;by&#39;</span><span class="p">,</span> <span class="s1">&#39;for&#39;</span><span class="p">,</span> <span class="s1">&#39;from&#39;</span><span class="p">,</span> <span class="s1">&#39;has&#39;</span><span class="p">,</span> <span class="s1">&#39;he&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;its&#39;</span><span class="p">,</span> <span class="s1">&#39;of&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">,</span> <span class="s1">&#39;that&#39;</span><span class="p">,</span> <span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="s1">&#39;was&#39;</span><span class="p">,</span> <span class="s1">&#39;were&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;with&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;me&#39;</span><span class="p">,</span> <span class="s1">&#39;my&#39;</span><span class="p">,</span> <span class="s1">&#39;myself&#39;</span><span class="p">,</span> <span class="s1">&#39;we&#39;</span><span class="p">,</span> <span class="s1">&#39;our&#39;</span><span class="p">,</span> <span class="s1">&#39;ours&#39;</span><span class="p">,</span> <span class="s1">&#39;ourselves&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s2">&quot;you&#39;re&quot;</span><span class="p">,</span> <span class="s2">&quot;you&#39;ve&quot;</span><span class="p">,</span> <span class="s2">&quot;you&#39;ll&quot;</span><span class="p">,</span> <span class="s2">&quot;you&#39;d&quot;</span><span class="p">,</span> <span class="s1">&#39;your&#39;</span><span class="p">,</span> <span class="s1">&#39;yours&#39;</span><span class="p">,</span> <span class="s1">&#39;yourself&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yourselves&#39;</span><span class="p">,</span> <span class="s1">&#39;he&#39;</span><span class="p">,</span> <span class="s1">&#39;him&#39;</span><span class="p">,</span> <span class="s1">&#39;his&#39;</span><span class="p">,</span> <span class="s1">&#39;himself&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">,</span> <span class="s2">&quot;she&#39;s&quot;</span><span class="p">,</span> <span class="s1">&#39;her&#39;</span><span class="p">,</span> <span class="s1">&#39;hers&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;herself&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s2">&quot;it&#39;s&quot;</span><span class="p">,</span> <span class="s1">&#39;its&#39;</span><span class="p">,</span> <span class="s1">&#39;itself&#39;</span><span class="p">,</span> <span class="s1">&#39;they&#39;</span><span class="p">,</span> <span class="s1">&#39;them&#39;</span><span class="p">,</span> <span class="s1">&#39;their&#39;</span><span class="p">,</span> <span class="s1">&#39;theirs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;themselves&#39;</span><span class="p">,</span> <span class="s1">&#39;what&#39;</span><span class="p">,</span> <span class="s1">&#39;which&#39;</span><span class="p">,</span> <span class="s1">&#39;who&#39;</span><span class="p">,</span> <span class="s1">&#39;whom&#39;</span><span class="p">,</span> <span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;that&#39;</span><span class="p">,</span> <span class="s2">&quot;that&#39;ll&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;these&#39;</span><span class="p">,</span> <span class="s1">&#39;those&#39;</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;are&#39;</span><span class="p">,</span> <span class="s1">&#39;was&#39;</span><span class="p">,</span> <span class="s1">&#39;were&#39;</span><span class="p">,</span> <span class="s1">&#39;be&#39;</span><span class="p">,</span> <span class="s1">&#39;been&#39;</span><span class="p">,</span> <span class="s1">&#39;being&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;have&#39;</span><span class="p">,</span> <span class="s1">&#39;has&#39;</span><span class="p">,</span> <span class="s1">&#39;had&#39;</span><span class="p">,</span> <span class="s1">&#39;having&#39;</span><span class="p">,</span> <span class="s1">&#39;do&#39;</span><span class="p">,</span> <span class="s1">&#39;does&#39;</span><span class="p">,</span> <span class="s1">&#39;did&#39;</span><span class="p">,</span> <span class="s1">&#39;doing&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;an&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">,</span> <span class="s1">&#39;but&#39;</span><span class="p">,</span> <span class="s1">&#39;if&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;because&#39;</span><span class="p">,</span> <span class="s1">&#39;as&#39;</span><span class="p">,</span> <span class="s1">&#39;until&#39;</span><span class="p">,</span> <span class="s1">&#39;while&#39;</span><span class="p">,</span> <span class="s1">&#39;of&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;at&#39;</span><span class="p">,</span> <span class="s1">&#39;by&#39;</span><span class="p">,</span> <span class="s1">&#39;for&#39;</span><span class="p">,</span> <span class="s1">&#39;with&#39;</span><span class="p">,</span> <span class="s1">&#39;about&#39;</span><span class="p">,</span> <span class="s1">&#39;against&#39;</span><span class="p">,</span> <span class="s1">&#39;between&#39;</span><span class="p">,</span> <span class="s1">&#39;into&#39;</span><span class="p">,</span> <span class="s1">&#39;through&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;during&#39;</span><span class="p">,</span> <span class="s1">&#39;before&#39;</span><span class="p">,</span> <span class="s1">&#39;after&#39;</span><span class="p">,</span> <span class="s1">&#39;above&#39;</span><span class="p">,</span> <span class="s1">&#39;below&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="s1">&#39;from&#39;</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">,</span> <span class="s1">&#39;off&#39;</span><span class="p">,</span> <span class="s1">&#39;over&#39;</span><span class="p">,</span> <span class="s1">&#39;under&#39;</span><span class="p">,</span> <span class="s1">&#39;again&#39;</span><span class="p">,</span> <span class="s1">&#39;further&#39;</span><span class="p">,</span> <span class="s1">&#39;then&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;once&#39;</span><span class="p">,</span> <span class="s1">&#39;here&#39;</span><span class="p">,</span> <span class="s1">&#39;there&#39;</span><span class="p">,</span> <span class="s1">&#39;when&#39;</span><span class="p">,</span> <span class="s1">&#39;where&#39;</span><span class="p">,</span> <span class="s1">&#39;why&#39;</span><span class="p">,</span> <span class="s1">&#39;how&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;any&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="s1">&#39;each&#39;</span><span class="p">,</span> <span class="s1">&#39;few&#39;</span><span class="p">,</span> <span class="s1">&#39;more&#39;</span><span class="p">,</span> <span class="s1">&#39;most&#39;</span><span class="p">,</span> <span class="s1">&#39;other&#39;</span><span class="p">,</span> <span class="s1">&#39;some&#39;</span><span class="p">,</span> <span class="s1">&#39;such&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;nor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;not&#39;</span><span class="p">,</span> <span class="s1">&#39;only&#39;</span><span class="p">,</span> <span class="s1">&#39;own&#39;</span><span class="p">,</span> <span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="s1">&#39;so&#39;</span><span class="p">,</span> <span class="s1">&#39;than&#39;</span><span class="p">,</span> <span class="s1">&#39;too&#39;</span><span class="p">,</span> <span class="s1">&#39;very&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;can&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;just&#39;</span><span class="p">,</span> <span class="s1">&#39;don&#39;</span><span class="p">,</span> <span class="s2">&quot;don&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;should&#39;</span><span class="p">,</span> <span class="s2">&quot;should&#39;ve&quot;</span><span class="p">,</span> <span class="s1">&#39;now&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;ll&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;re&#39;</span><span class="p">,</span> <span class="s1">&#39;ve&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;ain&#39;</span><span class="p">,</span> <span class="s1">&#39;aren&#39;</span><span class="p">,</span> <span class="s2">&quot;aren&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;couldn&#39;</span><span class="p">,</span> <span class="s2">&quot;couldn&#39;t&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;didn&#39;</span><span class="p">,</span> <span class="s2">&quot;didn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;doesn&#39;</span><span class="p">,</span> <span class="s2">&quot;doesn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;hadn&#39;</span><span class="p">,</span> <span class="s2">&quot;hadn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;hasn&#39;</span><span class="p">,</span> <span class="s2">&quot;hasn&#39;t&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;haven&#39;</span><span class="p">,</span> <span class="s2">&quot;haven&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;isn&#39;</span><span class="p">,</span> <span class="s2">&quot;isn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;ma&#39;</span><span class="p">,</span> <span class="s1">&#39;mightn&#39;</span><span class="p">,</span> <span class="s2">&quot;mightn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;mustn&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;mustn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;needn&#39;</span><span class="p">,</span> <span class="s2">&quot;needn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;shan&#39;</span><span class="p">,</span> <span class="s2">&quot;shan&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;shouldn&#39;</span><span class="p">,</span> <span class="s2">&quot;shouldn&#39;t&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;wasn&#39;</span><span class="p">,</span> <span class="s2">&quot;wasn&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;weren&#39;</span><span class="p">,</span> <span class="s2">&quot;weren&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;won&#39;</span><span class="p">,</span> <span class="s2">&quot;won&#39;t&quot;</span><span class="p">,</span> <span class="s1">&#39;wouldn&#39;</span><span class="p">,</span> <span class="s2">&quot;wouldn&#39;t&quot;</span>
+    <span class="p">])</span>
+    
+    <span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;TechPulse: Latest Research on Current Tech Trends&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Load the vector store</span>
+    <span class="n">load_vector_store</span><span class="p">()</span>
+
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">reddit_results_file_for_ui</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">load_and_preprocess_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+    <span class="n">min_date</span><span class="p">,</span> <span class="n">max_date</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+
+    <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">with</span> <span class="n">col2</span><span class="p">:</span>
+        <span class="n">date_range</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">date_input</span><span class="p">(</span><span class="s1">&#39;Select a date range from reddit:&#39;</span><span class="p">,</span> 
+                                   <span class="p">[</span><span class="n">min_date</span><span class="p">,</span> <span class="n">max_date</span><span class="p">],</span> 
+                                   <span class="n">min_value</span><span class="o">=</span><span class="n">min_date</span><span class="p">,</span> 
+                                   <span class="n">max_value</span><span class="o">=</span><span class="n">max_date</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">date_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="n">date_range</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start_date</span> <span class="o">=</span> <span class="n">end_date</span> <span class="o">=</span> <span class="n">date_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected date range: </span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Custom stop words input</span>
+        <span class="n">custom_stop_words</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">text_input</span><span class="p">(</span><span class="s2">&quot;Unwanted words to be filter out (Note: comma separate each word):&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">custom_stop_words</span><span class="p">:</span>
+            <span class="n">custom_stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">custom_stop_words</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span>
+            <span class="n">stop_words</span> <span class="o">=</span> <span class="n">default_stop_words</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">custom_stop_words</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">stop_words</span> <span class="o">=</span> <span class="n">default_stop_words</span>
+
+    <span class="c1"># Process keywords after stop_words are defined</span>
+    <span class="n">processed_df</span> <span class="o">=</span> <span class="n">process_keywords</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">stop_words</span><span class="p">)</span>
+
+    <span class="c1"># Filter the DataFrame based on the selected date range</span>
+    <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">processed_df</span><span class="p">[</span>
+        <span class="p">(</span><span class="n">processed_df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">start_date</span><span class="p">)</span> <span class="o">&amp;</span> 
+        <span class="p">(</span><span class="n">processed_df</span><span class="p">[</span><span class="s1">&#39;created_utc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span> <span class="o">&lt;=</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">with</span> <span class="n">col1</span><span class="p">:</span>
+        <span class="n">n_keywords</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">slider</span><span class="p">(</span><span class="s2">&quot;Select number of top keywords to display&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">top_n_keywords</span> <span class="o">=</span> <span class="n">get_top_keywords</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">,</span> <span class="n">n_keywords</span><span class="p">)</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">create_keyword_chart</span><span class="p">(</span><span class="n">top_n_keywords</span><span class="p">,</span> <span class="n">n_keywords</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">plotly_chart</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">use_container_width</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;keyword_chart&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">col2</span><span class="p">:</span>
+        <span class="c1"># Add LLM summary here</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Tech Trends Insight Based on Top Keywords&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;Generate Insight&quot;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">st</span><span class="o">.</span><span class="n">spinner</span><span class="p">(</span><span class="s2">&quot;Generating insight...&quot;</span><span class="p">):</span>
+                <span class="n">insight</span> <span class="o">=</span> <span class="n">get_llm_summary</span><span class="p">(</span><span class="n">top_n_keywords</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[:</span><span class="mi">10</span><span class="p">])</span>  <span class="c1"># Limit to top 10 keywords</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">insight</span><span class="p">)</span>
+
+        <span class="n">selected_keywords</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">multiselect</span><span class="p">(</span><span class="s2">&quot;Selected Keywords&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">top_n_keywords</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">selected_keywords</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">selected_keywords</span><span class="p">:</span>
+                <span class="n">display_keyword_details</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">,</span> <span class="n">keyword</span><span class="p">)</span>  <span class="c1"># Use filtered_df here</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Select keywords from the multiselect box above to see details.&quot;</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, TechPulse Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>

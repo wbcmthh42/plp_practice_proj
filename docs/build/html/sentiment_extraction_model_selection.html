@@ -1,0 +1,777 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords" href="pipeline_retrieve_reddit_post_sentiment_keywords.html" /><link rel="prev" title="Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation" href="model_finetuning_evaluation_pipeline.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
+        <title>Select Sentiment Extraction Model + Evaluate Model - TechPulse documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">TechPulse  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/techpulse.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">TechPulse  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">TechPulse Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_finetuning_evaluation_pipeline.html">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Select Sentiment Extraction Model + Evaluate Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline_retrieve_reddit_post_sentiment_keywords.html">Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="techpulse_ui.html">TechPulse User Interface</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_training.html">model_training module - Finetuning Bart and T5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finetune_BERT.html">model_training module - Finetuning BERT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/sentiment_extraction_model_selection.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="select-sentiment-extraction-model-evaluate-model">
+<h1>Select Sentiment Extraction Model + Evaluate Model<a class="headerlink" href="#select-sentiment-extraction-model-evaluate-model" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>This section documents the steps taken by the team to select a model to do sentiment extraction from Reddit posts. The team began by comparing four prominent sentiment analysis models: VADER, TextBlob, DistilBERT, and RoBERTa. These models were chosen due to their varying methodologies and performance characteristics in sentiment extraction tasks. VADER and TextBlob are rule-based models known for their simplicity and efficiency, making them suitable for real-time applications. In contrast, DistilBERT and RoBERTa are transformer-based models that leverage deep learning techniques, offering potentially higher accuracy at the cost of increased computational complexity. This comparison aims to identify the most effective model for our sentiment extraction needs based on empirical performance metrics.</p>
+<section id="flowchart-on-sentiment-model-selection">
+<h3>Flowchart on Sentiment Model Selection<a class="headerlink" href="#flowchart-on-sentiment-model-selection" title="Link to this heading">¶</a></h3>
+<a class="reference internal image-reference" href="_images/sentiment_model_selection.png"><img alt="Sentiment Model Selection Methodology" src="_images/sentiment_model_selection.png" style="width: 100%;" />
+</a>
+</section>
+<section id="reference-notebooks">
+<h3>Reference Notebooks<a class="headerlink" href="#reference-notebooks" title="Link to this heading">¶</a></h3>
+<p>Refer to the below notebooks for more information:</p>
+<ol class="arabic simple">
+<li><p><strong>VADER Analysis</strong>:</p>
+<ul class="simple">
+<li><p>Notebook: <cite>notebooks/sentiment_analysis_vader_sentlevel.ipynb</cite></p></li>
+<li><p>Description: Detailed analysis of the VADER model, including implementation and evaluation metrics.</p></li>
+</ul>
+</li>
+<li><p><strong>TextBlob Analysis</strong>:</p>
+<ul class="simple">
+<li><p>Notebook: <cite>notebooks/sentiment_analysis_textblob_sentlevel.ipynb</cite></p></li>
+<li><p>Description: Comprehensive review of the TextBlob model, showcasing its performance and use cases.</p></li>
+</ul>
+</li>
+<li><p><strong>DistilBERT Analysis</strong>:</p>
+<ul class="simple">
+<li><p>Notebook: <cite>notebooks/Sentiment_Analysis_Scoring_Distilbert.ipynb</cite></p></li>
+<li><p>Description: In-depth exploration of the DistilBERT model, focusing on its architecture and evaluation results.</p></li>
+</ul>
+</li>
+<li><p><strong>RoBERTa Analysis</strong>:</p>
+<ul class="simple">
+<li><p>Notebook: <cite>notebooks/Sentiment_Analysis_Scoring_Roberta.ipynb</cite></p></li>
+<li><p>Description: Examination of the RoBERTa model, highlighting its strengths and weaknesses in sentiment extraction.</p></li>
+</ul>
+</li>
+<li><p><strong>Combined Model Approach</strong>:</p>
+<ul class="simple">
+<li><p>Notebook: <cite>notebooks/Sentiment_Analysis_Scoring_Distilbert+Vader.ipynb</cite></p></li>
+<li><p>Description: Analysis of the combined VADER and DistilBERT approach, including methodology and performance metrics.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="model-selection-methodology">
+<h2>Model Selection Methodology<a class="headerlink" href="#model-selection-methodology" title="Link to this heading">¶</a></h2>
+<p>The model selection process involves the following steps:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><strong>Data Collection</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p>As there is no ready available Reddit tech post datasets with sentiments publicly available, the team performed a Reddit API call to gather approximately 8,000 sentences from around 3,000 Reddit tech posts.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Sentiment Labeling</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Use GPT-4o-mini to generate sentiment labels for the collected sentences.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Quality Assurance</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Conduct a human-in-loop sample check for about 600 sentences to check that the sentiments identified by GPT-4o-mini is correct. This ensures a confidence level greater than 95%.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Model Evaluation</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Apply the sentiment extraction models (VADER, TextBlob, DistilBERT, and RoBERTa) to the labeled sentences to predict sentiments.</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p><strong>Evaluation Results</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Compile the evaluation results from each model by comparing the results to the label.</p></li>
+</ul>
+<ol class="arabic simple" start="6">
+<li><p><strong>Model Selection</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Select the best sentiment classification model based on the evaluation results.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="model-evaluation-criteria">
+<h2>Model Evaluation Criteria<a class="headerlink" href="#model-evaluation-criteria" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Confusion Matrix</strong>: Analyze the confusion matrix for each model to understand the distribution of true positives, false positives, true negatives, and false negatives.</p></li>
+<li><p><strong>Accuracy</strong>: Calculate the accuracy for each model, which is the ratio of correctly predicted instances to the total instances.</p></li>
+<li><p><strong>Recall</strong>: Evaluate recall for each class (POSITIVE, NEGATIVE, NEUTRAL) to understand how well the model identifies each sentiment.</p></li>
+<li><p><strong>Precision</strong>: Calculate precision for each class, which measures the ratio of correctly predicted positive observations to the total predicted positives. This helps assess the model’s ability to avoid false positives.</p></li>
+<li><p><strong>F1 Score</strong>: Calculate the F1 score for each class to balance precision and recall, especially in cases of class imbalance.</p></li>
+</ul>
+</div></blockquote>
+<p>The main criteria for this assessment is <strong>Accuracy</strong> which gives a straightforward measure of overall performance, indicating how many predictions were correct out of all predictions made. It is especially useful when the classes are balanced.
+<strong>F1 Score</strong> is the other important criteria in sentiment analysis because it accounts for both false positives and false negatives, providing a more nuanced view of model performance. In scenarios where one sentiment class may be more prevalent than others (e.g., more neutral comments), relying solely on accuracy can be misleading. The F1 score helps ensure that the model performs well across all classes, making it a critical metric for applications where identifying all sentiment types accurately is essential.</p>
+</section>
+<section id="model-comparison">
+<h2>Model Comparison<a class="headerlink" href="#model-comparison" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Compare the confusion matrices from each model:</p>
+<ul>
+<li><p><strong>VADER</strong>: Check how well it performs in identifying sentiments compared to TextBlob and transformer-based models.</p></li>
+<li><p><strong>TextBlob</strong>: Evaluate its performance against VADER and transformer models.</p></li>
+<li><p><strong>DistilBERT and RoBERTa</strong>: Analyze their performance, as they are expected to perform better due to their deep learning architecture.</p></li>
+</ul>
+</li>
+<li><p>Look for patterns in the confusion matrices, such as which model consistently misclassifies certain sentiments.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="performance-metrics">
+<h2>Performance Metrics<a class="headerlink" href="#performance-metrics" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Summarize the performance metrics for each model:</p>
+<ul>
+<li><p><strong>Accuracy</strong>: Higher accuracy indicates better overall performance.</p></li>
+<li><p><strong>Recall</strong>: Higher recall for each class indicates better identification of that sentiment.</p></li>
+<li><p><strong>Precision</strong>: Higher precision for each class indicates a lower rate of false positives, reflecting the model’s ability to correctly identify positive instances.</p></li>
+<li><p><strong>F1 Score</strong>: A higher F1 score indicates a better balance between precision and recall.</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>As mentioned in Model Evaluation Criteria, the performance criteria of interest here is <strong>Accuracy</strong> and <strong>F1 Score</strong>.</p>
+</section>
+<section id="final-decision">
+<h2>Final Decision<a class="headerlink" href="#final-decision" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Based on the summarized metrics, select the model that:</p>
+<ul>
+<li><p>Achieves the highest accuracy.</p></li>
+<li><p>Has the highest F1 score, indicating a good balance between precision and recall.</p></li>
+</ul>
+</li>
+<li><p>Consider the complexity and computational efficiency of the models. Simpler models like VADER and TextBlob may be preferred for real-time applications, while transformer models may be used for batch processing where accuracy is paramount.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Once the final model is selected, implement it in the sentiment extraction pipeline.</p></li>
+<li><p>Monitor its performance in real-world scenarios and be prepared to retrain or fine-tune the model as necessary based on new data.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="key-results">
+<h2>Key Results<a class="headerlink" href="#key-results" title="Link to this heading">¶</a></h2>
+<section id="vader">
+<h3><strong>VADER</strong>:<a class="headerlink" href="#vader" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Confusion Matrix using VADER:</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/vader_cm.png"><img alt="Confusion Matrix of Vader" src="_images/vader_cm.png" style="width: 100%;" />
+</a>
+<ul class="simple">
+<li><p>Evaluation Results:</p></li>
+</ul>
+<div class="table-wrapper docutils container" id="id1">
+<table class="docutils align-default" id="id1" style="width: 100%">
+<caption><span class="caption-text">Results for VADER</span><a class="headerlink" href="#id1" title="Link to this table">¶</a></caption>
+<tbody>
+<tr class="row-odd"><td><p>Vader</p></td>
+<td><p>TOTAL</p></td>
+<td><p>POSITIVE</p></td>
+<td><p>NEGATIVE</p></td>
+<td><p>NEUTRAL</p></td>
+</tr>
+<tr class="row-even"><td><p>Accuracy</p></td>
+<td><p>53.15%</p></td>
+<td><p>69.17%</p></td>
+<td><p>74.05%</p></td>
+<td><p>63.07%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recall</p></td>
+<td></td>
+<td><p>67.84%</p></td>
+<td><p>46.16%</p></td>
+<td><p>52.81%</p></td>
+</tr>
+<tr class="row-even"><td><p>Precision</p></td>
+<td></td>
+<td><p>9.84%</p></td>
+<td><p>61.42%</p></td>
+<td><p>69.63%</p></td>
+</tr>
+<tr class="row-odd"><td><p>F1 score</p></td>
+<td></td>
+<td><p>41.44%</p></td>
+<td><p>52.71%</p></td>
+<td><p>60.07%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="textblob">
+<h3><strong>TextBlob</strong>:<a class="headerlink" href="#textblob" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Confusion Matrix:</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/textblob_cm.png"><img alt="Confusion Matrix of TextBlob" src="_images/textblob_cm.png" style="width: 100%;" />
+</a>
+<ul class="simple">
+<li><p>Evaluation Results:</p></li>
+</ul>
+<div class="table-wrapper docutils container" id="id2">
+<table class="docutils align-default" id="id2" style="width: 100%">
+<caption><span class="caption-text">Results for TextBlob</span><a class="headerlink" href="#id2" title="Link to this table">¶</a></caption>
+<tbody>
+<tr class="row-odd"><td><p>TextBlob</p></td>
+<td><p>TOTAL</p></td>
+<td><p>POSITIVE</p></td>
+<td><p>NEGATIVE</p></td>
+<td><p>NEUTRAL</p></td>
+</tr>
+<tr class="row-even"><td><p>Accuracy</p></td>
+<td><p>47.68%</p></td>
+<td><p>65.51%</p></td>
+<td><p>70.05%</p></td>
+<td><p>59.81%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recall</p></td>
+<td></td>
+<td><p>59.91%</p></td>
+<td><p>32.68%</p></td>
+<td><p>52.88%</p></td>
+</tr>
+<tr class="row-even"><td><p>Precision</p></td>
+<td></td>
+<td><p>25.57%</p></td>
+<td><p>53.59%</p></td>
+<td><p>64.35%</p></td>
+</tr>
+<tr class="row-odd"><td><p>F1 score</p></td>
+<td></td>
+<td><p>35.85%</p></td>
+<td><p>40.60%</p></td>
+<td><p>58.05%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="distilbert">
+<h3><strong>DistilBERT</strong>:<a class="headerlink" href="#distilbert" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Confusion Matrix:</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/distilbert_cm.png"><img alt="Confusion Matrix of DistilBert" src="_images/distilbert_cm.png" style="width: 100%;" />
+</a>
+<ul class="simple">
+<li><p>Evaluation Results:</p></li>
+</ul>
+<div class="table-wrapper docutils container" id="id3">
+<table class="docutils align-default" id="id3" style="width: 100%">
+<caption><span class="caption-text">Results for DistilBERT</span><a class="headerlink" href="#id3" title="Link to this table">¶</a></caption>
+<tbody>
+<tr class="row-odd"><td><p>DistilBERT</p></td>
+<td><p>TOTAL</p></td>
+<td><p>POSITIVE</p></td>
+<td><p>NEGATIVE</p></td>
+<td><p>NEUTRAL</p></td>
+</tr>
+<tr class="row-even"><td><p>Accuracy</p></td>
+<td><p>40.02%</p></td>
+<td><p>76.03%</p></td>
+<td><p>48.36%</p></td>
+<td><p>55.65%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recall</p></td>
+<td></td>
+<td><p>64.09%</p></td>
+<td><p>3.86%</p></td>
+<td><p>88.33%</p></td>
+</tr>
+<tr class="row-even"><td><p>Precision</p></td>
+<td></td>
+<td><p>36.14%</p></td>
+<td><p>65.13%</p></td>
+<td><p>40.49%</p></td>
+</tr>
+<tr class="row-odd"><td><p>F1 score</p></td>
+<td></td>
+<td><p>46.22%</p></td>
+<td><p>7.29%</p></td>
+<td><p>55.52%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="roberta">
+<h3><strong>RoBERTa</strong>:<a class="headerlink" href="#roberta" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Confusion Matrix:</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/roberta_cm.png"><img alt="Confusion Matrix of DistilBert" src="_images/roberta_cm.png" style="width: 100%;" />
+</a>
+<ul class="simple">
+<li><p>Evaluation Results:</p></li>
+</ul>
+<div class="table-wrapper docutils container" id="id4">
+<table class="docutils align-default" id="id4" style="width: 100%">
+<caption><span class="caption-text">Results for RoBERTa</span><a class="headerlink" href="#id4" title="Link to this table">¶</a></caption>
+<tbody>
+<tr class="row-odd"><td><p>RoBERTa</p></td>
+<td><p>TOTAL</p></td>
+<td><p>POSITIVE</p></td>
+<td><p>NEGATIVE</p></td>
+<td><p>NEUTRAL</p></td>
+</tr>
+<tr class="row-even"><td><p>Accuracy</p></td>
+<td><p>44.64%</p></td>
+<td><p>63.22%</p></td>
+<td><p>49.78%</p></td>
+<td><p>76.28%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recall</p></td>
+<td></td>
+<td><p>92.86%</p></td>
+<td><p>7.29%</p></td>
+<td><p>82.58%</p></td>
+</tr>
+<tr class="row-even"><td><p>Precision</p></td>
+<td></td>
+<td><p>29.52%</p></td>
+<td><p>72.30%</p></td>
+<td><p>58.64%</p></td>
+</tr>
+<tr class="row-odd"><td><p>F1 score</p></td>
+<td></td>
+<td><p>44.80%</p></td>
+<td><p>13.25%</p></td>
+<td><p>68.58%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="combined-method-vader-distilbert">
+<h3><strong>Combined Method: VADER + DistilBERT</strong>:<a class="headerlink" href="#combined-method-vader-distilbert" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p>Given that VADER has the best overall accuracy while DistilBERT excels in positive class metrics, we propose a combined approach:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Step 1</strong>: Use VADER and DistilBert to perform initial sentiment classification separately.</p></li>
+<li><p><strong>Step 2</strong>: For instances classified as the same class by both models, the predicted class will be used. Prediction that are different between the 2 models are defaulted to ‘Neutral’ class.</p></li>
+<li><p><strong>Step 3</strong>: Aggregate the results from both models to enhance the overall sentiment extraction process, focusing on improving the identification of positive sentiments for course design.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>This method leverages the strengths of both models, ensuring that we maintain high accuracy while also capturing the nuances of positive sentiment effectively.</p></li>
+<li><p>Confusion Matrix:</p></li>
+</ul>
+<a class="reference internal image-reference" href="_images/distilbert_vader_cm.png"><img alt="Confusion Matrix of DistilBert + Vader Models" src="_images/distilbert_vader_cm.png" style="width: 100%;" />
+</a>
+<ul class="simple">
+<li><p>Evaluation Results:</p></li>
+</ul>
+<div class="table-wrapper docutils container" id="id5">
+<table class="docutils align-default" id="id5" style="width: 100%">
+<caption><span class="caption-text">Results for DistilBERT + VADER</span><a class="headerlink" href="#id5" title="Link to this table">¶</a></caption>
+<tbody>
+<tr class="row-odd"><td><p>DistilBert+Vader</p></td>
+<td><p>TOTAL</p></td>
+<td><p>POSITIVE</p></td>
+<td><p>NEGATIVE</p></td>
+<td><p>NEUTRAL</p></td>
+</tr>
+<tr class="row-even"><td><p>Accuracy</p></td>
+<td><p>61.46%</p></td>
+<td><p>84.49%</p></td>
+<td><p>74.58%</p></td>
+<td><p>63.85%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recall</p></td>
+<td></td>
+<td><p>50.56%</p></td>
+<td><p>43.46%</p></td>
+<td><p>75.53%</p></td>
+</tr>
+<tr class="row-even"><td><p>Precision</p></td>
+<td></td>
+<td><p>51.79%</p></td>
+<td><p>63.90%</p></td>
+<td><p>63.05%</p></td>
+</tr>
+<tr class="row-odd"><td><p>F1 score</p></td>
+<td></td>
+<td><p>51.17%</p></td>
+<td><p>51.74%</p></td>
+<td><p>68.73%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="summary-conclusion">
+<h2>Summary / Conclusion<a class="headerlink" href="#summary-conclusion" title="Link to this heading">¶</a></h2>
+<a class="reference internal image-reference" href="_images/sentiment_model_summary.png"><img alt="Summary of Models Results" src="_images/sentiment_model_summary.png" style="width: 100%;" />
+</a>
+<p>In summary, the best model to extract sentiments from the reddit post is a combination of Vader + DistilBert. This combination has the best accuracy and F1 scores among the various other models across positive, negative and neutral classes.
+By following this methodology, the team has systematically evaluate and select the most effective sentiment extraction model based on empirical performance metrics derived from the confusion matrices and other evaluation criteria.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="pipeline_retrieve_reddit_post_sentiment_keywords.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="model_finetuning_evaluation_pipeline.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, TechPulse Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Select Sentiment Extraction Model + Evaluate Model</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#flowchart-on-sentiment-model-selection">Flowchart on Sentiment Model Selection</a></li>
+<li><a class="reference internal" href="#reference-notebooks">Reference Notebooks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#model-selection-methodology">Model Selection Methodology</a></li>
+<li><a class="reference internal" href="#model-evaluation-criteria">Model Evaluation Criteria</a></li>
+<li><a class="reference internal" href="#model-comparison">Model Comparison</a></li>
+<li><a class="reference internal" href="#performance-metrics">Performance Metrics</a></li>
+<li><a class="reference internal" href="#final-decision">Final Decision</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+<li><a class="reference internal" href="#key-results">Key Results</a><ul>
+<li><a class="reference internal" href="#vader"><strong>VADER</strong>:</a></li>
+<li><a class="reference internal" href="#textblob"><strong>TextBlob</strong>:</a></li>
+<li><a class="reference internal" href="#distilbert"><strong>DistilBERT</strong>:</a></li>
+<li><a class="reference internal" href="#roberta"><strong>RoBERTa</strong>:</a></li>
+<li><a class="reference internal" href="#combined-method-vader-distilbert"><strong>Combined Method: VADER + DistilBERT</strong>:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#summary-conclusion">Summary / Conclusion</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>

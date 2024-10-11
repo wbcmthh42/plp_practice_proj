@@ -1,0 +1,565 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Select Sentiment Extraction Model + Evaluate Model" href="sentiment_extraction_model_selection.html" /><link rel="prev" title="Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG" href="build_arxiv_vectorstore.html" />
+
+    <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
+        <title>Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation - TechPulse documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">TechPulse  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/techpulse.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">TechPulse  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">TechPulse Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment_extraction_model_selection.html">Select Sentiment Extraction Model + Evaluate Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline_retrieve_reddit_post_sentiment_keywords.html">Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="techpulse_ui.html">TechPulse User Interface</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pipeline_model_finetuning_evaluation.html">pipeline_model_finetuning_evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_training.html">model_training module - Finetuning Bart and T5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="finetune_BERT.html">model_training module - Finetuning BERT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluation.html">evaluation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="retrieve_papers_with_link.html">retrieve_papers_with_link module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rag.html">rag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="infer_pipeline.html">infer_pipeline module - Pipeline to Retrieve Reddit Posts and Extract Sentiments and Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrape_reddit.html">scrape_reddit - Extract from Reddit Posts using PRAW API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sentiment_analysis.html">sentiment_analysis - Extract Sentimentd from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_reddit_keywords_with_bart.html">extract_reddit_keywords - Use Finetuned Model to Extract Tech Keywords from Reddit Posts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streamlit_poc_with_gemma.html">streamlit_poc_with_gemma module</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/model_finetuning_evaluation_pipeline.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="pipeline-2-finetune-model-for-keyword-extraction-and-model-evaluation">
+<h1>Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation<a class="headerlink" href="#pipeline-2-finetune-model-for-keyword-extraction-and-model-evaluation" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>This document outlines the model training process for extracting tech keywords from tech-related Reddit posts. We utilize three pre-trained language models: BART, T5, and BERT, which are fine-tuned on our specific task.</p>
+</section>
+<section id="project-structure">
+<h2>Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading">¶</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>project_root/
+├── src/
+│   ├── evaluation.py
+│   ├── finetune_BERT.py
+│   ├── model_training.py
+│   └── pipeline_model_finetuning_evaluation.py
+├── conf/
+│   └── config.yaml
+└── docs/
+    └── model_finetuning_evaluation_pipeline.rst
+</pre></div>
+</div>
+</section>
+<section id="pre-trained-models">
+<h2>Pre-trained Models<a class="headerlink" href="#pre-trained-models" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>BART (Bidirectional and Auto-Regressive Transformers)
+- A sequence-to-sequence model that combines bidirectional and auto-regressive approaches.
+- Suitable for our task due to its strong performance in text generation and summarization.</p></li>
+<li><p>T5 (Text-to-Text Transfer Transformer)
+- A unified framework that treats every NLP task as a text-to-text problem.
+- Ideal for our keyword extraction task as it can be framed as a text-to-text generation problem.</p></li>
+<li><p>BERT (Bidirectional Encoder Representations from Transformers)
+- A powerful language model that excels in understanding context and relationships in text.
+- Well-suited for our task due to its ability to capture deep contextual information from tech-related posts.</p></li>
+</ol>
+<p>These models are particularly suitable for fine-tuning on tech keyword extraction because:
+- They have been pre-trained on large corpora, including web text, which likely includes technical content.
+- They can capture complex relationships and context in text, essential for identifying relevant tech keywords.
+- They can be fine-tuned for sequence-to-sequence tasks, allowing us to generate keywords from input text directly.</p>
+</section>
+<section id="training-pipeline">
+<h2>Training Pipeline<a class="headerlink" href="#training-pipeline" title="Link to this heading">¶</a></h2>
+<a class="reference internal image-reference" href="_images/model_training_pipeline.png"><img alt="Model Training Pipeline" src="_images/model_training_pipeline.png" style="width: 100%;" />
+</a>
+<p>The training pipeline consists of the following steps:</p>
+<ol class="arabic simple">
+<li><p>Data Preparation</p>
+<ul class="simple">
+<li><p>Load the Tech Keywords Dataset which is already split into Train, Validation, and Test sets</p></li>
+</ul>
+</li>
+<li><p>Model Initialization</p>
+<ul class="simple">
+<li><p>Load pre-trained models (BART, T5, BERT)</p></li>
+<li><p>Initialize tokenizers for each model</p></li>
+</ul>
+</li>
+<li><p>Fine-tuning</p>
+<ul class="simple">
+<li><p>Train each model on the training set</p></li>
+<li><p>Validate performance using the validation set</p></li>
+<li><p>Save model checkpoints</p></li>
+</ul>
+</li>
+<li><p>Evaluation</p>
+<ul class="simple">
+<li><p>Evaluate model performance on the test set</p></li>
+<li><p>Select the best-performing model based on evaluation metrics</p></li>
+</ul>
+</li>
+<li><p>Model Selection</p>
+<ul class="simple">
+<li><p>Choose the best fine-tuned model for keyword extraction</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="pipeline-execution">
+<h2>Pipeline Execution<a class="headerlink" href="#pipeline-execution" title="Link to this heading">¶</a></h2>
+<p>The entire pipeline for model finetuning and evaluation can be executed using a single script. This script coordinates the training and evaluation processes, providing a streamlined workflow.</p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<p>To run the complete pipeline, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.pipeline_model_finetuning_evaluation
+</pre></div>
+</div>
+<p>This command will sequentially execute both the training and evaluation processes, offering an end-to-end execution of the pipeline.</p>
+<p>Alternatively, if you wish to run individual components of the pipeline:</p>
+<p>To train the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.model_training
+</pre></div>
+</div>
+<p>To evaluate the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.evaluation
+</pre></div>
+</div>
+<p>These commands use the configuration specified in the <code class="docutils literal notranslate"><span class="pre">conf/config.yaml</span></code> file.</p>
+</section>
+<section id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Link to this heading">¶</a></h2>
+<section id="bert-configuration">
+<h3><strong>BERT Configuration</strong><a class="headerlink" href="#bert-configuration" title="Link to this heading">¶</a></h3>
+<p>When training the BERT model, ensure that the configurations in <cite>conf/config.yaml</cite> are correctly set. The relevant parameters for BERT include:</p>
+<ul class="simple">
+<li><p><strong>Pretrained Model</strong>: Specify the model to be used (e.g., <cite>dbmdz/bert-large-cased-finetuned-conll03-english</cite>).</p></li>
+<li><p><strong>Maximum Length</strong>: Set the maximum sequence length for tokenization (e.g., <cite>256</cite>).</p></li>
+<li><p><strong>Batch Size</strong>: Define the batch size for training and evaluation (e.g., <cite>32</cite>).</p></li>
+<li><p><strong>Number of Epochs</strong>: Set the number of training epochs (e.g., <cite>1</cite>).</p></li>
+<li><p><strong>Learning Rate</strong>: Specify the learning rate for optimization (e.g., <cite>3e-5</cite>).</p></li>
+<li><p><strong>Output Directory</strong>: Define where to save the fine-tuned model (e.g., <cite>./model_checkpoint</cite>).</p></li>
+<li><p><strong>Datasets</strong>: Ensure the paths to the training, validation, and test datasets are correctly specified.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bert:
+<span class="w">   </span>pretrained_model:<span class="w"> </span><span class="s2">&quot;dbmdz/bert-large-cased-finetuned-conll03-english&quot;</span>
+<span class="w">   </span>max_len:<span class="w"> </span><span class="m">256</span>
+<span class="w">   </span>batch_size:<span class="w"> </span><span class="m">32</span>
+<span class="w">   </span>num_epochs:<span class="w"> </span><span class="m">1</span>
+<span class="w">   </span>learning_rate:<span class="w"> </span>3e-5
+<span class="w">   </span>output_dir:<span class="w"> </span><span class="s2">&quot;./model_checkpoint&quot;</span>
+<span class="w">   </span>datasets:
+<span class="w">      </span>train:<span class="w"> </span><span class="s2">&quot;hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/train-00000-of-00001.parquet&quot;</span>
+<span class="w">      </span>validation:<span class="w"> </span><span class="s2">&quot;hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/validation-00000-of-00001.parquet&quot;</span>
+<span class="w">      </span>test:<span class="w"> </span><span class="s2">&quot;hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/test-00000-of-00001.parquet&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bart-and-t5-configurations">
+<h2>BART and T5 Configurations<a class="headerlink" href="#bart-and-t5-configurations" title="Link to this heading">¶</a></h2>
+<p>When training sequence-to-sequence models like BART and T5, you need to ensure that the configurations in <cite>conf/config.yaml</cite> are correctly set. Below are the relevant parameters and their descriptions for both models.</p>
+<section id="bart-configuration">
+<h3><strong>BART Configuration</strong><a class="headerlink" href="#bart-configuration" title="Link to this heading">¶</a></h3>
+<p>To configure BART, you should specify the following parameters in the <cite>conf/config.yaml</cite> file:</p>
+<ul class="simple">
+<li><p><strong>Base Model Name</strong>: Set the base model name for BART (e.g., <cite>facebook/bart-large</cite>).</p></li>
+<li><p><strong>Save Model Name</strong>: Define the name under which the fine-tuned BART model will be saved (e.g., <cite>tech-keywords-extractor_finetuned_bart</cite>).</p></li>
+<li><p><strong>Output Directory</strong>: Specify the directory where the model checkpoints will be saved (e.g., <cite>./bart_tech_keywords_model</cite>).</p></li>
+<li><p><strong>Training Parameters</strong>: Adjust the training parameters under the <cite>training</cite> section, such as:</p>
+<ul>
+<li><p><cite>num_train_epochs</cite>: Number of epochs for training (e.g., <cite>3</cite>).</p></li>
+<li><p><cite>per_device_train_batch_size</cite>: Batch size for training (e.g., <cite>4</cite>).</p></li>
+<li><p><cite>weight_decay</cite>: Weight decay for optimization (e.g., <cite>0.01</cite>).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="t5-configuration">
+<h3><strong>T5 Configuration</strong><a class="headerlink" href="#t5-configuration" title="Link to this heading">¶</a></h3>
+<p>For T5, the configuration is similar, but you need to ensure that the base model name is set to a T5 model. Here’s how to configure it:</p>
+<ul class="simple">
+<li><p><strong>Base Model Name</strong>: Set the base model name for T5 (e.g., <cite>google/flan-t5-large</cite>).</p></li>
+<li><p><strong>Save Model Name</strong>: Define the name under which the fine-tuned T5 model will be saved (e.g., <cite>tech-keywords-extractor_finetuned_t5</cite>).</p></li>
+<li><p><strong>Output Directory</strong>: Specify the directory where the model checkpoints will be saved (e.g., <cite>./t5_tech_keywords_model</cite>).</p></li>
+<li><p><strong>Training Parameters</strong>: Similar to BART, adjust the training parameters under the <cite>training</cite> section.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>base_model_name:<span class="w"> </span>facebook/bart-large
+save_model_name:<span class="w"> </span><span class="s1">&#39;tech-keywords-extractor_finetuned_bart&#39;</span>
+dataset_name:<span class="w"> </span>ilsilfverskiold/tech-keywords-topics-summary
+output_dir:<span class="w"> </span><span class="s1">&#39;./bart_tech_keywords_model&#39;</span>
+training:
+<span class="w">   </span>num_train_epochs:<span class="w"> </span><span class="m">3</span>
+<span class="w">   </span>warmup_steps:<span class="w"> </span><span class="m">500</span>
+<span class="w">   </span>per_device_train_batch_size:<span class="w"> </span><span class="m">4</span>
+<span class="w">   </span>per_device_eval_batch_size:<span class="w"> </span><span class="m">4</span>
+<span class="w">   </span>weight_decay:<span class="w"> </span><span class="m">0</span>.01
+<span class="w">   </span>logging_steps:<span class="w"> </span><span class="m">10</span>
+<span class="w">   </span>evaluation_strategy:<span class="w"> </span><span class="s1">&#39;steps&#39;</span>
+<span class="w">   </span>eval_steps:<span class="w"> </span><span class="m">50</span>
+<span class="w">   </span>save_steps:<span class="w"> </span>1e6
+<span class="w">   </span>gradient_accumulation_steps:<span class="w"> </span><span class="m">16</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="training-process">
+<h2>Training Process<a class="headerlink" href="#training-process" title="Link to this heading">¶</a></h2>
+<p>The training process is implemented in the <code class="docutils literal notranslate"><span class="pre">src/model_training.py</span></code> file. Here’s an overview of the main functions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">load_data(data)</span></code>: Loads the dataset using the Hugging Face datasets library.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load_model(model_name)</span></code>: Loads a pre-trained model and tokenizer from the Hugging Face model hub.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_feature(tokenizer,</span> <span class="pre">batch)</span></code>: Prepares the input data for training by encoding text and target keywords.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train_model(tokenizer,</span> <span class="pre">model,</span> <span class="pre">dataset,</span> <span class="pre">save_model_name,</span> <span class="pre">output_dir,</span> <span class="pre">cfg)</span></code>: Handles the actual training process, including setting up the trainer, training arguments, and saving the model.</p></li>
+</ul>
+<p>The main function uses Hydra for configuration management, allowing easy customization of training parameters.</p>
+</section>
+<section id="evaluation-process">
+<h2>Evaluation Process<a class="headerlink" href="#evaluation-process" title="Link to this heading">¶</a></h2>
+<p>After training, the models are evaluated using the test set with Bert Score. The evaluation process is implemented in the <code class="docutils literal notranslate"><span class="pre">src/evaluation.py</span></code> file.</p>
+<p>The evaluation includes metrics such as precision, recall, and F1-score for keyword extraction. These metrics help assess how well the models perform in identifying relevant tech keywords from the input text.</p>
+<p><strong>Important:</strong> The following configuration parameters are required for the evaluation process to run smoothly:</p>
+<ul class="simple">
+<li><p><strong>Evaluation Model Name</strong>: Specify the path to the fine-tuned model to be evaluated (e.g., <cite>/path/to/your/model</cite>).</p></li>
+<li><p><strong>Results File</strong>: Define the output file path where the evaluation results will be saved (e.g., <cite>${hydra:output}/evaluation_results/results.csv</cite>).</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>eval:
+<span class="w">   </span>evaluation_model_name:<span class="w"> </span>/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/outputs/2024-09-16/08-48-55/tech-keywords-extractor_finetuned_bart
+<span class="w">   </span>results_file:<span class="w"> </span><span class="si">${</span><span class="nv">hydra</span><span class="p">:</span><span class="nv">output</span><span class="si">}</span>/evaluation_results/bart_base_model_results.csv
+</pre></div>
+</div>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
+<p>This document provides an overview of the model training and evaluation pipeline for tech keyword extraction. By fine-tuning powerful pre-trained language models on our specific task and providing a streamlined execution process, we aim to create an effective system for identifying relevant tech keywords from Reddit posts.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="sentiment_extraction_model_selection.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Select Sentiment Extraction Model + Evaluate Model</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="build_arxiv_vectorstore.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, TechPulse Team
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#project-structure">Project Structure</a></li>
+<li><a class="reference internal" href="#pre-trained-models">Pre-trained Models</a></li>
+<li><a class="reference internal" href="#training-pipeline">Training Pipeline</a></li>
+<li><a class="reference internal" href="#pipeline-execution">Pipeline Execution</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#configurations">Configurations</a><ul>
+<li><a class="reference internal" href="#bert-configuration"><strong>BERT Configuration</strong></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bart-and-t5-configurations">BART and T5 Configurations</a><ul>
+<li><a class="reference internal" href="#bart-configuration"><strong>BART Configuration</strong></a></li>
+<li><a class="reference internal" href="#t5-configuration"><strong>T5 Configuration</strong></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#training-process">Training Process</a></li>
+<li><a class="reference internal" href="#evaluation-process">Evaluation Process</a></li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>
