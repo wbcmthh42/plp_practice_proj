@@ -1,13 +1,16 @@
-Overview
---------
+TechPulse Overview
+==================
 
-This document provides an overview of the various pipelines used in the application. The application leverages several libraries for data processing, model training, and user interface development.
+TechPulse is an innovative tool designed to swiftly identify current technology trends and align them with existing academic research. Its primary goal is to empower educators in developing curricula that are both contemporary and academically robust. By utilizing sentiment analysis and information extraction techniques on social media posts, TechPulse bridges the gap between real-time tech insights and relevant academic studies. This approach fosters a dynamic curriculum development ecosystem, enabling educational institutions to create pertinent course content that keeps pace with the rapidly evolving technological landscape.
+
+Please refer to the documentation for more details. This document provides an overview of the various pipelines used in the application. The application leverages several libraries for data processing, model training, and user interface development.
 
 .. image:: source/_static/Architecture.png
    :alt: Overview of Pipelines
    :align: center
 
-**Overview of Pipelines**
+Overview of Pipelines
+---------------------
 
 This diagram illustrates the three main pipelines in the application:
 
@@ -17,16 +20,27 @@ This diagram illustrates the three main pipelines in the application:
 
 3. **Pipeline 3 (Retrieve Recent Reddit Posts and Extract Sentiments and Tech Keywords)**: This pipeline retrieves recent posts from Reddit, analyzes sentiments, and extracts relevant tech keywords to provide insights into current trends. Please refer to :doc:`Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords <pipeline_retrieve_reddit_post_sentiment_keywords>`
 
-**Note:** 
+Note
+~~~~~
 
 - A page detailing how the sentiment model was selected is also available in this page: :doc:`Select Sentiment Extraction Model + Evaluate Model <sentiment_extraction_model_selection>`. 
 
 - A user guide for using the Streamlit UI is included here: :doc:`TechPulse User Interface <techpulse_ui>`. 
 
-
 Detailed information about each pipeline will be provided in separate pages.
 
-**Setting Up the Conda Environment**
+Cloning the Repository
+----------------------
+
+Before setting up the conda environment, you need to clone the repository. Run the following command:
+
+.. code-block:: bash
+
+    git clone https://github.com/wbcmthh42/plp_practice_proj
+
+
+Setting Up the Conda Environment
+--------------------------------
 
 To set up your conda environment, follow these steps to set up a conda environment named 'techpulse' (this name can be changed according to your preference):
 

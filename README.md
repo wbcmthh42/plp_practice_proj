@@ -24,6 +24,14 @@ This diagram illustrates the three main pipelines in the application:
 
 Detailed information about each pipeline will be provided in separate pages.
 
+## Cloning the Repository
+
+Before setting up the conda environment, you need to clone the repository. Run the following command:
+
+```bash
+git clone https://github.com/wbcmthh42/plp_practice_proj
+```
+
 ## Setting Up the Conda Environment
 
 To set up your conda environment, follow these steps to set up a conda environment named 'techpulse' (this name can be changed according to your preference):

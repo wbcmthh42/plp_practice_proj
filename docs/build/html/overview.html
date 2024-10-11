@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG" href="build_arxiv_vectorstore.html" /><link rel="prev" title="TechPulse Documentation" href="index.html" />
 
     <!-- Generated with Sphinx 8.0.2 and Furo 2024.08.06 -->
-        <title>Overview - TechPulse documentation</title>
+        <title>TechPulse Overview - TechPulse documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -178,7 +178,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -203,7 +203,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">TechPulse Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="build_arxiv_vectorstore.html">Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_finetuning_evaluation_pipeline.html">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sentiment_extraction_model_selection.html">Select Sentiment Extraction Model + Evaluate Model</a></li>
@@ -257,30 +257,43 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h1>
-<p>This document provides an overview of the various pipelines used in the application. The application leverages several libraries for data processing, model training, and user interface development.</p>
+          <section id="techpulse-overview">
+<h1>TechPulse Overview<a class="headerlink" href="#techpulse-overview" title="Link to this heading">¶</a></h1>
+<p>TechPulse is an innovative tool designed to swiftly identify current technology trends and align them with existing academic research. Its primary goal is to empower educators in developing curricula that are both contemporary and academically robust. By utilizing sentiment analysis and information extraction techniques on social media posts, TechPulse bridges the gap between real-time tech insights and relevant academic studies. This approach fosters a dynamic curriculum development ecosystem, enabling educational institutions to create pertinent course content that keeps pace with the rapidly evolving technological landscape.</p>
+<p>Please refer to the documentation for more details. This document provides an overview of the various pipelines used in the application. The application leverages several libraries for data processing, model training, and user interface development.</p>
 <img alt="Overview of Pipelines" class="align-center" src="_images/Architecture.png" />
-<p><strong>Overview of Pipelines</strong></p>
+<section id="overview-of-pipelines">
+<h2>Overview of Pipelines<a class="headerlink" href="#overview-of-pipelines" title="Link to this heading">¶</a></h2>
 <p>This diagram illustrates the three main pipelines in the application:</p>
 <ol class="arabic simple">
 <li><p><strong>Pipeline 1 (Retrieve arXiv Data)</strong>: This pipeline focuses on retrieving relevant research papers from arXiv using their API. It processes the data to extract useful information and summaries. Please refer to <a class="reference internal" href="build_arxiv_vectorstore.html"><span class="doc">Pipeline 1 - Retrieve ArXiv Data and Build Vector Store for RAG</span></a></p></li>
 <li><p><strong>Pipeline 2 (Finetune Model + Evaluate Model)</strong>: This pipeline involves selecting and finetuning sentiment extraction models. It evaluates the models based on their performance and selects the best one for deployment. Please refer to <a class="reference internal" href="model_finetuning_evaluation_pipeline.html"><span class="doc">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</span></a></p></li>
 <li><p><strong>Pipeline 3 (Retrieve Recent Reddit Posts and Extract Sentiments and Tech Keywords)</strong>: This pipeline retrieves recent posts from Reddit, analyzes sentiments, and extracts relevant tech keywords to provide insights into current trends. Please refer to <a class="reference internal" href="pipeline_retrieve_reddit_post_sentiment_keywords.html"><span class="doc">Pipeline 3 - Retrieve Recent Reddit Posts and Extract Sentiments and Keywords</span></a></p></li>
 </ol>
-<p><strong>Note:</strong></p>
+<section id="note">
+<h3>Note<a class="headerlink" href="#note" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>A page detailing how the sentiment model was selected is also available in this page: <a class="reference internal" href="sentiment_extraction_model_selection.html"><span class="doc">Select Sentiment Extraction Model + Evaluate Model</span></a>.</p></li>
 <li><p>A user guide for using the Streamlit UI is included here: <a class="reference internal" href="techpulse_ui.html"><span class="doc">TechPulse User Interface</span></a>.</p></li>
 </ul>
 <p>Detailed information about each pipeline will be provided in separate pages.</p>
-<p><strong>Setting Up the Conda Environment</strong></p>
+</section>
+</section>
+<section id="cloning-the-repository">
+<h2>Cloning the Repository<a class="headerlink" href="#cloning-the-repository" title="Link to this heading">¶</a></h2>
+<p>Before setting up the conda environment, you need to clone the repository. Run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/wbcmthh42/plp_practice_proj
+</pre></div>
+</div>
+</section>
+<section id="setting-up-the-conda-environment">
+<h2>Setting Up the Conda Environment<a class="headerlink" href="#setting-up-the-conda-environment" title="Link to this heading">¶</a></h2>
 <p>To set up your conda environment, follow these steps to set up a conda environment named ‘techpulse’ (this name can be changed according to your preference):</p>
 <ol class="arabic simple">
 <li><p><strong>Create a new conda environment</strong>:</p></li>
@@ -302,6 +315,7 @@ You can install the necessary libraries by using the <cite>requirements.txt</cit
 </pre></div>
 </div>
 <p>Make sure to follow the setup instructions carefully to ensure all dependencies are installed correctly.</p>
+</section>
 </section>
 
         </article>
@@ -347,8 +361,32 @@ You can install the necessary libraries by using the <cite>requirements.txt</cit
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">TechPulse Overview</a><ul>
+<li><a class="reference internal" href="#overview-of-pipelines">Overview of Pipelines</a><ul>
+<li><a class="reference internal" href="#note">Note</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cloning-the-repository">Cloning the Repository</a></li>
+<li><a class="reference internal" href="#setting-up-the-conda-environment">Setting Up the Conda Environment</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
