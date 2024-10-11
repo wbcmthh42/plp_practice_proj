@@ -6,8 +6,8 @@ Introduction
 
 This document outlines the model training process for extracting tech keywords from tech-related Reddit posts. We utilize three pre-trained language models: BART, T5, and BERT, which are fine-tuned on our specific task.
 
-Project Structure
------------------
+Project Structure relevant to this section
+------------------------------------------
 
 .. code-block:: text
 
@@ -17,10 +17,9 @@ Project Structure
     │   ├── finetune_BERT.py
     │   ├── model_training.py
     │   └── pipeline_model_finetuning_evaluation.py
-    ├── conf/
-    │   └── config.yaml
-    └── docs/
-        └── model_finetuning_evaluation_pipeline.rst
+    └── conf/
+        └── config.yaml
+
 
 Pre-trained Models
 ------------------

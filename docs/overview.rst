@@ -157,6 +157,8 @@ Example Final Repo Structure (showing only the key sample files)
     │   ├── retrieve_papers_with_link.py
     │   ├── scrape_reddit.py
     │   └── sentiment_analysis.py
+    ├── arxiv/
+    │   └── arxiv_papers_2022_2024_with_links_final.csv
     └── vector_store
         ├── 16f41d05-c9ac-404d-87a1-175206f8e788
         │   ├── data_level0.bin

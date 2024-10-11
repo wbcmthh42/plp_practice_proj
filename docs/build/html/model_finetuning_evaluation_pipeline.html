@@ -269,18 +269,16 @@
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>This document outlines the model training process for extracting tech keywords from tech-related Reddit posts. We utilize three pre-trained language models: BART, T5, and BERT, which are fine-tuned on our specific task.</p>
 </section>
-<section id="project-structure">
-<h2>Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading">¶</a></h2>
+<section id="project-structure-relevant-to-this-section">
+<h2>Project Structure relevant to this section<a class="headerlink" href="#project-structure-relevant-to-this-section" title="Link to this heading">¶</a></h2>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>project_root/
 ├── src/
 │   ├── evaluation.py
 │   ├── finetune_BERT.py
 │   ├── model_training.py
 │   └── pipeline_model_finetuning_evaluation.py
-├── conf/
-│   └── config.yaml
-└── docs/
-    └── model_finetuning_evaluation_pipeline.rst
+└── conf/
+    └── config.yaml
 </pre></div>
 </div>
 </section>
@@ -529,7 +527,7 @@ training:
             <ul>
 <li><a class="reference internal" href="#">Pipeline 2 - Finetune Model for Keyword Extraction and Model Evaluation</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
-<li><a class="reference internal" href="#project-structure">Project Structure</a></li>
+<li><a class="reference internal" href="#project-structure-relevant-to-this-section">Project Structure relevant to this section</a></li>
 <li><a class="reference internal" href="#pre-trained-models">Pre-trained Models</a></li>
 <li><a class="reference internal" href="#training-pipeline">Training Pipeline</a></li>
 <li><a class="reference internal" href="#pipeline-execution">Pipeline Execution</a></li>
