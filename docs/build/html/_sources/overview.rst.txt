@@ -38,6 +38,38 @@ Before setting up the conda environment, you need to clone the repository. Run t
 
     git clone https://github.com/wbcmthh42/plp_practice_proj
 
+Initial Repo Structure
+----------------------
+
+.. code-block:: text
+
+    .
+    ├── README.md
+    ├── conf
+    │   └── config.yaml
+    ├── docs
+    │   ├── Makefile
+    │   ├── build
+    │   │   └── html
+    │   │       ├── index.html
+    ├── notebook
+    │   ├── Sentiment_Analysis_Scoring_Distilbert+Vader.ipynb
+    │   ├── Sentiment_Analysis_Scoring_Distilbert.ipynb
+    │   ├── Sentiment_Analysis_Scoring_Roberta.ipynb
+    │   ├── sentiment_analysis_textblob_sentlevel.ipynb
+    │   └── sentiment_analysis_vader_sentlevel.ipynb
+    ├── requirements.txt
+    └── src
+        ├── evaluation.py
+        ├── extract_reddit_keywords_with_bart.py
+        ├── finetune_BERT.py
+        ├── infer_pipeline.py
+        ├── model_training.py
+        ├── pipeline_model_finetuning_evaluation.py
+        ├── rag.py
+        ├── retrieve_papers_with_link.py
+        ├── scrape_reddit.py
+        └── sentiment_analysis.py
 
 Setting Up the Conda Environment
 --------------------------------
@@ -64,3 +96,72 @@ To set up your conda environment, follow these steps to set up a conda environme
    pip install -r requirements.txt
 
 Make sure to follow the setup instructions carefully to ensure all dependencies are installed correctly.
+
+Once the pipeline has been run with the data files, model checkpoints and vector database loaded, the structure will look like the below:
+
+Example Final Repo Structure (showing only the key sample files)
+----------------------------------------------------------------
+
+.. code-block:: text
+
+    .
+    ├── README.md
+    ├── conf
+    │   └── config.yaml
+    ├── data
+    │   ├── 100k.csv
+    │   ├── sentiment_analysis_results_distillbert.csv
+    │   ├── sentiment_analysis_results_roberta.csv
+    │   ├── sentiment_by_vader_post_level.csv
+    │   └── sentiment_by_vader_sentlevel.csv
+    ├── docs
+    │   ├── Makefile
+    │   ├── build
+    │   │   └── html
+    │   │       ├── index.html
+    ├── finetune_llm
+    ├── notebook
+    │   ├── Sentiment_Analysis_Scoring_Distilbert+Vader.ipynb
+    │   ├── Sentiment_Analysis_Scoring_Distilbert.ipynb
+    │   ├── Sentiment_Analysis_Scoring_Roberta.ipynb
+    │   ├── sentiment_analysis_textblob_sentlevel.ipynb
+    │   └── sentiment_analysis_vader_sentlevel.ipynb
+    ├── outputs
+    │   ├── 2024-09-16
+    │   │   ├── 12-47-35
+    │   │   │   ├── bart_tech_keywords_model
+    │   │   │   │   └── checkpoint-336
+    │   │   │   ├── model_training.log
+    │   │   │   └── tech-keywords-extractor_finetuned_bart
+    │   │   │       ├── config.json
+    │   │   │       ├── generation_config.json
+    │   │   │       ├── merges.txt
+    │   │   │       ├── model.safetensors
+    │   │   │       ├── special_tokens_map.json
+    │   │   │       ├── tokenizer.json
+    │   │   │       ├── tokenizer_config.json
+    │   │   │       ├── training_args.bin
+    │   │   │       └── vocab.json
+    ├── reddit_keywords_results
+    │   ├── reddit_keywords_for_ui.csv
+    │   └── reddit_keywords_hybrid.csv
+    ├── requirements.txt
+    ├── src
+    │   ├── evaluation.py
+    │   ├── extract_reddit_keywords_with_bart.py
+    │   ├── finetune_BERT.py
+    │   ├── infer_pipeline.py
+    │   ├── model_training.py
+    │   ├── pipeline_model_finetuning_evaluation.py
+    │   ├── rag.py
+    │   ├── retrieve_papers_with_link.py
+    │   ├── scrape_reddit.py
+    │   └── sentiment_analysis.py
+    └── vector_store
+        ├── 16f41d05-c9ac-404d-87a1-175206f8e788
+        │   ├── data_level0.bin
+        │   ├── header.bin
+        │   ├── index_metadata.pickle
+        │   ├── length.bin
+        │   └── link_lists.bin
+        └── chroma.sqlite3
