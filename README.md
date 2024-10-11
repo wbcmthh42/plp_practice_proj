@@ -1,6 +1,8 @@
-# Overview
+# TechPulse Overview
 
-This document provides an overview of the various pipelines used in the application. The application leverages several libraries for data processing, model training, and user interface development.
+TechPulse is an innovative tool designed to swiftly identify current technology trends and align them with existing academic research. Its primary goal is to empower educators in developing curricula that are both contemporary and academically robust. By utilizing sentiment analysis and information extraction techniques on social media posts, TechPulse bridges the gap between real-time tech insights and relevant academic studies. This approach fosters a dynamic curriculum development ecosystem, enabling educational institutions to create pertinent course content that keeps pace with the rapidly evolving technological landscape.
+
+Please refer to the documentation for more details. This document provides an overview of the various pipelines used in the application. The application leverages several libraries for data processing, model training, and user interface development.
 
 ![Overview of Pipelines](./docs/source/_static/Architecture.png)
 
