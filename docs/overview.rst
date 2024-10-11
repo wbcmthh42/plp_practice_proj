@@ -58,7 +58,7 @@ Initial Repo Structure
     │   ├── Sentiment_Analysis_Scoring_Roberta.ipynb
     │   ├── sentiment_analysis_textblob_sentlevel.ipynb
     │   └── sentiment_analysis_vader_sentlevel.ipynb
-    ├── requirements.txt
+    ├── environment.yml
     └── src
         ├── evaluation.py
         ├── extract_reddit_keywords_with_bart.py
@@ -76,24 +76,17 @@ Setting Up the Conda Environment
 
 To set up your conda environment, follow these steps to set up a conda environment named 'techpulse' (this name can be changed according to your preference):
 
-1. **Create a new conda environment**:
+1. **Create a new conda environment and install the dependencies**:
 
 .. code-block:: bash
 
-   conda create --name techpulse python=3.8
+   conda env create -f environment.yml --verbose 
 
 2. **Activate the environment**:
 
 .. code-block:: bash
 
    conda activate techpulse
-
-3. **Install the required libraries**:
-   You can install the necessary libraries by using the `requirements.txt` file. Run the following command:
-
-.. code-block:: bash
-
-   pip install -r requirements.txt
 
 Make sure to follow the setup instructions carefully to ensure all dependencies are installed correctly.
 
@@ -145,7 +138,7 @@ Example Final Repo Structure (showing only the key sample files)
     ├── reddit_keywords_results
     │   ├── reddit_keywords_for_ui.csv
     │   └── reddit_keywords_hybrid.csv
-    ├── requirements.txt
+    ├── environment.yml
     ├── src
     │   ├── evaluation.py
     │   ├── extract_reddit_keywords_with_bart.py
