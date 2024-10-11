@@ -1,5 +1,5 @@
 datasets==1.18.3
-tqdm==4.62.3
+tqdm==4.65.0
 streamlit==1.18.1
 pandas==1.5.3
 plotly==5.24.1
