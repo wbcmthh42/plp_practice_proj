@@ -6,11 +6,12 @@ channels:
 dependencies:
   - python==3.11  # Specify the Python version you want
   - pip:
+    - altair==5.4.1
     - accelerate==0.26.0
     - datasets==1.18.3
     - tqdm==4.65.0
     - streamlit==1.18.1
-    - pandas==2.2.2
+    - pandas==2.2.3
     - plotly==5.24.1
     - torch==2.4.1
     - transformers==4.44.2

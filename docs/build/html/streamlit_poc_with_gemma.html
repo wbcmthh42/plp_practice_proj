@@ -391,22 +391,6 @@ and 5 potential topics that would be relevant and engaging for students.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="src.streamlit_poc_with_gemma.load_model_and_tokenizer">
-<span class="sig-prename descclassname"><span class="pre">src.streamlit_poc_with_gemma.</span></span><span class="sig-name descname"><span class="pre">load_model_and_tokenizer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/streamlit_poc_with_gemma.html#load_model_and_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.streamlit_poc_with_gemma.load_model_and_tokenizer" title="Link to this definition">¶</a></dt>
-<dd><p>Loads the Gemma model and tokenizer, and sets up the device (either MPS, CUDA, or CPU).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><strong>tokenizer</strong> (<em>transformers.AutoTokenizer</em>) – The tokenizer for the Gemma model.</p></li>
-<li><p><strong>model</strong> (<em>transformers.AutoModelForCausalLM</em>) – The Gemma model.</p></li>
-<li><p><strong>device</strong> (<em>torch.device</em>) – The device to use for the model (either MPS, CUDA, or CPU).</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="src.streamlit_poc_with_gemma.main">
 <span class="sig-prename descclassname"><span class="pre">src.streamlit_poc_with_gemma.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/streamlit_poc_with_gemma.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.streamlit_poc_with_gemma.main" title="Link to this definition">¶</a></dt>
 <dd><p>Main function to set up the RAG system, define a list of common stop words,
@@ -523,7 +507,6 @@ and display a Streamlit app to analyze the top keywords from recent Reddit tech 
 <li><a class="reference internal" href="#src.streamlit_poc_with_gemma.get_llm_summary"><code class="docutils literal notranslate"><span class="pre">get_llm_summary()</span></code></a></li>
 <li><a class="reference internal" href="#src.streamlit_poc_with_gemma.get_top_keywords"><code class="docutils literal notranslate"><span class="pre">get_top_keywords()</span></code></a></li>
 <li><a class="reference internal" href="#src.streamlit_poc_with_gemma.load_and_preprocess_data"><code class="docutils literal notranslate"><span class="pre">load_and_preprocess_data()</span></code></a></li>
-<li><a class="reference internal" href="#src.streamlit_poc_with_gemma.load_model_and_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_model_and_tokenizer()</span></code></a></li>
 <li><a class="reference internal" href="#src.streamlit_poc_with_gemma.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li><a class="reference internal" href="#src.streamlit_poc_with_gemma.preprocess_keywords"><code class="docutils literal notranslate"><span class="pre">preprocess_keywords()</span></code></a></li>
 <li><a class="reference internal" href="#src.streamlit_poc_with_gemma.process_keywords"><code class="docutils literal notranslate"><span class="pre">process_keywords()</span></code></a></li>
