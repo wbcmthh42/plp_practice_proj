@@ -167,3 +167,27 @@ Example Final Repo Structure (showing only the key sample files)
         │   ├── length.bin
         │   └── link_lists.bin
         └── chroma.sqlite3
+
+- **README.md**: This file typically contains an introduction to the project, installation instructions, usage guidelines, and other relevant information for users and developers.
+
+- **conf/config.yaml**: This configuration file is used to store settings and parameters for the application, allowing for easy adjustments without modifying the code.
+
+- **data/**: This directory contains datasets used for analysis and model training, including CSV files for sentiment analysis results and raw data.
+
+- **docs/**: This folder holds documentation files, including a Makefile for building the documentation and HTML output.
+
+- **finetune_llm/**: This directory contains files related to the fine-tuning of language models, including saved model checkpoints etc.
+
+- **notebook/**: This folder contains Jupyter notebooks for various sentiment analysis tasks, allowing for interactive data exploration and model evaluation.
+
+- **outputs/**: This is the hydra outputs directory that stores the results of model training and inference, including logs and model checkpoints.
+
+- **reddit_keywords_results/**: This folder contains CSV files with extracted keywords from Reddit posts, which are used for analysis or UI display.
+
+- **requirements.txt**: This file lists the Python packages required for the project, which can be installed using pip.
+
+- **src/**: This directory contains the source code for the application, including scripts for evaluation, data extraction, model training, and sentiment analysis.
+
+- **arxiv/**: This folder contains CSV files with research papers from arXiv, which are used for retrieving relevant academic literature.
+
+- **vector_store/**: This directory contains files related to a vector database used for storing and retrieving embeddings or other vectorized data.
