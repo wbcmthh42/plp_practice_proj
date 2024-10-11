@@ -2,7 +2,7 @@
 
 This document provides an overview of the various pipelines used in the application. The application leverages several libraries for data processing, model training, and user interface development.
 
-![Overview of Pipelines](/Users/tayjohnny/Documents/My_MTECH/PLP/plp_practice_proj/docs/source/_static/Architecture.png)
+![Overview of Pipelines](./docs/source/_static/Architecture.png)
 
 ## Overview of Pipelines
 
