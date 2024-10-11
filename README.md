@@ -22,7 +22,7 @@ This diagram illustrates the three main pipelines in the application:
 
 - A user guide for using the Streamlit UI is included in the documents page: Refer to `TechPulse User Interface` in the documentation html page.  
 
-Detailed information about each pipeline will be provided in separate pages.
+Detailed information about each pipeline will be provided in separate pages. Please refer to `docs/build/html/index.html` for the documentation.
 
 ## Cloning the Repository
 
