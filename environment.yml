@@ -4,7 +4,11 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python==3.11  # Specify the Python version you want
+  - python==3.12  # Specify the Python version you want
+  - accelerate=0.26.0=pyhd8ed1ab_0
+  - onnxruntime=1.17.1=py312hade572d_0
+  - torchaudio=2.4.1=py312_cpu
+  - torchvision=0.19.1=py312_cpu
   - pip:
     - altair==5.4.1
     - accelerate==0.26.0
