@@ -141,15 +141,15 @@ The RAG system provides three types of search:
 Usage
 -----
 
-To use the RAG system:
+To use this pipeline:
 
-1. Run ``retrieve_papers_with_link.py`` to build the initial CSV database.
+1. Run ``python -m src.retrieve_papers_with_link`` to build the initial CSV database.
 
-2. Run ``rag.py`` to construct the vector store and enable search functionality.
+2. Run ``python -m src.rag`` to construct the vector store and enable search functionality. Hybrid_search is used to perform searches on the arXiv papers. 
 
-3. Use the ``hybrid_search`` function to perform searches on the arXiv papers.
+    - Alternatively, you can choose not to run ``rag.py`` at this stage. It can be run together with the Streamlit UI, as the ``streamlit_poc_with_gemma.py`` script used to launch the UI will also build a vector database for the arXiv papers if no existing vector store is found.
 
-4. **Configuring `config.yaml`**:
+3. **Configuring `config.yaml`**:
 
     - Open the `conf/config.yaml` file to adjust the parameters for retrieving arXiv papers.
     
@@ -162,5 +162,23 @@ To use the RAG system:
     - **`search.top_n`**: Define the number of top results to return for search queries (default is `15`).
     
     - **`summary.word_limit`**: Set the maximum number of words for the summary truncation (default is `30`).
+
+Example:
+
+.. code-block:: bash
+
+    output_file: '/path/to/directory/plp_practice_proj/arxiv/arxiv_papers_2022_2024_with_links_final.csv'
+
+    embedding_model:
+    name: "sentence-transformers/all-MiniLM-L6-v2"
+
+    vector_store:
+    persist_directory: "./vector_store"
+
+    search:
+    top_n: 15
+
+    summary:
+    word_limit: 30
 
 The system allows for efficient retrieval of relevant research papers based on user queries, combining the power of semantic search with traditional keyword matching.
