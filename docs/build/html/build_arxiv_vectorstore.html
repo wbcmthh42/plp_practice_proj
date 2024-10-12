@@ -450,11 +450,16 @@
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
-<p>To use the RAG system:</p>
+<p>To use this pipeline:</p>
 <ol class="arabic">
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">retrieve_papers_with_link.py</span></code> to build the initial CSV database.</p></li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">rag.py</span></code> to construct the vector store and enable search functionality.</p></li>
-<li><p>Use the <code class="docutils literal notranslate"><span class="pre">hybrid_search</span></code> function to perform searches on the arXiv papers.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">src.retrieve_papers_with_link</span></code> to build the initial CSV database.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">src.rag</span></code> to construct the vector store and enable search functionality. Hybrid_search is used to perform searches on the arXiv papers.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Alternatively, you can choose not to run <code class="docutils literal notranslate"><span class="pre">rag.py</span></code> at this stage. It can be run together with the Streamlit UI, as the <code class="docutils literal notranslate"><span class="pre">streamlit_poc_with_gemma.py</span></code> script used to launch the UI will also build a vector database for the arXiv papers if no existing vector store is found.</p></li>
+</ul>
+</div></blockquote>
+</li>
 <li><p><strong>Configuring `config.yaml`</strong>:</p>
 <blockquote>
 <div><ul class="simple">
@@ -468,6 +473,22 @@
 </div></blockquote>
 </li>
 </ol>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>output_file:<span class="w"> </span><span class="s1">&#39;/path/to/directory/plp_practice_proj/arxiv/arxiv_papers_2022_2024_with_links_final.csv&#39;</span>
+
+embedding_model:
+name:<span class="w"> </span><span class="s2">&quot;sentence-transformers/all-MiniLM-L6-v2&quot;</span>
+
+vector_store:
+persist_directory:<span class="w"> </span><span class="s2">&quot;./vector_store&quot;</span>
+
+search:
+top_n:<span class="w"> </span><span class="m">15</span>
+
+summary:
+word_limit:<span class="w"> </span><span class="m">30</span>
+</pre></div>
+</div>
 <p>The system allows for efficient retrieval of relevant research papers based on user queries, combining the power of semantic search with traditional keyword matching.</p>
 </section>
 </section>
