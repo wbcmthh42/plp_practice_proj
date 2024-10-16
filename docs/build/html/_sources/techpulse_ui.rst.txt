@@ -81,7 +81,7 @@ If you encounter a gated repository error while trying to access the Gemma-2B mo
 
 
 **Main UI Display**
---------------------
+~~~~~~~~~~~~~~~~~~~
 
 .. image:: source/_static/screenshot_main.png
    :alt: Main UI Display
