@@ -80,8 +80,8 @@ If you encounter a gated repository error while trying to access the Gemma-2B mo
    - Ensure that your code is correctly set up to load the model after you have access.
 
 
-**Main UI Display**
-~~~~~~~~~~~~~~~~~~~
+Main UI Display
+---------------
 
 .. image:: source/_static/screenshot_main.png
    :alt: Main UI Display
