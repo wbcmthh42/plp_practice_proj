@@ -18,31 +18,37 @@ Reference Notebooks
 
 Refer to the below notebooks for more information:
 
-1. **VADER Analysis**:
+1. **OpenAI Sentiment Labelling**:
+
+   - Notebook: `notebook/OpenAI_sentiment_labelling.ipynb`
+   
+   - Description: This notebook utilizes OpenAI's API to classify sentiments of Reddit posts, processing the dataset at the sentence level for enhanced sentiment extraction.
+
+2. **VADER Analysis**:
 
    - Notebook: `notebook/sentiment_analysis_vader_sentlevel.ipynb`
    
    - Description: Detailed analysis of the VADER model, including implementation and evaluation metrics.
 
-2. **TextBlob Analysis**:
+3. **TextBlob Analysis**:
 
    - Notebook: `notebook/sentiment_analysis_textblob_sentlevel.ipynb`
    
    - Description: Comprehensive review of the TextBlob model, showcasing its performance and use cases.
 
-3. **DistilBERT Analysis**:
+4. **DistilBERT Analysis**:
 
    - Notebook: `notebook/Sentiment_Analysis_Scoring_Distilbert.ipynb`
    
    - Description: In-depth exploration of the DistilBERT model, focusing on its architecture and evaluation results.
 
-4. **RoBERTa Analysis**:
+5. **RoBERTa Analysis**:
 
    - Notebook: `notebook/Sentiment_Analysis_Scoring_Roberta.ipynb`
    
    - Description: Examination of the RoBERTa model, highlighting its strengths and weaknesses in sentiment extraction.
 
-5. **Combined Model Approach**:
+6. **Combined Model Approach**:
 
    - Notebook: `notebook/Sentiment_Analysis_Scoring_Distilbert+Vader.ipynb`
    
