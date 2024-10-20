@@ -31,9 +31,9 @@ top_keywords:
 bert:
   pretrained_model: "dbmdz/bert-large-cased-finetuned-conll03-english"
   max_len: 256
-  batch_size: 32
-  num_epochs: 1
-  learning_rate: 3e-5
+  batch_size: 16
+  num_epochs: 3
+  learning_rate: 2e-5
   output_dir: "./model_checkpoint"
   datasets:
     train: "hf://datasets/ilsilfverskiold/tech-keywords-topics-summary/data/train-00000-of-00001.parquet"
